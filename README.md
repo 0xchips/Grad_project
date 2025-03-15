@@ -11,7 +11,7 @@ The main goal of this project is to develop an efficient **WIDS** capable of ide
 
 ## **Technical Approach**
 Our system consists of:
-- **Hardware Components:** Wi-Fi and Bluetooth scanning modules (such as ESP8266, ESP32, or SDR-based detection).
+- **Hardware Components:** Wi-Fi and Bluetooth scanning modules (such as ESP8266, ESP32, NEO-M6 GPS, or SDR-based detection).
 - **Software Components:**
   - Python-based detection algorithms for analyzing wireless signals.
   - A **real-time dashboard** providing insights and alerts on detected threats.
