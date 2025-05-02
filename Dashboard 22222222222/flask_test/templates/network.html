@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Threats | CyberShield</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- <link rel="stylesheet" href="css/themes.css"> -->
+    <style>
+        /* Additional CSS for smaller charts */
+        .chart-card {
+            height: 300px;
+            margin-bottom: 20px;
+        }
+        .chart-container {
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        canvas {
+            max-height: 220px;
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>CyberShield</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="bluetooth.html"><i class="fas fa-bluetooth-b"></i> Bluetooth</a></li>
+                <li><a href="gps.html"><i class="fas fa-map-marked-alt"></i> GPS</a></li>
+                <li class="active"><a href="network.html"><i class="fas fa-network-wired"></i> Network</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </nav>
+        <div class="user-panel">
+            <div class="user-avatar">AD</div>
+            <div class="user-info">
+                <span class="user-name">Admin</span>
+                <button class="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="page-header">
+            <h1><i class="fas fa-network-wired"></i> Network Threat Monitoring</h1>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="testNetworkData()">
+                    <i class="fas fa-plus"></i> Simulate Attack
+                </button>
+                <button class="btn btn-danger" onclick="clearNetworkData()">
+                    <i class="fas fa-trash"></i> Clear Data
+                </button>
+                <button class="btn btn-secondary" onclick="generatePdfReport('network')">
+                    <i class="fas fa-file-pdf"></i> Generate Report
+                </button>
+            </div>
+        </header>
+
+        <div class="status-cards">
+            <div class="status-card">
+                <div class="card-icon bg-blue">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Total Events</h3>
+                    <span class="value" id="network-events-count">0</span>
+                    <span class="trend up">+8 today</span>
+                </div>
+            </div>
+            <div class="status-card">
+                <div class="card-icon bg-red">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Critical Attacks</h3>
+                    <span class="value" id="network-critical-count">0</span>
+                    <span class="trend up">+2 today</span>
+                </div>
+            </div>
+            <div class="status-card">
+                <div class="card-icon bg-orange">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Blocked IPs</h3>
+                    <span class="value" id="network-blocked-count">0</span>
+                    <span class="trend neutral">0 today</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Attack Types Distribution</h3>
+                    <div class="chart-actions">
+                        <button class="btn-icon"><i class="fas fa-expand"></i></button>
+                        <button class="btn-icon"><i class="fas fa-download"></i></button>
+                    </div>
+                </div>
+                <canvas id="networkAttackChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Attack Severity</h3>
+                    <div class="chart-actions">
+                        <button class="btn-icon"><i class="fas fa-expand"></i></button>
+                        <button class="btn-icon"><i class="fas fa-download"></i></button>
+                    </div>
+                </div>
+                <canvas id="networkSeverityChart"></canvas>
+            </div>
+        </div>
+
+        <div class="data-table-container">
+            <div class="table-header">
+                <h3>Network Events</h3>
+                <div class="table-actions">
+                    <input type="text" placeholder="Search events..." class="search-input">
+                    <button class="btn-icon"><i class="fas fa-filter"></i></button>
+                </div>
+            </div>
+            <table id="network-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Source IP</th>
+                        <th>Event Type</th>
+                        <th>Severity</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="table-footer">
+                <span class="table-info">Showing 1-10 of 32 events</span>
+                <div class="pagination">
+                    <button class="btn-icon"><i class="fas fa-chevron-left"></i></button>
+                    <span>1</span>
+                    <button class="btn-icon"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='js/network.js') }}"></script>
+</body>
+</html>
