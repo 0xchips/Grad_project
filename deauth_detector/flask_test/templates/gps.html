@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS Spoofing | CyberShield</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- <link rel="stylesheet" href="css/themes.css"> -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        .chart-card {
+            height: 350px;
+            margin-bottom: 20px;
+        }
+        .chart-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        #gpsMap {
+            height: 300px;
+            width: 100%;
+        }
+        canvas {
+            max-height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>CyberShield</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="bluetooth.html"><i class="fas fa-bluetooth-b"></i> Bluetooth</a></li>
+                <li class="active"><a href="gps.html"><i class="fas fa-map-marked-alt"></i> GPS</a></li>
+                <li><a href="network.html"><i class="fas fa-network-wired"></i> Network</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </nav>
+        <div class="user-panel">
+            <div class="user-avatar">AD</div>
+            <div class="user-info">
+                <span class="user-name">Admin</span>
+                <button class="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="page-header">
+            <h1><i class="fas fa-map-marked-alt"></i> GPS Spoofing Detection</h1>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="testGpsData()">
+                    <i class="fas fa-plus"></i> Simulate Anomaly
+                </button>
+                <button class="btn btn-danger" onclick="clearGpsData()">
+                    <i class="fas fa-trash"></i> Clear Data
+                </button>
+                <button class="btn btn-secondary" onclick="generatePdfReport('gps')">
+                    <i class="fas fa-file-pdf"></i> Generate Report
+                </button>
+            </div>
+        </header>
+
+        <div class="status-cards">
+            <div class="status-card">
+                <div class="card-icon bg-blue">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Locations Tracked</h3>
+                    <span class="value" id="gps-locations-count">0</span>
+                    <span class="trend up">+5 today</span>
+                </div>
+            </div>
+            <div class="status-card">
+                <div class="card-icon bg-red">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Anomalies Detected</h3>
+                    <span class="value" id="gps-anomalies-count">0</span>
+                    <span class="trend up">+1 today</span>
+                </div>
+            </div>
+            <div class="status-card">
+                <div class="card-icon bg-orange">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Avg Accuracy</h3>
+                    <span class="value" id="gps-accuracy-avg">0m</span>
+                    <span class="trend neutral">stable</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>GPS Location Map</h3>
+                    <div class="chart-actions">
+                        <button class="btn-icon" onclick="exportMap()"><i class="fas fa-expand"></i></button>
+                        <button class="btn-icon" onclick="exportChart('gpsMap')"><i class="fas fa-download"></i></button>
+                    </div>
+                </div>
+                <div id="gpsMap"></div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Accuracy Over Time</h3>
+                    <div class="chart-actions">
+                        <button class="btn-icon"><i class="fas fa-expand"></i></button>
+                        <button class="btn-icon" onclick="exportChart('gpsAccuracyChart')"><i class="fas fa-download"></i></button>
+                    </div>
+                </div>
+                <canvas id="gpsAccuracyChart"></canvas>
+            </div>
+        </div>
+
+        <div class="data-table-container">
+            <div class="table-header">
+                <h3>GPS Location History</h3>
+                <div class="table-actions">
+                    <input type="text" id="gps-search" placeholder="Search locations..." class="search-input">
+                    <button class="btn-icon"><i class="fas fa-filter"></i></button>
+                </div>
+            </div>
+            <table id="gps-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Coordinates</th>
+                        <th>Accuracy</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="table-footer">
+                <span class="table-info">Showing 1-10 of <span id="gps-total-count">0</span> locations</span>
+                <div class="pagination">
+                    <button class="btn-icon"><i class="fas fa-chevron-left"></i></button>
+                    <span>1</span>
+                    <button class="btn-icon"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='js/gps.js') }}"></script>
+    <script>
+        function exportChart(chartId) {
+            const canvas = document.getElementById(chartId);
+            if (chartId === 'gpsMap') {
+                // Export map as image
+                const map = document.getElementById('gpsMap');
+                html2canvas(map).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = 'gps-map.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                });
+            } else {
+                // Export chart as image
+                const link = document.createElement('a');
+                link.download = `${chartId}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }
+        }
+
+        function exportMap() {
+            const map = document.getElementById('gpsMap');
+            map.requestFullscreen();
+        }
+
+        window.exportChart = exportChart;
+        window.exportMap = exportMap;
+    </script>
+</body>
+</html>
