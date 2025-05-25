@@ -250,27 +250,45 @@ def receive_gps():
     if 'latitude' not in data or 'longitude' not in data:
         return jsonify({'error': 'Missing required GPS coordinates'}), 400
     
-    # Generate unique ID and timestamp
-    gps_id = str(uuid.uuid4())
-    timestamp = datetime.datetime.now().isoformat()
+    # Generate unique ID and timestamp if not provided
+    gps_id = data.get('id', str(uuid.uuid4()))
+    timestamp = data.get('timestamp', datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     
-    # Store in database
+    # Set default values for optional fields
+    satellites = data.get('satellites', 0)
+    hdop = data.get('hdop', 99.9)
+    device_id = data.get('device_id', '')
+    
+    # Determine if jamming is detected (if not explicitly provided)
+    if 'jamming_detected' not in data:
+        jamming_detected = 1 if (satellites < 3 or hdop > 2.0) else 0
+    else:
+        jamming_detected = data['jamming_detected']
+    
+    # Store in database with full schema
     conn = MySQLdb.connect(**db_config)
     c = conn.cursor()
     c.execute(
-        "INSERT INTO gps_data VALUES (%s, %s, %s, %s, %s)",
+        """
+        INSERT INTO gps_data (id, latitude, longitude, timestamp, 
+                            device_id, satellites, hdop, jamming_detected)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """,
         (
             gps_id,
             data['latitude'],
             data['longitude'],
             timestamp,
-            data.get('device_id', '')
+            device_id,
+            satellites,
+            hdop,
+            jamming_detected
         )
     )
     conn.commit()
     conn.close()
     
-    return jsonify({'id': gps_id, 'timestamp': timestamp}), 201
+    return jsonify({'id': gps_id, 'timestamp': timestamp, 'jamming_detected': bool(jamming_detected)}), 201
 
 # Endpoint to get recent alerts
 @app.route('/api/alerts', methods=['GET'])

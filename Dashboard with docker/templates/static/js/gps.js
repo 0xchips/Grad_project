@@ -3,18 +3,37 @@ let gpsData = [];
 let map;
 let accuracyChart;
 let anomalies = 0;
-let baseLat = 31.833360;
+// Use a more central location for the default map view if actual data might be diverse
+let baseLat = 31.83336;
 let baseLng = 35.890387;
+
+let currentPage = 1;
+const itemsPerPage = 10;
 
 document.addEventListener('DOMContentLoaded', function() {
     initMap();
     initAccuracyChart();
     loadGpsData();
-    setInterval(fetchNewGpsData, 10000); // Fetch new data every 10s
+    setInterval(fetchNewGpsData, 5000); // Fetch new data more frequently (e.g., every 5 seconds)
     
     // Setup search functionality
     document.getElementById('gps-search').addEventListener('input', function() {
         filterGpsTable(this.value);
+    });
+
+    // Pagination event listeners
+    document.getElementById('gps-prev-page').addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            updateGpsTable();
+        }
+    });
+
+    document.getElementById('gps-next-page').addEventListener('click', () => {
+        if (currentPage * itemsPerPage < gpsData.length) {
+            currentPage++;
+            updateGpsTable();
+        }
     });
 });
 
@@ -62,69 +81,124 @@ function initAccuracyChart() {
 }
 
 function loadGpsData() {
-    // Fetch real GPS data from the API
-    fetch('/api/gps?hours=24')
-        .then(response => response.json())
+    fetch('/api/gps?hours=24') // Ensure this matches your backend capabilities
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
-            // Clear existing data
-            gpsData = [];
-            anomalies = 0;
+            const newGpsData = [];
+            let newAnomalies = 0;
             
-            // Process each GPS reading
-            data.forEach(reading => {
-                const processed = {
-                    id: reading.id,
-                    timestamp: new Date(reading.timestamp),
-                    latitude: reading.latitude,
-                    longitude: reading.longitude,
-                    accuracy: reading.hdop ? reading.hdop * 10 : 5, // Convert HDOP to approximate accuracy in meters
-                    satellites: reading.satellites || 0,
-                    anomaly: reading.jamming_detected === 1,
-                    flagged: false
-                };
-                
-                addGpsData(processed);
+            // Clear existing map markers before adding new ones from full load
+            map.eachLayer(layer => {
+                if (layer instanceof L.CircleMarker) {
+                    map.removeLayer(layer);
+                }
+            });
+
+            if (Array.isArray(data)) {
+                data.forEach(reading => {
+                    const processed = {
+                        id: reading.id,
+                        timestamp: new Date(reading.timestamp),
+                        latitude: parseFloat(reading.latitude),
+                        longitude: parseFloat(reading.longitude),
+                        accuracy: reading.hdop ? parseFloat(reading.hdop) * 10 : 5,
+                        satellites: parseInt(reading.satellites) || 0,
+                        anomaly: reading.jamming_detected === 1 || reading.jamming_detected === true,
+                        flagged: false
+                    };
+                    newGpsData.unshift(processed); // Add to the beginning, so newest are first
+                    if (processed.anomaly) newAnomalies++;
+
+                    // Add marker to map for each reading
+                    const marker = L.circleMarker([processed.latitude, processed.longitude], {
+                        radius: 5 + (processed.anomaly ? 3 : 0),
+                        color: processed.anomaly ? '#e74c3c' : '#2ecc71',
+                        fillOpacity: 0.8,
+                        weight: processed.flagged ? 3 : 1
+                    }).addTo(map);
+                    
+                    marker.bindPopup(`
+                        <b>${processed.timestamp.toLocaleString()}</b><br>
+                        Coords: ${processed.latitude.toFixed(6)}, ${processed.longitude.toFixed(6)}<br>
+                        Accuracy: ${typeof processed.accuracy === 'number' ? processed.accuracy.toFixed(1) : 'N/A'}m<br>
+                        Satellites: ${processed.satellites}<br>
+                        Status: ${processed.anomaly ? '<span style="color:#e74c3c; font-weight:bold;">Anomaly Detected</span>' : 'Normal'}
+                    `);
+                });
+            } else {
+                console.error('Data received is not an array:', data);
+                document.getElementById('gps-total-count').textContent = 'Error: Invalid data format';
+            }
+            
+            gpsData = newGpsData;
+            anomalies = newAnomalies;
+
+            // Populate accuracy chart with the latest data from the initial load
+            // The chart expects to be fed one by one to roll.
+            // Feed the most recent 'chartCapacity' points, oldest of them first.
+            const chartCapacity = accuracyChart.data.datasets[0].data.length; // e.g., 12
+            // Clear previous chart data before populating
+            accuracyChart.data.datasets[0].data = Array(chartCapacity).fill(0); 
+            // accuracyChart.data.labels = Array(chartCapacity).fill('').map((_, i) => `${i}:00`); // Reset labels if needed, or update them dynamically
+
+            const pointsForChart = gpsData.slice(0, chartCapacity).reverse(); // newest N, then reversed so oldest of these is first
+            pointsForChart.forEach(point => {
+                updateAccuracyChart(point.accuracy); // This will shift and push
             });
             
-            updateGpsStats();
+            currentPage = 1; // Reset to first page
+            updateGpsTable(); // Update table ONCE with all data, respecting pagination
+            updateGpsStats(); // Update stats ONCE
         })
         .catch(error => {
             console.error('Error fetching GPS data:', error);
-            // If API call fails, show error message
             document.getElementById('gps-total-count').textContent = 'Error loading data';
         });
 }
 
 function fetchNewGpsData() {
     // Get the timestamp of our most recent data point
-    let lastTimestamp = gpsData.length > 0 ? gpsData[0].timestamp.toISOString() : '';
-    
-    fetch(`/api/gps?hours=1`)
-        .then(response => response.json())
+    // To fetch only newer data, you might need a different API endpoint or parameter
+    fetch(`/api/gps?hours=1`) // Fetch recent data
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
-            // Filter for only new data points
-            const newData = data.filter(reading => {
-                return !gpsData.some(existing => existing.id === reading.id);
-            });
+            let newReadingsFound = false;
+            if (Array.isArray(data)) {
+                const newData = data.filter(reading => {
+                    return !gpsData.some(existing => existing.id === reading.id);
+                });
             
-            // Process and add each new GPS reading
-            newData.forEach(reading => {
-                const processed = {
-                    id: reading.id,
-                    timestamp: new Date(reading.timestamp),
-                    latitude: reading.latitude,
-                    longitude: reading.longitude,
-                    accuracy: reading.hdop ? reading.hdop * 10 : 5, // Convert HDOP to meters
-                    satellites: reading.satellites || 0,
-                    anomaly: reading.jamming_detected === 1,
-                    flagged: false
-                };
-                
-                addGpsData(processed);
-            });
-            
-            if (newData.length > 0) {
-                updateGpsStats();
+                newData.forEach(reading => {
+                    const processed = {
+                        id: reading.id,
+                        timestamp: new Date(reading.timestamp),
+                        latitude: parseFloat(reading.latitude),
+                        longitude: parseFloat(reading.longitude),
+                        accuracy: reading.hdop ? parseFloat(reading.hdop) * 10 : 5,
+                        satellites: parseInt(reading.satellites) || 0,
+                        anomaly: reading.jamming_detected === 1 || reading.jamming_detected === true,
+                        flagged: false
+                    };
+                    addGpsData(processed); // This will also call updateGpsTable and updateGpsStats
+                    newReadingsFound = true;
+                });
+            } else {
+                console.error('New data received is not an array:', data);
+            }
+
+            if (newReadingsFound) {
+                // updateGpsStats(); // Already called by addGpsData
+                // The table footer count is updated within updateGpsTable via addGpsData
             }
         })
         .catch(error => {
@@ -133,61 +207,79 @@ function fetchNewGpsData() {
 }
 
 function addGpsData(reading) {
-    gpsData.unshift(reading);
+    gpsData.unshift(reading); // Add to the beginning of the array
     if (reading.anomaly) anomalies++;
     
     // Update map
     const marker = L.circleMarker([reading.latitude, reading.longitude], {
         radius: 5 + (reading.anomaly ? 3 : 0),
-        color: reading.anomaly ? '#e74c3c' : '#2ecc71',
+        color: reading.anomaly ? '#e74c3c' : '#2ecc71', // Red for anomaly, Green for normal
         fillOpacity: 0.8,
-        weight: reading.flagged ? 3 : 1
+        weight: reading.flagged ? 3 : 1 // Example: thicker border if flagged
     }).addTo(map);
     
     marker.bindPopup(`
-        <b>${reading.timestamp.toLocaleTimeString()}</b><br>
-        Coordinates: ${reading.latitude.toFixed(6)}, ${reading.longitude.toFixed(6)}<br>
-        Accuracy: ${reading.accuracy.toFixed(1)}m<br>
-        Status: ${reading.anomaly ? '<span style="color:#e74c3c">Anomaly</span>' : 'Normal'}
+        <b>${reading.timestamp.toLocaleString()}</b><br>
+        Coords: ${reading.latitude.toFixed(6)}, ${reading.longitude.toFixed(6)}<br>
+        Accuracy: ${typeof reading.accuracy === 'number' ? reading.accuracy.toFixed(1) : 'N/A'}m<br>
+        Satellites: ${reading.satellites}<br>
+        Status: ${reading.anomaly ? '<span style="color:#e74c3c; font-weight:bold;">Anomaly Detected</span>' : 'Normal'}
     `);
     
-    // Update table
-    updateGpsTable();
-    
-    // Update chart
+    // Update table and stats
+    updateGpsTable(); // This will refresh the table with the new data
     updateAccuracyChart(reading.accuracy);
-    updateGpsStats();
+    updateGpsStats(); // This will update counts and averages
 }
 
 function updateGpsTable() {
     const tableBody = document.querySelector('#gps-table tbody');
-    tableBody.innerHTML = '';
-    
-    // Sort by timestamp (newest first)
-    const sortedData = [...gpsData].sort((a, b) => b.timestamp - a.timestamp);
-    
-    // Add rows
-    sortedData.slice(0, 100).forEach(reading => {
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedData = gpsData.slice(startIndex, endIndex);
+
+    paginatedData.forEach(reading => {
         const row = document.createElement('tr');
-        row.className = reading.anomaly ? 'anomaly' : '';
+        // Apply a class for styling anomalies, e.g., a red background or text
+        row.className = reading.anomaly ? 'bg-red-900/50 hover:bg-red-800/60' : 'hover:bg-gray-700/50';
         
-        // Format timestamp to show both date and time
-        const timestamp = reading.timestamp.toLocaleString();
+        const timestampFormatted = reading.timestamp.toLocaleString(); // More readable format
         
         row.innerHTML = `
-            <td>${timestamp}</td>
-            <td>${reading.latitude.toFixed(6)}, ${reading.longitude.toFixed(6)}</td>
-            <td>${reading.satellites || 'N/A'}</td>
-            <td><span class="status ${reading.anomaly ? 'anomaly' : 'normal'}">${reading.anomaly ? 'Jamming Detected' : 'Normal'}</span></td>
-            <td>
-                <button class="btn-icon" onclick="zoomToLocation(${reading.latitude}, ${reading.longitude})"><i class="fas fa-search-location"></i></button>
+            <td class="px-6 py-3 text-sm text-gray-300">${timestampFormatted}</td>
+            <td class="px-6 py-3 text-sm text-gray-300">${reading.latitude.toFixed(6)}, ${reading.longitude.toFixed(6)}</td>
+            <td class="px-6 py-3 text-sm text-gray-300">${reading.satellites}</td>
+            <td class="px-6 py-3 text-sm">
+                <span class="px-2 py-1 rounded-full text-xs font-semibold ${reading.anomaly ? 'bg-red-500 text-white' : 'bg-green-500 text-black'}">
+                    ${reading.anomaly ? 'JAMMING' : 'NORMAL'}
+                </span>
+            </td>
+            <td class="px-6 py-3 text-sm text-center">
+                <button class="text-cyber-blue hover:text-cyber-blue-dark transition-colors" onclick="zoomToLocation(${reading.latitude}, ${reading.longitude})">
+                    <i class="fas fa-map-marker-alt"></i>
+                </button>
             </td>
         `;
         
         tableBody.appendChild(row);
     });
     
+    // Update the total count in the table footer
     document.getElementById('gps-total-count').textContent = gpsData.length;
+
+    // Update pagination info and button states
+    const showingRangeStart = gpsData.length > 0 ? startIndex + 1 : 0;
+    const showingRangeEnd = Math.min(endIndex, gpsData.length);
+    document.getElementById('gps-showing-range').textContent = `${showingRangeStart}-${showingRangeEnd}`;
+    document.getElementById('gps-current-page').textContent = currentPage;
+
+    const prevButton = document.getElementById('gps-prev-page');
+    const nextButton = document.getElementById('gps-next-page');
+
+    prevButton.disabled = currentPage === 1;
+    nextButton.disabled = endIndex >= gpsData.length;
 }
 
 function filterGpsTable(searchTerm) {
@@ -211,11 +303,11 @@ function updateGpsStats() {
     document.getElementById('gps-anomalies-count').textContent = anomalies;
     
     // Calculate average accuracy
-    const avgAccuracy = gpsData.reduce((sum, reading) => {
+    const avgAccuracy = gpsData.length > 0 ? gpsData.reduce((sum, reading) => {
         return sum + reading.accuracy;
-    }, 0) / gpsData.length;
+    }, 0) / gpsData.length : 0;
     
-    document.getElementById('gps-accuracy-avg').textContent = `${Math.round(avgAccuracy)}m`;
+    document.getElementById('gps-accuracy-avg').textContent = gpsData.length > 0 ? `${Math.round(avgAccuracy)}m` : 'N/A';
 }
 
 // No longer need to simulate GPS data as we use real data from the API

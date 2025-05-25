@@ -294,13 +294,13 @@
 
                 <!-- Table Footer -->
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between p-6 border-t border-white/10 bg-black/10 gap-4">
-                    <span class="text-sm text-gray-400">Showing 1-10 of <span id="gps-total-count">0</span> locations</span>
+                    <span class="text-sm text-gray-400">Showing <span id="gps-showing-range">1-10</span> of <span id="gps-total-count">0</span> locations</span>
                     <div class="flex items-center gap-2">
-                        <button class="w-8 h-8 rounded-full bg-bg-card border border-white/20 text-gray-400 hover:text-cyber-blue hover:border-cyber-blue transition-all duration-300 flex items-center justify-center">
+                        <button id="gps-prev-page" class="w-8 h-8 rounded-full bg-bg-card border border-white/20 text-gray-400 hover:text-cyber-blue hover:border-cyber-blue transition-all duration-300 flex items-center justify-center" disabled>
                             <i class="fas fa-chevron-left text-sm"></i>
                         </button>
-                        <span class="px-4 py-1 text-sm font-semibold text-white">1</span>
-                        <button class="w-8 h-8 rounded-full bg-bg-card border border-white/20 text-gray-400 hover:text-cyber-blue hover:border-cyber-blue transition-all duration-300 flex items-center justify-center">
+                        <span id="gps-current-page" class="px-4 py-1 text-sm font-semibold text-white">1</span>
+                        <button id="gps-next-page" class="w-8 h-8 rounded-full bg-bg-card border border-white/20 text-gray-400 hover:text-cyber-blue hover:border-cyber-blue transition-all duration-300 flex items-center justify-center" disabled>
                             <i class="fas fa-chevron-right text-sm"></i>
                         </button>
                     </div>

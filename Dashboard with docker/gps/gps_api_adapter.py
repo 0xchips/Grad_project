@@ -28,12 +28,39 @@ app = Flask(__name__)
 CORS(app)
 
 # MySQL Database configuration
-DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'dashboard',
-    'passwd': 'securepass',
-    'db': 'security_dashboard',
-}
+# Multiple database connection options for resiliency
+DB_CONFIGS = [
+    {
+        'host': '127.0.0.1',  # Use TCP/IP instead of socket
+        'port': 3306,
+        'user': 'dashboard',
+        'passwd': 'securepass',
+        'db': 'security_dashboard',
+    },
+    {
+        'host': 'localhost',  # Fallback to socket if needed
+        'user': 'dashboard',
+        'passwd': 'securepass',
+        'db': 'security_dashboard',
+    },
+    {
+        'host': 'security_dashboard_db',  # Docker container name
+        'port': 3306,
+        'user': 'dashboard',
+        'passwd': 'securepass',
+        'db': 'security_dashboard',
+    },
+    {
+        'host': 'db',  # Docker service name
+        'port': 3306,
+        'user': 'dashboard',
+        'passwd': 'securepass',
+        'db': 'security_dashboard',
+    }
+]
+
+# Default to first config
+DB_CONFIG = DB_CONFIGS[0]
 
 @app.route('/api/gps', methods=['GET'])
 def get_gps():
@@ -54,7 +81,25 @@ def get_gps():
     
     # Execute query
     try:
-        conn = MySQLdb.connect(**DB_CONFIG)
+        # Try each database configuration until one works
+        conn = None
+        last_error = None
+        
+        for config_index, db_config in enumerate(DB_CONFIGS):
+            try:
+                logger.info(f"Trying database connection to {db_config['host']}:{db_config.get('port', 3306)}")
+                conn = MySQLdb.connect(**db_config)
+                logger.info(f"Successfully connected to database using config {config_index+1}")
+                break
+            except Exception as e:
+                last_error = e
+                logger.warning(f"Failed to connect using config {config_index+1}: {e}")
+                continue
+        
+        if conn is None:
+            # If all configs failed, raise the last error
+            raise last_error
+            
         c = conn.cursor(MySQLdb.cursors.DictCursor)
         c.execute(query, params)
         
@@ -66,7 +111,7 @@ def get_gps():
         return jsonify(gps_data)
     except Exception as e:
         logger.error(f"Database error: {e}")
-        return jsonify([])
+        return jsonify({"error": str(e)})
 
 @app.route('/api/gps', methods=['POST'])
 def receive_gps():
@@ -80,7 +125,25 @@ def receive_gps():
         return jsonify({'error': 'Missing required GPS coordinates'}), 400
     
     try:
-        conn = MySQLdb.connect(**DB_CONFIG)
+        # Try each database configuration until one works
+        conn = None
+        last_error = None
+        
+        for config_index, db_config in enumerate(DB_CONFIGS):
+            try:
+                logger.info(f"Trying database connection to {db_config['host']}:{db_config.get('port', 3306)}")
+                conn = MySQLdb.connect(**db_config)
+                logger.info(f"Successfully connected to database using config {config_index+1}")
+                break
+            except Exception as e:
+                last_error = e
+                logger.warning(f"Failed to connect using config {config_index+1}: {e}")
+                continue
+        
+        if conn is None:
+            # If all configs failed, raise the last error
+            raise last_error
+            
         c = conn.cursor()
         
         # Generate unique ID and timestamp
@@ -154,9 +217,69 @@ def test_gps_api():
     # Calculate jamming based on satellites and HDOP
     test_data['jamming_detected'] = 1 if (test_data['satellites'] < 3 or test_data['hdop'] > 2.0) else 0
     
-    # Save to database using the existing endpoint
-    response = app.test_client().post('/api/gps', json=test_data)
-    result = json.loads(response.data.decode('utf-8'))
+    # Test direct database insertion instead of using the endpoint
+    try:
+        # Try each database configuration until one works
+        conn = None
+        last_error = None
+        
+        for config_index, db_config in enumerate(DB_CONFIGS):
+            try:
+                logger.info(f"Test: Trying database connection to {db_config['host']}:{db_config.get('port', 3306)}")
+                conn = MySQLdb.connect(**db_config)
+                logger.info(f"Test: Successfully connected to database using config {config_index+1}")
+                break
+            except Exception as e:
+                last_error = e
+                logger.warning(f"Test: Failed to connect using config {config_index+1}: {e}")
+                continue
+        
+        if conn is None:
+            # If all configs failed, raise the last error
+            return jsonify({
+                'test_data': test_data,
+                'result': {'error': str(last_error)}
+            })
+            
+        c = conn.cursor()
+        
+        # Generate unique ID and timestamp
+        gps_id = str(uuid.uuid4())
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        
+        # Insert directly into database
+        c.execute(
+            """
+            INSERT INTO gps_data (id, latitude, longitude, timestamp, 
+                                device_id, satellites, hdop, jamming_detected)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            """,
+            (
+                gps_id,
+                test_data['latitude'],
+                test_data['longitude'],
+                timestamp,
+                test_data['device_id'],
+                test_data['satellites'],
+                test_data['hdop'],
+                test_data['jamming_detected']
+            )
+        )
+        
+        conn.commit()
+        conn.close()
+        
+        logger.info(f"Test data saved with ID: {gps_id}, Jamming: {test_data['jamming_detected']}")
+        
+        result = {
+            'success': True,
+            'id': gps_id, 
+            'timestamp': timestamp,
+            'jamming_detected': bool(test_data['jamming_detected'])
+        }
+    except Exception as e:
+        logger.error(f"Error in test: {e}")
+        result = {'error': str(e)}
     
     # Return the full test data along with the result
     return jsonify({
@@ -168,12 +291,23 @@ if __name__ == '__main__':
     # Start the API adapter server on port 5050
     port = int(os.environ.get('PORT', 5050))
     logger.info(f"Starting GPS API adapter on port {port}...")
-    try:
-        # Quick test connection to database
-        conn = MySQLdb.connect(**DB_CONFIG)
-        conn.close()
-        logger.info("Database connection successful!")
-    except Exception as e:
-        logger.error(f"Failed to connect to database: {e}")
+    
+    # Test all database connections
+    connection_success = False
+    for config_index, db_config in enumerate(DB_CONFIGS):
+        try:
+            logger.info(f"Testing database connection using config {config_index+1}: {db_config['host']}:{db_config.get('port', 3306)}")
+            conn = MySQLdb.connect(**db_config)
+            conn.close()
+            logger.info(f"Database connection successful with config {config_index+1}!")
+            connection_success = True
+            # Update the default config to the one that worked
+            DB_CONFIG = db_config
+            break
+        except Exception as e:
+            logger.warning(f"Database connection failed with config {config_index+1}: {e}")
+    
+    if not connection_success:
+        logger.error("Failed to connect to database with any configuration. API will start but may not function correctly.")
     
     app.run(host='0.0.0.0', port=port, debug=True)

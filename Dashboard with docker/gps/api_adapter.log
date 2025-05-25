@@ -1,0 +1,7 @@
+2025-05-25 12:45:47,353 - GPS_API_Adapter - INFO - Starting GPS API adapter on port 5050...
+2025-05-25 12:45:47,354 - GPS_API_Adapter - INFO - Testing database connection using config 1: 127.0.0.1:3306
+2025-05-25 12:45:47,360 - GPS_API_Adapter - INFO - Database connection successful with config 1!
+ * Serving Flask app 'gps_api_adapter'
+ * Debug mode: on
+Address already in use
+Port 5050 is in use by another program. Either identify and stop that program, or start the server with a different port.

@@ -1,17 +1,16 @@
                                                                             
                                                                             
-0E:78:91:7A:74:9A     -68                                                    
-38:FC:98:61:44:14     -50                                                    
-52:31:20:D3:5F:DB     -60                                                    
-A6:24:36:3A:88:C2     -64                                                    
-D0:C2:4E:25:32:82     -74                                                    
-EA:C3:2A:2F:D9:62      9                                         2           
+38:FC:98:61:44:14     -52                                                    
+EA:C3:2A:2F:D9:62      9                                         3           
 78:3E:A1:48:5A:A0     11   Alamleh_2.4                           2           
-64:5E:10:D3:27:D8      8   Al_Julani 2.4G                        3           
-F8:9B:6E:B2:05:65      1   Alnajah_5GHz                          1           
-50:2C:C6:59:23:5A      1   c659235a                             40           
-BC:0F:9A:6D:F5:3D     11   dlink-F53C                            4           
-CC:B1:71:A5:47:98      1   Khalildarwish                        35           
-E4:C3:2A:2F:D9:62      9   Nashash                               1           
+64:5E:10:D3:27:D8      8   Al_Julani 2.4G                        4           
+F8:9B:6E:B2:05:65      1   Alnajah_5GHz                         15           
+38:A0:67:E7:D4:C6      1   Bahaa-2.4                             1           
+D8:A0:E8:58:AC:64      7   Blue Rabbit                           4           
+50:2C:C6:59:23:5A      1   c659235a                             20           
+BC:0F:9A:6D:F5:3D     11   dlink-F53C                            3           
+C8:9F:1A:8C:99:50      1   HUAWEI-5Rdw                           6           
+CC:B1:71:A5:47:98      1   Khalildarwish                        23           
+E4:C3:2A:2F:D9:62      9   Nashash                               2           
 4C:81:25:06:1E:C0      5   Zain-E5576-1EC0                       3           
-7C:1C:F1:50:1C:CC      4   ZainFiber-2.4G-kP9f                   5           
+7C:1C:F1:50:1C:CC      3   ZainFiber-2.4G-kP9f                   9           
