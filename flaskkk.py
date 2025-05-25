@@ -599,6 +599,19 @@ def test_subprocess():
             'error': str(e)
         })
 
+# Import Nessus scanner
+try:
+    from nessus_scanner import NessusScanner
+    NESSUS_AVAILABLE = True
+except ImportError:
+    NESSUS_AVAILABLE = False
+    logger.warning("Nessus scanner module not available")
+
+# Global Nessus scanner instance
+nessus_scanner = None
+if NESSUS_AVAILABLE:
+    nessus_scanner = NessusScanner()
+
 # Main routes for pages
 @app.route('/')
 def index():
@@ -615,9 +628,280 @@ def render_page(page):
 def index_alt():
     return render_template('index.html')
 
-# Create application instance for WSGI
-application = app
+@app.route('/api/nessus/scan/start', methods=['POST'])
+def start_nessus_scan():
+    """Start a Nessus vulnerability scan"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            logger.warning(f"Rate limited request from {client_ip}")
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+        
+        if not NESSUS_AVAILABLE or not nessus_scanner:
+            return jsonify({
+                'error': 'Scanner not available',
+                'message': 'Scanner module not properly configured'
+            }), 500
 
+        data = request.get_json() or {}
+        targets = data.get('targets', '192.168.1.0/24')
+        scan_name = data.get('scan_name', f'CyberShield_Scan_{int(time.time())}')
+        
+        logger.info(f"Starting security scan for targets: {targets}")
+        
+        # Run the scan in a background thread to avoid timeout
+        def run_scan():
+            try:
+                result = nessus_scanner.run_full_scan(targets)
+                logger.info(f"Security scan result: {result}")
+                
+                # Store the result for later retrieval
+                global scan_result_cache
+                if not hasattr(app, 'scan_result_cache'):
+                    app.scan_result_cache = {}
+                app.scan_result_cache['latest'] = result
+                
+            except Exception as e:
+                logger.error(f"Background scan error: {str(e)}")
+                if not hasattr(app, 'scan_result_cache'):
+                    app.scan_result_cache = {}
+                app.scan_result_cache['latest'] = {'error': str(e)}
+        
+        # Start background scan
+        scan_thread = threading.Thread(target=run_scan)
+        scan_thread.daemon = True
+        scan_thread.start()
+        
+        # Get initial scan info
+        initial_result = nessus_scanner.run_full_scan(targets)
+        
+        if initial_result.get('success'):
+            scanner_type = initial_result.get('scanner_type', 'unknown')
+            if scanner_type == 'fallback':
+                message = f'Security scan initiated using built-in Kali tools for targets: {targets}'
+                scan_info = f'Using: {", ".join(initial_result.get("tools_available", {}).keys())}'
+            else:
+                message = f'Professional vulnerability scan initiated for targets: {targets}'
+                scan_info = 'Using: Nessus Professional Scanner'
+        else:
+            message = initial_result.get('message', 'Scan initiation failed')
+            scan_info = initial_result.get('error', 'Unknown error')
+        
+        return jsonify({
+            'success': initial_result.get('success', False),
+            'message': message,
+            'targets': targets,
+            'scan_name': scan_name,
+            'status': 'starting',
+            'scanner_type': initial_result.get('scanner_type', 'unknown'),
+            'scan_info': scan_info,
+            'tools_available': initial_result.get('tools_available', {})
+        })
+        
+    except Exception as e:
+        logger.error(f"Error starting Nessus scan: {str(e)}")
+        return jsonify({
+            'error': 'Failed to start scan',
+            'message': str(e)
+        }), 500
+
+@app.route('/api/nessus/scan/status', methods=['GET'])
+def get_nessus_scan_status():
+    """Get current scan status (Nessus or fallback scanner)"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            logger.warning(f"Rate limited request from {client_ip}")
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+        
+        if not nessus_scanner:
+            return jsonify({
+                'error': 'Scanner not available'
+            }), 500
+
+        scan_id = request.args.get('scan_id')
+        
+        if scan_id:
+            try:
+                scan_id = int(scan_id)
+                status = nessus_scanner.get_scan_status(scan_id)
+            except ValueError:
+                return jsonify({'error': 'Invalid scan ID'}), 400
+        else:
+            status = nessus_scanner.get_scan_status()
+        
+        return jsonify(status)
+        
+    except Exception as e:
+        logger.error(f"Error getting scan status: {str(e)}")
+        return jsonify({
+            'error': 'Failed to get scan status',
+            'message': str(e)
+        }), 500
+
+@app.route('/api/nessus/scan/results', methods=['GET'])
+def get_nessus_scan_results():
+    """Get scan results (Nessus or fallback scanner)"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            logger.warning(f"Rate limited request from {client_ip}")
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+        
+        if not nessus_scanner:
+            return jsonify({
+                'error': 'Scanner not available'
+            }), 500
+
+        scan_id = request.args.get('scan_id')
+        
+        if scan_id:
+            try:
+                scan_id = int(scan_id)
+                results = nessus_scanner.get_scan_results(scan_id)
+            except ValueError:
+                return jsonify({'error': 'Invalid scan ID'}), 400
+        else:
+            results = nessus_scanner.get_scan_results()
+        
+        return jsonify(results)
+        
+    except Exception as e:
+        logger.error(f"Error getting Nessus scan results: {str(e)}")
+        return jsonify({
+            'error': 'Failed to get scan results',
+            'message': str(e)
+        }), 500
+
+@app.route('/api/nessus/scan/report', methods=['GET'])
+def export_nessus_report():
+    """Export scan report (Nessus or fallback scanner)"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            logger.warning(f"Rate limited request from {client_ip}")
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+        
+        if not nessus_scanner:
+            return jsonify({
+                'error': 'Scanner not available'
+            }), 500
+
+        scan_id = request.args.get('scan_id')
+        format_type = request.args.get('format', 'pdf')
+        
+        if scan_id:
+            try:
+                scan_id = int(scan_id)
+            except ValueError:
+                return jsonify({'error': 'Invalid scan ID'}), 400
+        
+        report_path = nessus_scanner.export_scan_report(scan_id, format_type)
+        
+        if report_path and os.path.exists(report_path):
+            return jsonify({
+                'success': True,
+                'report_path': report_path,
+                'message': f'Report exported successfully'
+            })
+        else:
+            return jsonify({
+                'error': 'Failed to export report'
+            }), 500
+        
+    except Exception as e:
+        logger.error(f"Error exporting Nessus report: {str(e)}")
+        return jsonify({
+            'error': 'Failed to export report',
+            'message': str(e)
+        }), 500
+
+@app.route('/api/nessus/setup', methods=['POST'])
+def setup_nessus():
+    """Setup and configure Nessus scanner"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            logger.warning(f"Rate limited request from {client_ip}")
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+        
+        if not NESSUS_AVAILABLE:
+            return jsonify({
+                'error': 'Nessus scanner module not available',
+                'message': 'Please ensure nessus_scanner.py is in the dashboard directory'
+            }), 500
+
+        logger.info("Starting Nessus setup process...")
+        
+        # Run setup in background thread
+        def run_setup():
+            try:
+                global nessus_scanner
+                if not nessus_scanner:
+                    nessus_scanner = NessusScanner()
+                
+                success = nessus_scanner.setup_nessus()
+                logger.info(f"Nessus setup completed: {success}")
+            except Exception as e:
+                logger.error(f"Nessus setup error: {str(e)}")
+        
+        setup_thread = threading.Thread(target=run_setup)
+        setup_thread.daemon = True
+        setup_thread.start()
+        
+        return jsonify({
+            'success': True,
+            'message': 'Nessus setup initiated. This may take several minutes...',
+            'status': 'setting_up'
+        })
+        
+    except Exception as e:
+        logger.error(f"Error setting up Nessus: {str(e)}")
+        return jsonify({
+            'error': 'Failed to setup Nessus',
+            'message': str(e)
+        }), 500
+
+@app.route('/api/nessus/scan/stop', methods=['POST'])
+def stop_nessus_scan():
+    """Stop any running vulnerability scan (Nessus or fallback)"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            logger.warning(f"Rate limited request from {client_ip}")
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+        
+        if not nessus_scanner:
+            return jsonify({
+                'error': 'Scanner not available'
+            }), 500
+
+        # Stop the scan
+        result = nessus_scanner.stop_scan()
+        
+        # Log the action
+        logger.info(f"Scan stop requested by {client_ip}: {result}")
+        
+        return jsonify({
+            'success': True,
+            'message': result.get('message', 'Scan stop requested'),
+        })
+        
+    except Exception as e:
+        logger.error(f"Error stopping scan: {str(e)}")
+        return jsonify({
+            'error': 'Failed to stop scan',
+            'message': str(e)
+        }), 500
+
+# Start the Flask application when this file is run directly
 if __name__ == '__main__':
-    # Only for development - use gunicorn for production
-    app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    port = int(os.getenv('PORT', 5050))
+    app.run(host='0.0.0.0', port=port, debug=True)
+    logger.info(f"Server started on port {port}")

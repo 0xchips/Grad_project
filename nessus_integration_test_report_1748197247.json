@@ -1,0 +1,63 @@
+{
+  "test_suite": "CyberShield Nessus Integration",
+  "timestamp": "2025-05-25T14:20:47.166165",
+  "total_tests": 6,
+  "passed_tests": 0,
+  "failed_tests": 6,
+  "results": [
+    {
+      "timestamp": "2025-05-25 14:20:47",
+      "test": "Server Health Check",
+      "success": false,
+      "message": "Failed to connect to server: HTTPConnectionPool(host='localhost', port=5050): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8365e4f230>: Failed to establish a new connection: [Errno 111] Connection refused'))",
+      "details": {
+        "error": "HTTPConnectionPool(host='localhost', port=5050): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8365e4f230>: Failed to establish a new connection: [Errno 111] Connection refused'))"
+      }
+    },
+    {
+      "timestamp": "2025-05-25 14:20:47",
+      "test": "Frontend Integration",
+      "success": false,
+      "message": "Failed to check frontend: HTTPConnectionPool(host='localhost', port=5050): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8365ed20d0>: Failed to establish a new connection: [Errno 111] Connection refused'))",
+      "details": {
+        "error": "HTTPConnectionPool(host='localhost', port=5050): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8365ed20d0>: Failed to establish a new connection: [Errno 111] Connection refused'))"
+      }
+    },
+    {
+      "timestamp": "2025-05-25 14:20:47",
+      "test": "Nessus Setup",
+      "success": false,
+      "message": "Request failed: HTTPConnectionPool(host='localhost', port=5050): Max retries exceeded with url: /api/nessus/setup (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8365ed2ad0>: Failed to establish a new connection: [Errno 111] Connection refused'))",
+      "details": {
+        "error": "HTTPConnectionPool(host='localhost', port=5050): Max retries exceeded with url: /api/nessus/setup (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8365ed2ad0>: Failed to establish a new connection: [Errno 111] Connection refused'))"
+      }
+    },
+    {
+      "timestamp": "2025-05-25 14:20:47",
+      "test": "Scan Initiation",
+      "success": false,
+      "message": "Request failed: HTTPConnectionPool(host='localhost', port=5050): Max retries exceeded with url: /api/nessus/scan/start (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8365f81350>: Failed to establish a new connection: [Errno 111] Connection refused'))",
+      "details": {
+        "error": "HTTPConnectionPool(host='localhost', port=5050): Max retries exceeded with url: /api/nessus/scan/start (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8365f81350>: Failed to establish a new connection: [Errno 111] Connection refused'))"
+      }
+    },
+    {
+      "timestamp": "2025-05-25 14:20:47",
+      "test": "Scan Status Check",
+      "success": false,
+      "message": "Request failed: HTTPConnectionPool(host='localhost', port=5050): Max retries exceeded with url: /api/nessus/scan/status (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8365f81a70>: Failed to establish a new connection: [Errno 111] Connection refused'))",
+      "details": {
+        "error": "HTTPConnectionPool(host='localhost', port=5050): Max retries exceeded with url: /api/nessus/scan/status (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8365f81a70>: Failed to establish a new connection: [Errno 111] Connection refused'))"
+      }
+    },
+    {
+      "timestamp": "2025-05-25 14:20:47",
+      "test": "Scan Results",
+      "success": false,
+      "message": "Request failed: HTTPConnectionPool(host='localhost', port=5050): Max retries exceeded with url: /api/nessus/scan/results (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8365e369f0>: Failed to establish a new connection: [Errno 111] Connection refused'))",
+      "details": {
+        "error": "HTTPConnectionPool(host='localhost', port=5050): Max retries exceeded with url: /api/nessus/scan/results (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8365e369f0>: Failed to establish a new connection: [Errno 111] Connection refused'))"
+      }
+    }
+  ]
+}
