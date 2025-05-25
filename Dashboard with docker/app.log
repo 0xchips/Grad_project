@@ -1689,3 +1689,685 @@
 2025-05-24 19:14:41,741 - werkzeug - INFO - 192.168.76.1 - - [24/May/2025 19:14:41] "GET /api/gps?hours=1 HTTP/1.1" 200 -
 2025-05-24 19:14:51,741 - __main__ - INFO - Request from 192.168.76.1: GET /api/gps
 2025-05-24 19:14:51,744 - werkzeug - INFO - 192.168.76.1 - - [24/May/2025 19:14:51] "GET /api/gps?hours=1 HTTP/1.1" 200 -
+2025-05-25 10:03:06,282 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:03:06,282 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:03:06,323 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://10.10.10.4:80
+2025-05-25 10:03:06,323 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-25 10:03:06,327 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:03:07,507 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:03:07,507 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:03:07,534 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:03:07,535 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:03:17,305 - flaskkk - INFO - Request from 127.0.0.1: GET /
+2025-05-25 10:03:17,312 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:17] "GET / HTTP/1.1" 200 -
+2025-05-25 10:03:17,366 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-25 10:03:17,369 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:17] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-05-25 10:03:17,604 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-25 10:03:17,605 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:17] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-25 10:03:17,782 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-05-25 10:03:17,785 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:17] "GET /static/js/main.js HTTP/1.1" 200 -
+2025-05-25 10:03:17,787 - flaskkk - INFO - Request from 127.0.0.1: GET /js/auth.js
+2025-05-25 10:03:17,788 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:17] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-05-25 10:03:18,268 - flaskkk - INFO - Request from 127.0.0.1: GET /favicon.ico
+2025-05-25 10:03:18,269 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:18] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-25 10:03:45,969 - flaskkk - INFO - Request from 127.0.0.1: GET /
+2025-05-25 10:03:45,970 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:45] "GET / HTTP/1.1" 200 -
+2025-05-25 10:03:46,284 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-25 10:03:46,284 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:46] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-05-25 10:03:46,369 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-25 10:03:46,369 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:46] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-25 10:03:46,374 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-05-25 10:03:46,375 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:46] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-05-25 10:03:46,617 - flaskkk - INFO - Request from 127.0.0.1: GET /js/auth.js
+2025-05-25 10:03:46,617 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:46] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-05-25 10:03:47,126 - flaskkk - INFO - Request from 127.0.0.1: GET /deauth.html
+2025-05-25 10:03:47,130 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:47] "GET /deauth.html HTTP/1.1" 200 -
+2025-05-25 10:03:47,215 - flaskkk - INFO - Request from 127.0.0.1: GET /css/themes.css
+2025-05-25 10:03:47,216 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:47] "[33mGET /css/themes.css HTTP/1.1[0m" 404 -
+2025-05-25 10:03:47,390 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-25 10:03:47,390 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:47] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-05-25 10:03:47,496 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/deauth.js
+2025-05-25 10:03:47,496 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:47] "GET /static/js/deauth.js HTTP/1.1" 200 -
+2025-05-25 10:03:47,497 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-25 10:03:47,498 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:47] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-25 10:03:47,780 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:03:47,798 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:47] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:03:49,591 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:03:49,599 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:49] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:03:51,916 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:03:51,925 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:51] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:03:53,591 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:03:53,601 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:53] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:03:55,963 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:03:55,987 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:55] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:03:57,590 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:03:57,595 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:57] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:03:59,915 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:03:59,921 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:03:59] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:04:23,306 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:04:23,307 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:04:23,334 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:80
+ * Running on http://10.10.10.4:80
+2025-05-25 10:04:23,334 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-25 10:04:23,338 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:04:24,502 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:04:24,503 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:04:24,528 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:04:24,528 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:04:24,547 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:04:24,557 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:24] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:04:25,927 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:04:25,934 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:25] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:04:27,925 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:04:27,931 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:27] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:04:29,923 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:04:29,928 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:29] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:04:31,936 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:04:31,943 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:31] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:04:32,834 - flaskkk - INFO - Request from 127.0.0.1: GET /deauth.html
+2025-05-25 10:04:32,841 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:32] "GET /deauth.html HTTP/1.1" 200 -
+2025-05-25 10:04:32,870 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-25 10:04:32,874 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:32] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-05-25 10:04:33,245 - flaskkk - INFO - Request from 127.0.0.1: GET /css/themes.css
+2025-05-25 10:04:33,246 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:33] "[33mGET /css/themes.css HTTP/1.1[0m" 404 -
+2025-05-25 10:04:33,247 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-25 10:04:33,248 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:33] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-25 10:04:33,298 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/deauth.js
+2025-05-25 10:04:33,299 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:33] "[36mGET /static/js/deauth.js HTTP/1.1[0m" 304 -
+2025-05-25 10:04:33,684 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:04:33,700 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:33] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:04:34,778 - flaskkk - INFO - Request from 127.0.0.1: GET /index.html
+2025-05-25 10:04:34,785 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:34] "GET /index.html HTTP/1.1" 200 -
+2025-05-25 10:04:35,131 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-25 10:04:35,135 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:35] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-05-25 10:04:35,189 - flaskkk - INFO - Request from 127.0.0.1: GET /js/auth.js
+2025-05-25 10:04:35,190 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:35] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-05-25 10:04:35,197 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-05-25 10:04:35,200 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:35] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-05-25 10:04:35,486 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-25 10:04:35,486 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:35] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-25 10:04:36,891 - flaskkk - INFO - Request from 127.0.0.1: GET /gps.html
+2025-05-25 10:04:36,896 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:36] "GET /gps.html HTTP/1.1" 200 -
+2025-05-25 10:04:37,031 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/gps.js
+2025-05-25 10:04:37,031 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:37] "GET /static/js/gps.js HTTP/1.1" 200 -
+2025-05-25 10:04:37,167 - flaskkk - INFO - Request from 127.0.0.1: GET /api/gps
+2025-05-25 10:04:37,176 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:37] "[35m[1mGET /api/gps?hours=24 HTTP/1.1[0m" 500 -
+2025-05-25 10:04:40,298 - flaskkk - INFO - Request from 127.0.0.1: GET /network.html
+2025-05-25 10:04:40,300 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:40] "GET /network.html HTTP/1.1" 200 -
+2025-05-25 10:04:40,407 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/output.css
+2025-05-25 10:04:40,408 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:40] "GET /static/css/output.css HTTP/1.1" 200 -
+2025-05-25 10:04:40,562 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/network.js
+2025-05-25 10:04:40,562 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:40] "GET /static/js/network.js HTTP/1.1" 200 -
+2025-05-25 10:04:41,120 - flaskkk - INFO - Request from 127.0.0.1: GET /index.html
+2025-05-25 10:04:41,121 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:41] "GET /index.html HTTP/1.1" 200 -
+2025-05-25 10:04:41,492 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-25 10:04:41,494 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:41] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-05-25 10:04:41,520 - flaskkk - INFO - Request from 127.0.0.1: GET /js/auth.js
+2025-05-25 10:04:41,520 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:41] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-05-25 10:04:41,522 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-05-25 10:04:41,525 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:41] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-05-25 10:04:41,847 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-25 10:04:41,848 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:41] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-25 10:04:42,597 - flaskkk - INFO - Request from 127.0.0.1: GET /deauth.html
+2025-05-25 10:04:42,598 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:42] "GET /deauth.html HTTP/1.1" 200 -
+2025-05-25 10:04:42,696 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-25 10:04:42,698 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:42] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-05-25 10:04:42,896 - flaskkk - INFO - Request from 127.0.0.1: GET /css/themes.css
+2025-05-25 10:04:42,896 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:42] "[33mGET /css/themes.css HTTP/1.1[0m" 404 -
+2025-05-25 10:04:42,986 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-25 10:04:42,987 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:42] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-25 10:04:42,988 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/deauth.js
+2025-05-25 10:04:42,989 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:42] "[36mGET /static/js/deauth.js HTTP/1.1[0m" 304 -
+2025-05-25 10:04:43,080 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:04:43,089 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:43] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:04:43,665 - flaskkk - INFO - Request from 127.0.0.1: GET /index.html
+2025-05-25 10:04:43,665 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:43] "GET /index.html HTTP/1.1" 200 -
+2025-05-25 10:04:43,865 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-25 10:04:43,865 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:43] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-05-25 10:04:43,971 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-25 10:04:43,972 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:43] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-25 10:04:44,065 - flaskkk - INFO - Request from 127.0.0.1: GET /js/auth.js
+2025-05-25 10:04:44,066 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:44] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-05-25 10:04:44,068 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-05-25 10:04:44,069 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:04:44] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-05-25 10:11:23,250 - werkzeug - INFO -  * Detected change in '/home/kali/Grad/Grad_project/Dashboard with docker/deauth/monitor.py', reloading
+2025-05-25 10:11:23,385 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:11:24,910 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:11:24,910 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:11:24,944 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:11:24,945 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:11:32,077 - werkzeug - INFO -  * Detected change in '/home/kali/Grad/Grad_project/Dashboard with docker/deauth/monitor.py', reloading
+2025-05-25 10:11:32,194 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:11:33,302 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:11:33,302 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:11:33,326 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:11:33,327 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:17:09,297 - werkzeug - INFO -  * Detected change in '/home/kali/Grad/Grad_project/Dashboard with docker/deauth/visualizer.py', reloading
+2025-05-25 10:17:09,449 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:17:10,773 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:17:10,773 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:17:10,803 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:17:10,803 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:17:53,504 - werkzeug - INFO -  * Detected change in '/home/kali/Grad/Grad_project/Dashboard with docker/deauth/db_test.py', reloading
+2025-05-25 10:17:53,664 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:17:55,136 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:17:55,136 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:17:55,167 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:17:55,167 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:21:25,558 - flaskkk - INFO - Request from 127.0.0.1: GET /index.html
+2025-05-25 10:21:25,571 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:25] "GET /index.html HTTP/1.1" 200 -
+2025-05-25 10:21:25,608 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-25 10:21:25,624 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:25] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-05-25 10:21:25,771 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-25 10:21:25,772 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:25] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-25 10:21:25,947 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-05-25 10:21:25,947 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:25] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-05-25 10:21:26,040 - flaskkk - INFO - Request from 127.0.0.1: GET /js/auth.js
+2025-05-25 10:21:26,043 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:26] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-05-25 10:21:27,579 - flaskkk - INFO - Request from 127.0.0.1: GET /deauth.html
+2025-05-25 10:21:27,586 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:27] "GET /deauth.html HTTP/1.1" 200 -
+2025-05-25 10:21:27,662 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-25 10:21:27,664 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:27] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-05-25 10:21:27,827 - flaskkk - INFO - Request from 127.0.0.1: GET /css/themes.css
+2025-05-25 10:21:27,828 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:27] "[33mGET /css/themes.css HTTP/1.1[0m" 404 -
+2025-05-25 10:21:27,970 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/deauth.js
+2025-05-25 10:21:27,971 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:27] "[36mGET /static/js/deauth.js HTTP/1.1[0m" 304 -
+2025-05-25 10:21:27,974 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-25 10:21:27,975 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:27] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-25 10:21:28,051 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:28,070 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:28] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:21:30,425 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:30,432 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:30] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:21:32,017 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:32,023 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:32] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:21:34,365 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:34,378 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:34] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:21:36,019 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:36,032 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:36] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:21:38,375 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:38,393 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:38] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:21:40,017 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:40,023 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:40] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:21:42,341 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:42,347 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:42] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:21:44,020 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:44,027 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:44] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:21:46,353 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:46,361 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:46] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:21:48,020 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:48,032 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:48] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:21:50,351 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:50,359 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:50] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:21:52,018 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:52,026 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:52] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:21:54,362 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:54,369 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:54] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:21:56,018 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:56,024 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:56] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:21:58,346 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:21:58,353 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:21:58] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:00,017 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:00,025 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:00] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:02,342 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:02,347 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:02] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:04,017 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:04,023 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:04] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:06,349 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:06,356 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:06] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:08,033 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:08,047 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:08] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:10,398 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:10,406 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:10] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:12,018 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:12,023 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:12] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:14,342 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:14,348 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:14] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:16,025 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:16,041 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:16] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:18,349 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:18,355 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:20,018 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:20,024 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:20] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:22,377 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:22,383 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:22] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:24,018 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:24,025 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:24] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:26,353 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:26,360 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:26] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:28,018 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:28,024 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:28] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:30,340 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:30,345 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:30] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:32,041 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:32,055 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:32] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:34,343 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:34,350 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:34] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:36,304 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:36,315 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:36] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:38,637 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:38,643 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:38] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:40,313 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:40,319 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:40] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:42,694 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:42,717 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:42] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:44,304 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:44,309 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:44] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:46,642 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:46,647 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:46] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:48,305 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:48,311 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:48] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:50,626 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:50,632 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:50] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:52,313 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:52,320 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:52] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:54,640 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:54,646 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:54] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:56,305 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:56,311 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:56] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:22:58,636 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:22:58,641 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:22:58] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:00,314 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:00,320 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:00] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:02,661 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:02,667 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:02] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:04,316 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:04,327 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:04] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:06,643 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:06,648 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:06] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:08,305 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:08,311 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:08] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:10,632 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:10,637 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:10] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:12,311 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:12,316 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:12] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:14,642 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:14,650 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:14] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:16,311 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:16,317 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:16] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:18,647 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:18,652 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:20,305 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:20,311 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:20] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:22,631 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:22,637 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:22] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:24,305 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:24,311 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:24] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:26,633 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:26,639 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:26] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:28,310 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:28,316 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:28] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:30,636 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:30,641 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:30] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:32,301 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:32,307 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:32] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:23:34,636 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:23:34,642 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:23:34] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:24:18,322 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:24:18,328 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:24:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:25:10,630 - werkzeug - INFO -  * Detected change in '/home/kali/Grad/Grad_project/Dashboard with docker/deauth/detector.py', reloading
+2025-05-25 10:25:10,754 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:25:12,165 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:25:12,165 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:25:12,193 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:25:12,193 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:25:18,645 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:25:18,658 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:25:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:26:18,314 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:26:18,321 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:26:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:27:18,669 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:27:18,675 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:27:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:28:18,314 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:28:18,320 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:28:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:29:07,406 - werkzeug - INFO -  * Detected change in '/home/kali/Grad/Grad_project/Dashboard with docker/deauth/detector.py', reloading
+2025-05-25 10:29:07,604 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:29:09,381 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:29:09,381 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:29:09,416 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:29:09,417 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:29:18,700 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:29:18,709 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:29:19,738 - werkzeug - INFO -  * Detected change in '/home/kali/Grad/Grad_project/Dashboard with docker/deauth/detector.py', reloading
+2025-05-25 10:29:19,859 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:29:21,243 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:29:21,243 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:29:21,275 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:29:21,276 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:29:37,655 - werkzeug - INFO -  * Detected change in '/home/kali/Grad/Grad_project/Dashboard with docker/deauth/detector.py', reloading
+2025-05-25 10:29:37,970 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:29:40,327 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:29:40,327 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:29:40,368 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:29:40,369 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:29:40,413 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:29:40,415 - flaskkk - INFO - Request from 127.0.0.1: GET /deauth.html
+2025-05-25 10:29:40,434 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:40] "GET /deauth.html HTTP/1.1" 200 -
+2025-05-25 10:29:40,443 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:40] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:29:40,801 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-25 10:29:40,805 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:40] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-05-25 10:29:40,825 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-25 10:29:40,826 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:40] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-25 10:29:40,827 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/deauth.js
+2025-05-25 10:29:40,830 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:40] "[36mGET /static/js/deauth.js HTTP/1.1[0m" 304 -
+2025-05-25 10:29:40,833 - flaskkk - INFO - Request from 127.0.0.1: GET /css/themes.css
+2025-05-25 10:29:40,834 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:40] "[33mGET /css/themes.css HTTP/1.1[0m" 404 -
+2025-05-25 10:29:41,311 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:29:41,326 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:41] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:29:42,182 - flaskkk - INFO - Request from 127.0.0.1: GET /deauth.html
+2025-05-25 10:29:42,184 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:42] "GET /deauth.html HTTP/1.1" 200 -
+2025-05-25 10:29:42,537 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-25 10:29:42,542 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:42] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-05-25 10:29:42,577 - flaskkk - INFO - Request from 127.0.0.1: GET /css/themes.css
+2025-05-25 10:29:42,590 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:42] "[33mGET /css/themes.css HTTP/1.1[0m" 404 -
+2025-05-25 10:29:42,595 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/deauth.js
+2025-05-25 10:29:42,597 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:42] "[36mGET /static/js/deauth.js HTTP/1.1[0m" 304 -
+2025-05-25 10:29:42,911 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-25 10:29:42,913 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:42] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-25 10:29:43,375 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:29:43,385 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:43] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:29:45,027 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:29:45,038 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:45] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:29:47,636 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:29:47,646 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:47] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:29:49,304 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:29:49,310 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:49] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:29:50,757 - werkzeug - INFO -  * Detected change in '/home/kali/Grad/Grad_project/Dashboard with docker/deauth/detector.py', reloading
+2025-05-25 10:29:51,682 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:29:53,528 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:29:53,529 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:29:53,563 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:29:53,564 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:29:53,591 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:29:53,609 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:53] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:29:53,618 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:29:53,640 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:53] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:29:55,646 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:29:55,653 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:55] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:29:57,326 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:29:57,334 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:57] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:29:59,640 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:29:59,646 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:29:59] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:01,435 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:01,462 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:01] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:03,637 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:03,644 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:03] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:04,832 - werkzeug - INFO -  * Detected change in '/home/kali/Grad/Grad_project/Dashboard with docker/deauth/detector.py', reloading
+2025-05-25 10:30:05,035 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:30:06,657 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:30:06,657 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:30:06,687 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:30:06,687 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:30:06,711 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:06,727 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:06] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:07,316 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:07,322 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:07] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:09,639 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:09,645 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:09] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:11,313 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:11,326 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:11] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:13,652 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:13,665 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:13] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:15,316 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:15,325 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:15] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:17,633 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:17,639 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:17] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:19,312 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:19,318 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:19] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:21,014 - werkzeug - INFO -  * Detected change in '/home/kali/Grad/Grad_project/Dashboard with docker/deauth/detector.py', reloading
+2025-05-25 10:30:21,180 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:30:22,884 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:30:22,885 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:30:22,915 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:30:22,915 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:30:22,935 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:22,949 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:22] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:23,313 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:23,321 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:23] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:25,654 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:25,661 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:25] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:27,321 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:27,333 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:27] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:29,619 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:29,625 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:29] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:31,313 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:31,322 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:31] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:32,132 - werkzeug - INFO -  * Detected change in '/home/kali/Grad/Grad_project/Dashboard with docker/deauth/detector.py', reloading
+2025-05-25 10:30:32,422 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:30:36,274 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:30:36,274 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:30:36,330 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:30:36,333 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:30:36,399 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:36,421 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:36] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:36,432 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:36,446 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:36] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:37,645 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:37,653 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:37] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:39,303 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:39,311 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:39] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:41,575 - werkzeug - INFO -  * Detected change in '/home/kali/Grad/Grad_project/Dashboard with docker/deauth/detector.py', reloading
+2025-05-25 10:30:41,756 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:30:43,229 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:30:43,229 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:30:43,258 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:30:43,259 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:30:43,281 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:43,292 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:43] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:43,303 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:43,314 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:43] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:45,634 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:45,640 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:45] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:47,310 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:47,318 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:47] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:49,641 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:49,647 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:49] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:30:51,303 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:30:51,310 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:30:51] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:31:18,653 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:31:18,661 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:31:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:32:00,686 - werkzeug - INFO -  * Detected change in '/home/kali/Grad/Grad_project/Dashboard with docker/deauth/detector.py', reloading
+2025-05-25 10:32:00,862 - werkzeug - INFO -  * Restarting with stat
+2025-05-25 10:32:02,489 - flaskkk - ERROR - Database connection failed: (2002, "Can't connect to local server through socket '/run/mysqld/mysqld.sock' (2)")
+2025-05-25 10:32:02,489 - flaskkk - ERROR - Failed to initialize database
+2025-05-25 10:32:02,521 - werkzeug - WARNING -  * Debugger is active!
+2025-05-25 10:32:02,522 - werkzeug - INFO -  * Debugger PIN: 304-423-681
+2025-05-25 10:32:18,653 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:32:18,664 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:32:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:05,747 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:05,765 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:05] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:07,368 - flaskkk - INFO - Request from 127.0.0.1: GET /deauth.html
+2025-05-25 10:33:07,376 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:07] "GET /deauth.html HTTP/1.1" 200 -
+2025-05-25 10:33:07,564 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-25 10:33:07,571 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:07] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-05-25 10:33:07,647 - flaskkk - INFO - Request from 127.0.0.1: GET /css/themes.css
+2025-05-25 10:33:07,647 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:07] "[33mGET /css/themes.css HTTP/1.1[0m" 404 -
+2025-05-25 10:33:07,803 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-25 10:33:07,804 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:07] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-25 10:33:07,806 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/deauth.js
+2025-05-25 10:33:07,807 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:07] "[36mGET /static/js/deauth.js HTTP/1.1[0m" 304 -
+2025-05-25 10:33:07,876 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:07,893 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:07] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:09,903 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:09,939 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:09] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:12,631 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:12,639 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:12] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:14,311 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:14,320 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:14] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:16,661 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:16,671 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:16] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:18,407 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:18,419 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:20,641 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:20,648 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:20] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:22,308 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:22,314 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:22] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:24,633 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:24,639 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:24] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:26,311 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:26,318 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:26] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:28,644 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:28,654 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:28] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:29,876 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:29,888 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:29] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:31,099 - flaskkk - INFO - Request from 127.0.0.1: GET /deauth.html
+2025-05-25 10:33:31,104 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:31] "GET /deauth.html HTTP/1.1" 200 -
+2025-05-25 10:33:31,179 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-25 10:33:31,182 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:31] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-05-25 10:33:31,299 - flaskkk - INFO - Request from 127.0.0.1: GET /css/themes.css
+2025-05-25 10:33:31,304 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:31] "[33mGET /css/themes.css HTTP/1.1[0m" 404 -
+2025-05-25 10:33:31,472 - flaskkk - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-25 10:33:31,472 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:31] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-25 10:33:31,580 - flaskkk - INFO - Request from 127.0.0.1: GET /static/js/deauth.js
+2025-05-25 10:33:31,583 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:31] "[36mGET /static/js/deauth.js HTTP/1.1[0m" 304 -
+2025-05-25 10:33:32,001 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:32,022 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:32] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:34,302 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:34,310 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:34] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:36,640 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:36,647 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:36] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:38,313 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:38,321 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:38] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:40,697 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:40,705 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:40] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:42,314 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:42,321 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:42] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:44,638 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:44,645 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:44] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:46,304 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:46,312 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:46] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:48,632 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:48,639 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:48] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:50,308 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:50,315 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:50] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:52,632 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:52,639 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:52] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:54,336 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:54,342 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:54] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:56,634 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:56,640 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:56] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:33:58,311 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:33:58,320 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:33:58] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:00,633 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:00,640 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:00] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:02,317 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:02,324 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:02] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:04,636 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:04,643 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:04] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:06,305 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:06,312 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:06] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:08,631 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:08,638 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:08] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:10,303 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:10,310 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:10] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:12,645 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:12,652 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:12] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:14,305 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:14,312 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:14] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:16,637 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:16,644 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:16] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:18,356 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:18,366 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:20,639 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:20,646 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:20] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:22,312 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:22,319 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:22] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:24,626 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:24,634 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:24] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:26,301 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:26,310 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:26] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:28,630 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:28,637 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:28] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:30,301 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:30,308 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:30] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:32,701 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:32,714 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:32] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:37,375 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:37,390 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:37] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:37,945 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:37,960 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:37] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:40,370 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:40,403 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:40] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:42,641 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:42,655 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:42] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:44,305 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:44,311 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:44] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:46,633 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:46,641 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:46] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:48,301 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:48,307 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:48] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:50,633 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:50,641 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:50] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:52,311 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:52,317 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:52] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:54,638 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:54,645 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:54] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:56,313 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:56,321 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:56] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:34:58,639 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:34:58,654 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:34:58] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:00,307 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:00,314 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:00] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:02,638 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:02,645 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:02] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:04,315 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:04,328 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:04] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:06,639 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:06,647 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:06] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:08,315 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:08,323 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:08] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:10,628 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:10,634 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:10] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:12,304 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:12,309 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:12] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:14,633 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:14,645 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:14] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:16,310 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:16,318 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:16] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:18,659 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:18,672 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:20,395 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:20,402 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:20] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:22,631 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:22,637 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:22] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:24,312 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:24,318 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:24] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:26,626 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:26,632 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:26] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:28,310 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:28,318 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:28] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:30,654 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:30,666 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:30] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:32,301 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:32,309 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:32] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:34,634 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:34,641 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:34] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:36,314 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:36,321 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:36] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:35:38,633 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:35:38,640 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:35:38] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:36:18,322 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:36:18,331 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:36:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:37:18,632 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:37:18,640 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:37:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:38:18,332 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:38:18,340 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:38:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:39:18,654 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:39:18,661 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:39:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:40:18,478 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:40:18,495 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:40:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:41:18,654 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:41:18,660 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:41:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:42:18,313 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:42:18,323 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:42:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:43:18,670 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:43:18,677 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:43:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:44:18,316 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:44:18,323 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:44:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:45:18,643 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:45:18,649 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:45:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
+2025-05-25 10:46:18,316 - flaskkk - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-05-25 10:46:18,323 - werkzeug - INFO - 127.0.0.1 - - [25/May/2025 10:46:18] "[35m[1mGET /api/deauth_logs HTTP/1.1[0m" 500 -
