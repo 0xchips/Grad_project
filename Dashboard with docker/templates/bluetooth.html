@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluetooth Threats | CyberShield</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- <link rel="stylesheet" href="css/themes.css"> -->
+    <style>
+        /* Add this to your CSS file */
+        .chart-card {
+            height: 300px;
+            margin-bottom: 20px;
+        }
+        .chart-container {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        canvas {
+            max-height: 220px;
+        }
+        .threat-level {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8em;
+        }
+        .threat-level.high {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .threat-level.medium {
+            background-color: #f39c12;
+            color: white;
+        }
+        .threat-level.low {
+            background-color: #2ecc71;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>CyberShield</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="deauth.html"><i class="fas fa-wifi"></i> Deauthentication</a></li>
+                <li class="active"><a href="bluetooth.html"><i class="fas fa-bluetooth-b"></i> Bluetooth</a></li>
+                <li><a href="gps.html"><i class="fas fa-map-marked-alt"></i> GPS</a></li>
+                <li><a href="network.html"><i class="fas fa-network-wired"></i> Network</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </nav>
+        <div class="user-panel">
+            <div class="user-avatar">AD</div>
+            <div class="user-info">
+                <span class="user-name">Admin</span>
+                <button class="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="page-header">
+            <h1><i class="fas fa-bluetooth-b"></i> Bluetooth Threat Monitoring</h1>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="testBluetoothData()">
+                    <i class="fas fa-plus"></i> Simulate Threat
+                </button>
+                <button class="btn btn-danger" onclick="clearBluetoothData()">
+                    <i class="fas fa-trash"></i> Clear Data
+                </button>
+                <button class="btn btn-secondary" onclick="generatePdfReport('bluetooth')">
+                    <i class="fas fa-file-pdf"></i> Generate Report
+                </button>
+            </div>
+        </header>
+
+        <div class="status-cards">
+            <div class="status-card">
+                <div class="card-icon bg-blue">
+                    <i class="fas fa-bluetooth"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Devices Detected</h3>
+                    <span class="value" id="bt-devices-count">0</span>
+                    <span class="trend up">+2 today</span>
+                </div>
+            </div>
+            <div class="status-card">
+                <div class="card-icon bg-red">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="card-content">
+                    <h3>High Threats</h3>
+                    <span class="value" id="bt-threats-count">0</span>
+                    <span class="trend up">+1 today</span>
+                </div>
+            </div>
+            <div class="status-card">
+                <div class="card-icon bg-orange">
+                    <i class="fas fa-signal"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Avg Signal</h3>
+                    <span class="value" id="bt-signal-avg">-dBm</span>
+                    <span class="trend neutral">stable</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Bluetooth Threat Activity</h3>
+                    <div class="chart-actions">
+                        <button class="btn-icon"><i class="fas fa-expand"></i></button>
+                        <button class="btn-icon"><i class="fas fa-download"></i></button>
+                    </div>
+                </div>
+                <canvas id="btActivityChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Threat Level Distribution</h3>
+                    <div class="chart-actions">
+                        <button class="btn-icon"><i class="fas fa-expand"></i></button>
+                        <button class="btn-icon"><i class="fas fa-download"></i></button>
+                    </div>
+                </div>
+                <canvas id="btThreatDistributionChart"></canvas>
+            </div>
+        </div>
+
+        <div class="data-table-container">
+            <div class="table-header">
+                <h3>Detected Bluetooth Devices</h3>
+                <div class="table-actions">
+                    <input type="text" placeholder="Search devices..." class="search-input">
+                    <button class="btn-icon"><i class="fas fa-filter"></i></button>
+                </div>
+            </div>
+            <table id="bt-table">
+                <thead>
+                    <tr>
+                        <th>Device ID</th>
+                        <th>Signal</th>
+                        <th>First Seen</th>
+                        <th>Last Seen</th>
+                        <th>Threat Level</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="table-footer">
+                <span class="table-info">Showing 1-10 of 25 devices</span>
+                <div class="pagination">
+                    <button class="btn-icon"><i class="fas fa-chevron-left"></i></button>
+                    <span>1</span>
+                    <button class="btn-icon"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='js/bluetooth.js') }}"></script>
+</body>
+</html>

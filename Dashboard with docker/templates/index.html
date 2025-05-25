@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Threat Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>CyberShield</span>
+        </div>
+        <nav>
+            <ul>
+                <li class="active"><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="deauth.html"><i class="fas fa-wifi"></i> Deauthentication</a></li>
+                <li><a href="bluetooth.html"><i class="fas fa-bluetooth-b"></i> Bluetooth</a></li>
+                <li><a href="gps.html"><i class="fas fa-map-marked-alt"></i> GPS</a></li>
+                <li><a href="network.html"><i class="fas fa-network-wired"></i> Network</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </nav>
+        <div class="user-panel">
+            <div class="user-info">
+                <div class="user-avatar">AD</div>
+                <div class="user-name">Admin</div>
+            </div>
+            <button class="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <div class="header-left">
+                <h1>Dashboard Overview</h1>
+                <div class="date-range">
+                    <i class="fas fa-calendar-alt"></i>
+                    <input type="text" id="dateRangePicker" placeholder="Select date range">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="alert-bell">
+                    <i class="fas fa-bell"></i>
+                    <span class="alert-count">3</span>
+                </div>
+                <div class="connection-status">
+                    <!-- <span class="status-indicator connected"></span> -->
+                    <span>Connected</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card critical">
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Critical Threats</h3>
+                            <span class="value" id="critical-count">12</span>
+                            <span class="change up">+2 from yesterday</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-card warning">
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Warnings</h3>
+                            <span class="value" id="warning-count">24</span>
+                            <span class="change down">-3 from yesterday</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-card devices">
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Protected Devices</h3>
+                            <span class="value" id="devices-count">42</span>
+                            <span class="change up">+5 this week</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-card uptime">
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>System Uptime</h3>
+                            <span class="value">99.98%</span>
+                            <span class="change neutral">Last incident: 14d ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Charts -->
+            <div class="chart-row">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Threat Activity Timeline</h3>
+                        <div class="chart-actions">
+                            <button class="btn-chart-action"><i class="fas fa-expand"></i></button>
+                            <button class="btn-chart-action" onclick="exportChart('threatTimelineChart')"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                    <canvas id="threatTimelineChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Threat Distribution</h3>
+                        <div class="chart-actions">
+                            <button class="btn-chart-action"><i class="fas fa-expand"></i></button>
+                            <button class="btn-chart-action" onclick="exportChart('threatDistributionChart')"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                    <canvas id="threatDistributionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Alerts and Quick Actions -->
+            <div class="bottom-row">
+                <div class="recent-alerts">
+                    <div class="section-header">
+                        <h3>Recent Alerts</h3>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+                    <div class="alerts-list" id="alerts-list">
+                        <!-- Alerts will be dynamically inserted here -->
+                    </div>
+                </div>
+                
+                <div class="quick-actions">
+                    <div class="section-header">
+                        <h3>Quick Actions</h3>
+                    </div>
+                    <div class="actions-grid">
+                        <button class="action-btn" onclick="runFullScan()">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Run Full Scan</span>
+                        </button>
+                        <button class="action-btn" onclick="muteAlerts()">
+                            <i class="fas fa-bell-slash"></i>
+                            <span>Mute Alerts</span>
+                        </button>
+                        <button class="action-btn" onclick="generateFullReport()">
+                            <i class="fas fa-file-export"></i>
+                            <span>Export Full Report</span>
+                        </button>
+                        <button class="action-btn" onclick="scanBluetooth()">
+                            <i class="fas fa-bluetooth-b"></i>
+                            <span>Scan Bluetooth</span>
+                        </button>
+                        <button class="action-btn" onclick="scanGPS()">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span>Scan GPS</span>
+                        </button>
+                        <button class="action-btn" onclick="scanNetwork()">
+                            <i class="fas fa-network-wired"></i>
+                            <span>Scan Network</span>
+                        </button>
+			<button class="action-btn" onclick="deauthscan()">
+                            <i class="fas fa-network-wired"></i>
+                            <span>Deauth scan</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Initialize date range picker
+        flatpickr("#dateRangePicker", {
+            mode: "range",
+            dateFormat: "Y-m-d",
+            defaultDate: [new Date().setDate(new Date().getDate() - 7), new Date()]
+        });
+
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Threat Timeline Chart
+            const timelineCtx = document.getElementById('threatTimelineChart').getContext('2d');
+            new Chart(timelineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [
+                        {
+                            label: 'Critical',
+                            data: [2, 4, 3, 5, 7, 6, 4],
+                            borderColor: '#e74c3c',
+                            backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'Warnings',
+                            data: [8, 5, 7, 9, 6, 10, 8],
+                            borderColor: '#f39c12',
+                            backgroundColor: 'rgba(243, 156, 18, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'Normal',
+                            data: [15, 18, 20, 16, 19, 14, 17],
+                            borderColor: '#2ecc71',
+                            backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: '#ecf0f1',
+                                boxWidth: 12,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#ecf0f1'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#ecf0f1',
+                                stepSize: 5
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Threat Distribution Chart
+            const distributionCtx = document.getElementById('threatDistributionChart').getContext('2d');
+            new Chart(distributionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Bluetooth', 'GPS', 'Network', 'deauth'],
+                    datasets: [{
+                        data: [15, 22, 45, 8],
+                        backgroundColor: [
+                            '#3498db',
+                            '#9b59b6',
+                            '#e74c3c',
+                            '#f39c12'
+                        ],
+                        borderColor: [
+                            '#2980b9',
+                            '#8e44ad',
+                            '#c0392b',
+                            '#d35400'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#ecf0f1',
+                                boxWidth: 12,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+
+            // Load recent alerts
+            loadRecentAlerts();
+        });
+
+        function exportChart(chartId) {
+            const canvas = document.getElementById(chartId);
+            const link = document.createElement('a');
+            link.download = `${chartId}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        function loadRecentAlerts() {
+            const alerts = [
+                {
+                    type: 'critical',
+                    title: 'Bluetooth Spoofing Attempt',
+                    message: 'Unknown device attempting to pair with admin credentials',
+                    time: '2 minutes ago'
+                },
+                {
+                    type: 'warning',
+                    title: 'GPS Anomaly Detected',
+                    message: 'Location jump detected (San Francisco to London in 2s)',
+                    time: '15 minutes ago'
+                },
+                {
+                    type: 'warning',
+                    title: 'Port Scanning Detected',
+                    message: 'Multiple connection attempts on restricted ports',
+                    time: '1 hour ago'
+                }
+            ];
+
+            const alertsList = document.getElementById('alerts-list');
+            alertsList.innerHTML = '';
+
+            alerts.forEach(alert => {
+                const alertItem = document.createElement('div');
+                alertItem.className = `alert-item ${alert.type}`;
+                alertItem.innerHTML = `
+                    <div class="alert-icon">
+                        <i class="fas fa-exclamation-${alert.type === 'critical' ? 'triangle' : 'circle'}"></i>
+                    </div>
+                    <div class="alert-content">
+                        <h4>${alert.title}</h4>
+                        <p>${alert.message}</p>
+                        <span class="alert-time">${alert.time}</span>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn-alert-action"><i class="fas fa-eye"></i></button>
+                        <button class="btn-alert-action"><i class="fas fa-ban"></i></button>
+                    </div>
+                `;
+                alertsList.appendChild(alertItem);
+            });
+        }
+
+        function runFullScan() {
+            // Simulate scanning all components
+            alert('Running full system scan...');
+            testBluetoothData();
+            testGpsData();
+            testNetworkData();
+            updateDashboardStats();
+        }
+
+        function muteAlerts() {
+            const bell = document.querySelector('.alert-bell');
+            if (bell.classList.contains('muted')) {
+                bell.classList.remove('muted');
+                alert('Alerts unmuted');
+            } else {
+                bell.classList.add('muted');
+                alert('Alerts muted');
+            }
+        }
+
+        function generateFullReport() {
+            // This will be handled by the main.js file
+            alert('Generating full system report...');
+            generateCombinedPdfReport();
+        }
+
+        function scanBluetooth() {
+            alert('Scanning Bluetooth devices...');
+            testBluetoothData();
+        }
+
+        function scanGPS() {
+            alert('Scanning GPS for anomalies...');
+            testGpsData();
+        }
+
+        function scanNetwork() {
+            alert('Scanning network for threats...');
+            testNetworkData();
+        }
+                function deauthscan() {
+            alert('Scanning network for threats...');
+            testNetworkData();
+        }
+        // Make functions available globally
+        window.exportChart = exportChart;
+        window.runFullScan = runFullScan;
+        window.muteAlerts = muteAlerts;
+        window.generateFullReport = generateFullReport;
+        window.scanBluetooth = scanBluetooth;
+        window.scanGPS = scanGPS;
+        window.scanNetwork = scanNetwork;
+    </script>
+</body>
+</html>
