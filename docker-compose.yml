@@ -1,0 +1,50 @@
+# version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: security_dashboard
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - DB_HOST=db
+      - DB_USER=dashboard
+      - DB_PASSWORD=securepass
+      - DB_NAME=security_dashboard
+      - FLASK_SECRET_KEY=your-production-secret-key-here
+      - CORS_ORIGINS=localhost:80,localhost:5050
+      - PORT=5000
+    depends_on:
+      - db
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  db:
+    image: mysql:8.0
+    container_name: security_dashboard_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=security_dashboard
+      - MYSQL_USER=dashboard
+      - MYSQL_PASSWORD=securepass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+volumes:
+  mysql_data:

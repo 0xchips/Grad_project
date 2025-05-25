@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deauthentication Attacks | CyberShield</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- <link rel="stylesheet" href="css/themes.css"> -->
+    <style>
+        /* Additional CSS for deauth page */
+        .data-table-container {
+            margin-top: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .severity-critical {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .severity-warning {
+            color: #f39c12;
+            font-weight: bold;
+        }
+
+        .severity-info {
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .bssid-cell {
+            font-family: monospace;
+            letter-spacing: 0.5px;
+            padding: 4px 8px;
+            background-color: rgba(52, 73, 94, 0.1);
+            border-radius: 4px;
+        }
+
+        /* Table improvements for better organization */
+        #deauth-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        #deauth-table thead th {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 15px;
+        }
+
+        #deauth-table tbody tr {
+            border-bottom: 1px solid rgba(189, 195, 199, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        #deauth-table tbody tr:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        #deauth-table td {
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+
+        .active-attack {
+            border-left: 4px solid #e74c3c;
+        }
+
+        #deauth-table td:nth-child(1) {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        #deauth-table td:nth-child(4) {
+            font-weight: 500;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Action buttons styling */
+        #deauth-table .btn-icon {
+            padding: 6px;
+            margin: 0 3px;
+            border-radius: 4px;
+        }
+
+        /* New chart styling */
+        .mini-chart-container {
+            display: flex;
+            position: relative;
+            height: 250px;
+            /* Increased height for better visibility */
+            margin-bottom: 0;
+        }
+
+        .mini-chart {
+            flex: 1;
+            max-height: none;
+            /* Remove max-height constraint */
+            height: 100%;
+            background-color: rgba(30, 30, 30, 0.7);
+            border-radius: 8px;
+            padding: 15px;
+            /* Increased padding */
+            margin: 0 5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: visible;
+            /* Ensure chart overflow is visible */
+        }
+
+        .mini-chart canvas {
+            width: 100% !important;
+            height: calc(100% - 30px) !important;
+            /* Account for header */
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Chart color indicators */
+        .chart-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 100%;
+        }
+
+        .frequency-chart .chart-indicator {
+            background-color: #e74c3c;
+        }
+
+        .targets-chart .chart-indicator {
+            background-color: #3498db;
+        }
+
+        .mini-chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .mini-chart-header h3 {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .mini-chart-actions {
+            display: flex;
+        }
+
+        .mini-chart-actions .btn-icon {
+            font-size: 12px;
+            padding: 2px 4px;
+        }
+
+        /* Full screen chart modal */
+        .chart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chart-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: #1e1e1e;
+            width: 80%;
+            max-width: 1000px;
+            height: 70%;
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 20px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .modal-chart-container {
+            width: 100%;
+            height: 90%;
+        }
+
+        /* Table zebra striping for better organization */
+        #deauth-table tbody tr.even-row {
+            background-color: rgba(30, 30, 30, 0.2);
+        }
+
+        #deauth-table tbody tr.odd-row {
+            background-color: rgba(30, 30, 30, 0.05);
+        }
+
+        /* Chart color restoration */
+        .mini-chart {
+            border-top: 3px solid #3498db;
+        }
+
+        .mini-chart:first-child {
+            border-top-color: #e74c3c;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>CyberShield</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li class="active"><a href="deauth.html"><i class="fas fa-wifi"></i> Deauthentication</a></li>
+                <li><a href="bluetooth.html"><i class="fas fa-bluetooth-b"></i> Bluetooth</a></li>
+                <li><a href="gps.html"><i class="fas fa-map-marked-alt"></i> GPS</a></li>
+                <li><a href="network.html"><i class="fas fa-network-wired"></i> Network</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </nav>
+        <div class="user-panel">
+            <div class="user-avatar">AD</div>
+            <div class="user-info">
+                <span class="user-name">Admin</span>
+                <button class="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="page-header">
+            <h1><i class="fas fa-wifi"></i> Deauthentication Attack Monitoring</h1>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="exportDeauthLogs()">
+                    <i class="fas fa-download"></i> Export Logs
+                </button>
+                <button class="btn btn-danger" onclick="clearDeauthData()">
+                    <i class="fas fa-trash"></i> Clear Database Logs
+                </button>
+                <button class="btn btn-secondary" onclick="generatePdfReport('deauth')">
+                    <i class="fas fa-file-pdf"></i> Generate Report
+                </button>
+            </div>
+        </header>
+
+        <!-- <div class="status-cards">
+            <div class="status-card">
+                <div class="card-icon bg-blue">
+                    <i class="fas fa-broadcast-tower"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Total Attacks</h3>
+                    <span class="value" id="deauth-total-count">0</span>
+                    <span class="trend up">+5 today</span>
+                </div>
+            </div>
+            <div class="status-card">
+                <div class="card-icon bg-red">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Active Attacks</h3>
+                    <span class="value" id="deauth-active-count">0</span>
+                    <span class="trend up">+2 today</span>
+                </div>
+            </div>
+            <div class="status-card">
+                <div class="card-icon bg-orange">
+                    <i class="fas fa-shield-virus"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Protected Networks</h3>
+                    <span class="value" id="deauth-protected-count">0</span>
+                    <span class="trend neutral">stable</span>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- Mini charts section -->
+        <div class="mini-chart-container" id="chart-container">
+            <div class="mini-chart frequency-chart">
+                <div class="chart-indicator"></div>
+                <div class="mini-chart-header">
+                    <h3>Attack Frequency</h3>
+                    <div class="mini-chart-actions">
+                        <button class="btn-icon" onclick="expandChart('deauthFrequencyChart', 'Attack Frequency')"><i
+                                class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <canvas id="deauthFrequencyChart"></canvas>
+            </div>
+            <div class="mini-chart targets-chart">
+                <div class="chart-indicator"></div>
+                <div class="mini-chart-header">
+                    <h3>Target Networks</h3>
+                    <div class="mini-chart-actions">
+                        <button class="btn-icon" onclick="expandChart('deauthTargetsChart', 'Target Networks')"><i
+                                class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <canvas id="deauthTargetsChart"></canvas>
+            </div>
+        </div>
+
+        <div class="data-table-container">
+            <div class="table-header">
+                <h3>Deauthentication Attack Logs</h3>
+                <div class="table-actions">
+                    <input type="text" placeholder="Search logs..." class="search-input" id="deauth-search">
+                    <button class="btn-icon" onclick="filterDeauthTable()"><i class="fas fa-filter"></i></button>
+                </div>
+            </div>
+            <table id="deauth-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Attacker BSSID</th>
+                        <th>Target BSSID</th>
+                        <th>Target SSID</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated by JavaScript -->
+                </tbody>
+            </table>
+            <div class="table-footer">
+                <span class="table-info">Showing <span id="deauth-showing">0</span> of <span id="deauth-total">0</span>
+                    attacks</span>
+                <div class="pagination">
+                    <button class="btn-icon" onclick="prevDeauthPage()"><i class="fas fa-chevron-left"></i></button>
+                    <span id="deauth-page">1</span>
+                    <button class="btn-icon" onclick="nextDeauthPage()"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for full-screen charts -->
+    <div class="chart-modal" id="chartModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></span>
+            <h2 id="modal-title">Chart</h2>
+            <div class="modal-chart-container">
+                <canvas id="modalChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/deauth.js') }}"></script>
+</body>
+
+</html>
