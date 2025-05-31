@@ -547,22 +547,26 @@
                         <button class="btn-alert-action"><i class="fas fa-eye"></i></button>
                         <button class="btn-alert-action"><i class="fas fa-ban"></i></button>
                     </div>
-                `;
-                alertsList.appendChild(alertItem);
+                `;            alertsList.appendChild(alertItem);
             });
-        }        function runFullScan() {
+        }
+
+        function runFullScan() {
             // Show progress modal
             showNessusProgressModal();
             
-            // Start vulnerability scan
-            fetch('/api/nessus/scan/start', {
+            // Update modal to show network discovery phase
+            updateNessusProgress('Starting network discovery...', 5);
+            addNessusLogEntry('Phase 1: Discovering network devices using netdiscover.py');
+            
+            // Start full scan with network discovery
+            fetch('/api/nessus/full-scan-with-discovery', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    targets: '192.168.1.0/24',
-                    scan_name: `CyberShield_Full_Scan_${new Date().toISOString().split('T')[0]}`
+                    scan_name: `CyberShield_Full_Discovery_Scan_${new Date().toISOString().split('T')[0]}`
                 })
             })
             .then(response => response.json())
@@ -573,21 +577,35 @@
                 
                 // Update modal with proper scanner information
                 document.querySelector('.progress-header h4').textContent = 
-                    `Deep Vulnerability Scanning with ${scannerName}`;
+                    `Network Discovery + Vulnerability Scanning with ${scannerName}`;
                 
                 if (data.success) {
+                    // Log discovery results
+                    if (data.discovered_devices > 0) {
+                        addNessusLogEntry(`Phase 1 Complete: Discovered ${data.discovered_devices} network devices`);
+                        if (data.discovered_ips && data.discovered_ips.length > 0) {
+                            addNessusLogEntry(`Sample discovered IPs: ${data.discovered_ips.slice(0, 5).join(', ')}`);
+                        }
+                        addNessusLogEntry(`Phase 2: Starting vulnerability scan on discovered targets`);
+                    } else {
+                        addNessusLogEntry('Phase 1: No devices discovered, scanning default network range');
+                        addNessusLogEntry('Phase 2: Starting vulnerability scan on default range');
+                    }
+                    
                     addNessusLogEntry(data.message || 'Vulnerability scan initiated...');
                     
                     if (data.tools_available) {
                         const tools = Object.keys(data.tools_available)
                             .filter(tool => data.tools_available[tool])
                             .join(', ');
-                        addNessusLogEntry(`Available security tools: ${tools}`);
+                        if (tools) {
+                            addNessusLogEntry(`Available security tools: ${tools}`);
+                        }
                     }
                     
-                    updateNessusProgress('Scan initiated...', 10);
+                    updateNessusProgress('Network discovery complete, vulnerability scan initiated...', 15);
                     
-                    // Also run existing scans
+                    // Also run existing scans for dashboard
                     testBluetoothData();
                     testGpsData();
                     testNetworkData();
@@ -601,8 +619,8 @@
                 }
             })
             .catch(error => {
-                console.error('Error starting scan:', error);
-                updateNessusProgress('Failed to start vulnerability scan', 0, true);
+                console.error('Error starting full scan:', error);
+                updateNessusProgress('Failed to start network discovery and vulnerability scan', 0, true);
                 document.getElementById('nessus-stop-btn').style.display = 'none';
             });
         }
@@ -635,15 +653,14 @@
                                     <div class="progress-fill" id="nessus-progress-fill" style="width: 0%"></div>
                                 </div>
                                 <span class="progress-percentage" id="nessus-progress-percent">0%</span>
-                            </div>
-                            <div class="scan-details" id="nessus-scan-details">
+                            </div>                            <div class="scan-details" id="nessus-scan-details">
                                 <div class="detail-item">
                                     <span class="detail-label">Scan Type:</span>
-                                    <span class="detail-value">Full Network Vulnerability Assessment</span>
+                                    <span class="detail-value">Network Discovery + Vulnerability Assessment</span>
                                 </div>
                                 <div class="detail-item">
                                     <span class="detail-label">Target Range:</span>
-                                    <span class="detail-value">192.168.1.0/24</span>
+                                    <span class="detail-value">Auto-discovered devices</span>
                                 </div>
                                 <div class="detail-item">
                                     <span class="detail-label">Status:</span>
@@ -709,10 +726,11 @@
             
             // Show results button when scan is complete
             if (percentage === 100 && !isError) {
-                const resultsBtn = document.getElementById('nessus-results-btn');
-                if (resultsBtn) resultsBtn.style.display = 'inline-block';
+                const resultsBtn = document.getElementById('nessus-results-btn');            if (resultsBtn) resultsBtn.style.display = 'inline-block';
             }
-        }        function monitorNessusScan() {
+        }
+
+        function monitorNessusScan() {
             let retryCount = 0;
             const maxRetries = 3;
             
@@ -801,17 +819,17 @@
             const time = new Date().toLocaleTimeString();
             entry.textContent = `[${time}] ${message}`;
             
-            // Add entry and scroll to bottom
-            logContent.appendChild(entry);
+            // Add entry and scroll to bottom            logContent.appendChild(entry);
             logContent.scrollTop = logContent.scrollHeight;
-        }        function showNessusResults() {
+        }
+
+        function showNessusResults() {
             // Show loading indicator
             const resultsBtn = document.getElementById('nessus-results-btn');
             const originalBtnText = resultsBtn.innerHTML;
             resultsBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
             resultsBtn.disabled = true;
-            
-            fetch('/api/nessus/scan/results')
+              fetch('/api/nessus/scan/results')
                 .then(response => response.json())
                 .then(data => {
                     // Reset button state
@@ -953,23 +971,53 @@
                 case 3: return 'High';
                 case 2: return 'Medium';
                 case 1: return 'Low';
-                case 0: return 'Info';
-                default: return 'Unknown';
+                case 0: return 'Info';                default: return 'Unknown';
             }
         }
 
         function exportNessusReport() {
-            fetch('/api/nessus/scan/report?format=pdf')
+            // Show format selection
+            const format = prompt('Select report format (html, json, txt):', 'html');
+            if (!format) return;
+            
+            // Show loading state
+            const exportBtn = document.querySelector('.btn.btn-primary');
+            const originalText = exportBtn.innerHTML;
+            exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            exportBtn.disabled = true;
+            
+            fetch(`/api/nessus/scan/report?format=${format}`)
                 .then(response => response.json())
                 .then(data => {
+                    // Reset button state
+                    exportBtn.innerHTML = originalText;
+                    exportBtn.disabled = false;
+                    
                     if (data.success) {
-                        alert(`Report exported successfully: ${data.report_path}`);
+                        // Create download link
+                        const filename = data.report_path.split('/').pop();
+                        const link = document.createElement('a');
+                        link.href = data.report_path;
+                        link.download = filename;
+                        link.target = '_blank';
+                        
+                        // For web access, create a proper download URL
+                        const downloadUrl = `/download-report?path=${encodeURIComponent(data.report_path)}`;
+                        link.href = downloadUrl;
+                        
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        
+                        alert(`Report generated successfully! Download should start automatically.`);
                     } else {
                         alert(`Failed to export report: ${data.error || 'Unknown error'}`);
                     }
                 })
                 .catch(error => {
                     console.error('Error exporting report:', error);
+                    exportBtn.innerHTML = originalText;
+                    exportBtn.disabled = false;
                     alert('Failed to export report');
                 });
         }
@@ -1226,7 +1274,63 @@
                 console.error('Error:', error);
                 displayNetworkDevicesError('Failed to connect to server. Please try again.');
             });
-        }        // Make functions available globally
+        }
+
+        function stopNessusScan() {
+            fetch('/api/nessus/scan/stop', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addNessusLogEntry('Scan stop requested successfully');
+                    updateNessusProgress('Scan stopped by user', 0, true);
+                    document.getElementById('nessus-stop-btn').style.display = 'none';
+                } else {
+                    addNessusLogEntry(`Error stopping scan: ${data.error || 'Unknown error'}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error stopping scan:', error);
+                addNessusLogEntry('Failed to stop scan');
+            });
+        }
+
+        function deauthscan() {
+            alert('Starting deauth scan...');
+            // Add deauth scan functionality here
+        }
+
+        // Missing update dashboard stats functions
+        function testBluetoothData() {
+            // Placeholder for bluetooth test
+            console.log('Testing Bluetooth data...');
+        }
+
+        function testGpsData() {
+            // Placeholder for GPS test
+            console.log('Testing GPS data...');
+        }
+
+        function testNetworkData() {
+            // Placeholder for network test
+            console.log('Testing network data...');
+        }
+
+        function updateDashboardStats() {
+            // Placeholder for dashboard stats update
+            console.log('Updating dashboard stats...');
+        }
+
+        function generateCombinedPdfReport() {
+            // Placeholder for PDF report generation
+            alert('Generating combined PDF report...');
+        }
+
+        // Make functions available globally
         window.exportChart = exportChart;
         window.expandChart = expandChart;
         window.closeExpandedChart = closeExpandedChart;

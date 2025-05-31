@@ -601,6 +601,204 @@ class FallbackScanner:
         except Exception as e:
             logger.error(f"Nikto scan failed: {str(e)}")
             return {'error': f'Nikto scan failed: {str(e)}'}
+    
+    def generate_report(self, format_type: str = 'html') -> str:
+        """Generate a formatted report from scan results"""
+        try:
+            if not self.scan_results:
+                return None
+                
+            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            
+            if format_type.lower() == 'html':
+                report_path = f"/tmp/cybershield_scan_report_{timestamp}.html"
+                return self._generate_html_report(report_path)
+            elif format_type.lower() == 'json':
+                report_path = f"/tmp/cybershield_scan_report_{timestamp}.json"
+                return self._generate_json_report(report_path)
+            else:
+                # Default to text format
+                report_path = f"/tmp/cybershield_scan_report_{timestamp}.txt"
+                return self._generate_text_report(report_path)
+                
+        except Exception as e:
+            logger.error(f"Error generating report: {str(e)}")
+            return None
+    
+    def _generate_html_report(self, file_path: str) -> str:
+        """Generate HTML format report"""
+        try:
+            results = self.scan_results
+            total_vulns = results.get('critical', 0) + results.get('high', 0) + results.get('medium', 0) + results.get('low', 0)
+            
+            html_content = f"""
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CyberShield Security Scan Report</title>
+    <style>
+        body {{ font-family: Arial, sans-serif; margin: 20px; }}
+        .header {{ background: #2c3e50; color: white; padding: 20px; text-align: center; }}
+        .summary {{ background: #ecf0f1; padding: 15px; margin: 20px 0; }}
+        .critical {{ color: #e74c3c; font-weight: bold; }}
+        .high {{ color: #e67e22; font-weight: bold; }}
+        .medium {{ color: #f39c12; font-weight: bold; }}
+        .low {{ color: #f1c40f; font-weight: bold; }}
+        .vuln-item {{ margin: 10px 0; padding: 10px; border-left: 4px solid #3498db; background: #f8f9fa; }}
+        .service-item {{ margin: 5px 0; padding: 8px; background: #e8f5e8; }}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>CyberShield Security Scan Report</h1>
+        <p>Generated on: {time.strftime("%Y-%m-%d %H:%M:%S")}</p>
+        <p>Scan ID: {self.scan_id or 'N/A'}</p>
+    </div>
+    
+    <div class="summary">
+        <h2>Scan Summary</h2>
+        <p><strong>Total Vulnerabilities Found:</strong> {total_vulns}</p>
+        <p><strong>Hosts Scanned:</strong> {results.get('hosts_scanned', 0)}</p>
+        <p><strong>Hosts Up:</strong> {results.get('hosts_up', 0)}</p>
+        <p><strong>Open Ports:</strong> {results.get('open_ports', 0)}</p>
+        
+        <h3>Vulnerability Breakdown:</h3>
+        <ul>
+            <li class="critical">Critical: {results.get('critical', 0)}</li>
+            <li class="high">High: {results.get('high', 0)}</li>
+            <li class="medium">Medium: {results.get('medium', 0)}</li>
+            <li class="low">Low: {results.get('low', 0)}</li>
+            <li>Informational: {results.get('info', 0)}</li>
+        </ul>
+    </div>
+"""
+            
+            # Add vulnerabilities section
+            if results.get('vulnerabilities'):
+                html_content += """
+    <div class="vulnerabilities">
+        <h2>Discovered Vulnerabilities</h2>
+"""
+                for vuln in results['vulnerabilities']:
+                    severity_class = vuln.get('severity', 'low')
+                    html_content += f"""
+        <div class="vuln-item">
+            <h4 class="{severity_class}">{vuln.get('severity', 'Unknown').upper()} - {vuln.get('host', 'Unknown Host')}</h4>
+            <p><strong>Source:</strong> {vuln.get('source', 'Unknown')}</p>
+            <p><strong>Description:</strong> {vuln.get('description', 'No description available')}</p>
+        </div>
+"""
+                html_content += "    </div>\n"
+            
+            # Add services section
+            if results.get('services'):
+                html_content += """
+    <div class="services">
+        <h2>Discovered Services</h2>
+"""
+                for service in results['services']:
+                    html_content += f"""
+        <div class="service-item">
+            <strong>{service.get('host', 'Unknown')}:{service.get('port', 'Unknown')}</strong> - 
+            {service.get('service', 'Unknown Service')} ({service.get('state', 'Unknown')})
+        </div>
+"""
+                html_content += "    </div>\n"
+            
+            html_content += """
+</body>
+</html>
+"""
+            
+            with open(file_path, 'w') as f:
+                f.write(html_content)
+                
+            logger.info(f"HTML report generated: {file_path}")
+            return file_path
+            
+        except Exception as e:
+            logger.error(f"Error generating HTML report: {str(e)}")
+            return None
+    
+    def _generate_json_report(self, file_path: str) -> str:
+        """Generate JSON format report"""
+        try:
+            report_data = {
+                'scan_info': {
+                    'scan_id': self.scan_id,
+                    'timestamp': time.strftime("%Y-%m-%d %H:%M:%S"),
+                    'scanner': 'CyberShield Fallback Scanner'
+                },
+                'results': self.scan_results
+            }
+            
+            with open(file_path, 'w') as f:
+                json.dump(report_data, f, indent=2)
+                
+            logger.info(f"JSON report generated: {file_path}")
+            return file_path
+            
+        except Exception as e:
+            logger.error(f"Error generating JSON report: {str(e)}")
+            return None
+    
+    def _generate_text_report(self, file_path: str) -> str:
+        """Generate text format report"""
+        try:
+            results = self.scan_results
+            total_vulns = results.get('critical', 0) + results.get('high', 0) + results.get('medium', 0) + results.get('low', 0)
+            
+            report_content = f"""
+CyberShield Security Scan Report
+===============================
+
+Generated on: {time.strftime("%Y-%m-%d %H:%M:%S")}
+Scan ID: {self.scan_id or 'N/A'}
+
+SCAN SUMMARY
+============
+Total Vulnerabilities Found: {total_vulns}
+Hosts Scanned: {results.get('hosts_scanned', 0)}
+Hosts Up: {results.get('hosts_up', 0)}
+Open Ports: {results.get('open_ports', 0)}
+
+Vulnerability Breakdown:
+- Critical: {results.get('critical', 0)}
+- High: {results.get('high', 0)}
+- Medium: {results.get('medium', 0)}
+- Low: {results.get('low', 0)}
+- Informational: {results.get('info', 0)}
+
+"""
+            
+            # Add vulnerabilities
+            if results.get('vulnerabilities'):
+                report_content += "\nDISCOVERED VULNERABILITIES\n"
+                report_content += "=" * 26 + "\n\n"
+                for vuln in results['vulnerabilities']:
+                    report_content += f"Severity: {vuln.get('severity', 'Unknown').upper()}\n"
+                    report_content += f"Host: {vuln.get('host', 'Unknown')}\n"
+                    report_content += f"Source: {vuln.get('source', 'Unknown')}\n"
+                    report_content += f"Description: {vuln.get('description', 'No description')}\n"
+                    report_content += "-" * 50 + "\n\n"
+            
+            # Add services
+            if results.get('services'):
+                report_content += "\nDISCOVERED SERVICES\n"
+                report_content += "=" * 19 + "\n\n"
+                for service in results['services']:
+                    report_content += f"{service.get('host', 'Unknown')}:{service.get('port', 'Unknown')} - "
+                    report_content += f"{service.get('service', 'Unknown')} ({service.get('state', 'Unknown')})\n"
+            
+            with open(file_path, 'w') as f:
+                f.write(report_content)
+                
+            logger.info(f"Text report generated: {file_path}")
+            return file_path
+            
+        except Exception as e:
+            logger.error(f"Error generating text report: {str(e)}")
+            return None
 
 def main():
     """Test the fallback scanner"""

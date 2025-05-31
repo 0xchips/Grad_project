@@ -610,7 +610,7 @@ except ImportError:
 # Global Nessus scanner instance
 nessus_scanner = None
 if NESSUS_AVAILABLE:
-    nessus_scanner = NessusScanner()
+    nessus_scanner = NessusScanner(host='localhost', port=8834, username='chips', password='chips')
 
 # Main routes for pages
 @app.route('/')
@@ -650,30 +650,7 @@ def start_nessus_scan():
         
         logger.info(f"Starting security scan for targets: {targets}")
         
-        # Run the scan in a background thread to avoid timeout
-        def run_scan():
-            try:
-                result = nessus_scanner.run_full_scan(targets)
-                logger.info(f"Security scan result: {result}")
-                
-                # Store the result for later retrieval
-                global scan_result_cache
-                if not hasattr(app, 'scan_result_cache'):
-                    app.scan_result_cache = {}
-                app.scan_result_cache['latest'] = result
-                
-            except Exception as e:
-                logger.error(f"Background scan error: {str(e)}")
-                if not hasattr(app, 'scan_result_cache'):
-                    app.scan_result_cache = {}
-                app.scan_result_cache['latest'] = {'error': str(e)}
-        
-        # Start background scan
-        scan_thread = threading.Thread(target=run_scan)
-        scan_thread.daemon = True
-        scan_thread.start()
-        
-        # Get initial scan info
+        # Start the scan and get initial result
         initial_result = nessus_scanner.run_full_scan(targets)
         
         if initial_result.get('success'):
@@ -843,7 +820,7 @@ def setup_nessus():
             try:
                 global nessus_scanner
                 if not nessus_scanner:
-                    nessus_scanner = NessusScanner()
+                    nessus_scanner = NessusScanner(host='localhost', port=8834, username='chips', password='chips')
                 
                 success = nessus_scanner.setup_nessus()
                 logger.info(f"Nessus setup completed: {success}")
@@ -899,6 +876,140 @@ def stop_nessus_scan():
             'error': 'Failed to stop scan',
             'message': str(e)
         }), 500
+
+@app.route('/api/nessus/full-scan-with-discovery', methods=['POST'])
+def start_full_scan_with_discovery():
+    """Start a complete scan: first discover network devices, then run Nessus scan on discovered IPs"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            logger.warning(f"Rate limited request from {client_ip}")
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+        
+        logger.info("Starting full scan with network discovery...")
+        
+        # Step 1: Network Discovery using netdiscover.py
+        try:
+            logger.info("Running network discovery...")
+            result = subprocess.run(['python3', 'netdiscover.py'], 
+                                  capture_output=True, text=True, timeout=120)
+            
+            if result.returncode != 0:
+                logger.warning(f"Network discovery failed: {result.stderr}")
+                # Fall back to default network range
+                discovered_ips = []
+                target_range = "192.168.1.0/24"
+            else:
+                # Parse the JSON output from netdiscover.py
+                output = result.stdout
+                json_start = output.find('[JSON_START]')
+                json_end = output.find('[JSON_END]')
+                
+                if json_start != -1 and json_end != -1:
+                    json_data = output[json_start + 12:json_end]  # +12 to skip '[JSON_START]'
+                    try:
+                        devices = json.loads(json_data)
+                        discovered_ips = [device['ip'] for device in devices if device.get('ip')]
+                        logger.info(f"Discovered {len(discovered_ips)} network devices")
+                        
+                        # Create target string from discovered IPs
+                        if discovered_ips:
+                            target_range = ','.join(discovered_ips)
+                        else:
+                            target_range = "192.168.1.0/24"  # Fallback
+                    except json.JSONDecodeError:
+                        logger.warning("Failed to parse network discovery JSON")
+                        discovered_ips = []
+                        target_range = "192.168.1.0/24"
+                else:
+                    logger.warning("No JSON output found from network discovery")
+                    discovered_ips = []
+                    target_range = "192.168.1.0/24"
+                    
+        except subprocess.TimeoutExpired:
+            logger.warning("Network discovery timed out")
+            discovered_ips = []
+            target_range = "192.168.1.0/24"
+        except Exception as e:
+            logger.error(f"Network discovery error: {str(e)}")
+            discovered_ips = []
+            target_range = "192.168.1.0/24"
+        
+        # Step 2: Start Nessus scan on discovered targets
+        if not NESSUS_AVAILABLE or not nessus_scanner:
+            return jsonify({
+                'error': 'Scanner not available',
+                'message': 'Nessus scanner module not properly configured'
+            }), 500
+
+        data = request.get_json() or {}
+        scan_name = data.get('scan_name', f'CyberShield_Full_Discovery_Scan_{int(time.time())}')
+        
+        logger.info(f"Starting Nessus scan for discovered targets: {target_range}")
+        
+        # Start the scan
+        initial_result = nessus_scanner.run_full_scan(target_range)
+        
+        if initial_result.get('success'):
+            scanner_type = initial_result.get('scanner_type', 'unknown')
+            if scanner_type == 'fallback':
+                message = f'Full security scan initiated (discovered {len(discovered_ips)} devices) using built-in tools'
+                scan_info = f'Network Discovery + Security Tools: {", ".join(initial_result.get("tools_available", {}).keys())}'
+            else:
+                message = f'Full vulnerability scan initiated (discovered {len(discovered_ips)} devices) using Nessus'
+                scan_info = 'Network Discovery + Nessus Professional Scanner'
+        else:
+            message = initial_result.get('message', 'Scan initiation failed')
+            scan_info = initial_result.get('error', 'Unknown error')
+        
+        return jsonify({
+            'success': initial_result.get('success', False),
+            'message': message,
+            'targets': target_range,
+            'discovered_devices': len(discovered_ips),
+            'discovered_ips': discovered_ips[:10],  # Limit to first 10 for response size
+            'scan_name': scan_name,
+            'status': 'starting',
+            'scanner_type': initial_result.get('scanner_type', 'unknown'),
+            'scan_info': scan_info,
+            'tools_available': initial_result.get('tools_available', {})
+        })
+        
+    except Exception as e:
+        logger.error(f"Error in full scan with discovery: {str(e)}")
+        return jsonify({
+            'error': 'Failed to start full scan',
+            'message': str(e)
+        }), 500
+
+@app.route('/download-report', methods=['GET'])
+def download_report():
+    """Download generated scan report"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            logger.warning(f"Rate limited request from {client_ip}")
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+        
+        report_path = request.args.get('path')
+        if not report_path:
+            return jsonify({'error': 'No report path specified'}), 400
+        
+        # Security check: ensure the path is in /tmp and is a valid report file
+        if not report_path.startswith('/tmp/cybershield_scan_report_'):
+            return jsonify({'error': 'Invalid report path'}), 403
+        
+        if not os.path.exists(report_path):
+            return jsonify({'error': 'Report file not found'}), 404
+        
+        from flask import send_file
+        return send_file(report_path, as_attachment=True)
+        
+    except Exception as e:
+        logger.error(f"Error downloading report: {str(e)}")
+        return jsonify({'error': 'Failed to download report'}), 500
 
 # Start the Flask application when this file is run directly
 if __name__ == '__main__':

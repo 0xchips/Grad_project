@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Functionality Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #2c3e50; color: white; }
+        .test-section { margin: 20px 0; padding: 20px; background: #34495e; border-radius: 8px; }
+        button { padding: 10px 20px; margin: 10px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #2980b9; }
+        .result { margin: 10px 0; padding: 10px; background: #1a252f; border-radius: 4px; }
+        .success { color: #2ecc71; }
+        .error { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <h1>CyberShield Button Functionality Test</h1>
+    
+    <div class="test-section">
+        <h2>Full Scan Test</h2>
+        <button onclick="testFullScan()">Test Run Full Scan</button>
+        <div id="fullScanResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Network Discovery Test</h2>
+        <button onclick="testNetworkDiscovery()">Test Network Discovery</button>
+        <div id="networkResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Scan Status Test</h2>
+        <button onclick="testScanStatus()">Test Scan Status</button>
+        <div id="statusResult" class="result"></div>
+    </div>
+
+    <script>
+        function testFullScan() {
+            const resultDiv = document.getElementById('fullScanResult');
+            resultDiv.innerHTML = '<span style="color: #f39c12;">Testing Full Scan API...</span>';
+            
+            fetch('/api/nessus/full-scan-with-discovery', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    scan_name: `Button_Test_${new Date().toISOString().split('T')[0]}`
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ Full Scan API Working!</div>
+                        <div>• Discovered ${data.discovered_devices} devices</div>
+                        <div>• Scanner: ${data.scanner_type}</div>
+                        <div>• Message: ${data.message}</div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ API Error: ${data.error || data.message}</div>`;
+                }
+            })
+            .catch(error => {
+                resultDiv.innerHTML = `<div class="error">❌ Network Error: ${error.message}</div>`;
+            });
+        }
+
+        function testNetworkDiscovery() {
+            const resultDiv = document.getElementById('networkResult');
+            resultDiv.innerHTML = '<span style="color: #f39c12;">Testing Network Discovery...</span>';
+            
+            fetch('/api/network-discovery', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ Network Discovery Working!</div>
+                        <div>• Found ${data.device_count} devices</div>
+                        <div>• Sample IPs: ${data.data.slice(0, 3).map(d => d.ip).join(', ')}</div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ Discovery Error: ${data.error}</div>`;
+                }
+            })
+            .catch(error => {
+                resultDiv.innerHTML = `<div class="error">❌ Network Error: ${error.message}</div>`;
+            });
+        }
+
+        function testScanStatus() {
+            const resultDiv = document.getElementById('statusResult');
+            resultDiv.innerHTML = '<span style="color: #f39c12;">Testing Scan Status...</span>';
+            
+            fetch('/api/nessus/scan/status')
+            .then(response => response.json())
+            .then(data => {
+                resultDiv.innerHTML = `
+                    <div class="success">✅ Status API Working!</div>
+                    <div>• Status: ${data.status || 'No active scan'}</div>
+                    <div>• Message: ${data.message || 'Ready'}</div>
+                `;
+            })
+            .catch(error => {
+                resultDiv.innerHTML = `<div class="error">❌ Status Error: ${error.message}</div>`;
+            });
+        }
+
+        // Test JavaScript loading
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ JavaScript loaded successfully');
+            document.body.innerHTML += '<div style="position: fixed; top: 10px; right: 10px; background: #27ae60; color: white; padding: 10px; border-radius: 5px;">JavaScript Ready ✅</div>';
+        });
+    </script>
+</body>
+</html>

@@ -245,6 +245,11 @@ class NessusScanner:
     def get_scan_status(self, scan_id: int = None) -> Dict:
         """Get scan status and progress"""
         try:
+            # Check if fallback scanner has an active scan
+            if self.fallback_scanner and self.fallback_scanner.scan_status != 'idle':
+                return self.fallback_scanner.get_scan_status()
+            
+            # Otherwise check Nessus scan
             if not scan_id:
                 scan_id = self.scan_id
             
@@ -308,6 +313,11 @@ class NessusScanner:
     def export_scan_report(self, scan_id: int = None, format_type: str = 'pdf') -> Optional[str]:
         """Export scan report"""
         try:
+            # Check if we should use fallback scanner report
+            if self.fallback_scanner and (not scan_id or str(scan_id).startswith('fallback_')):
+                logger.info("Generating fallback scanner report")
+                return self.fallback_scanner.generate_report(format_type)
+            
             if not scan_id:
                 scan_id = self.scan_id
             
@@ -315,7 +325,7 @@ class NessusScanner:
                 logger.error("No scan ID available")
                 return None
             
-            # Request report export
+            # Request report export from Nessus
             export_data = {
                 'format': format_type,
                 'chapters': 'vuln_hosts_summary;vuln_by_host;compliance_exec;remediations;vuln_by_plugin;compliance'

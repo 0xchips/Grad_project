@@ -1,0 +1,139 @@
+/* Scanner badge styling */
+.scanner-badge {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-secondary);
+}
+
+.scanner-badge.nessus {
+    background-color: var(--cyber-blue-dark);
+    border-color: var(--cyber-blue);
+    box-shadow: 0 0 5px rgba(0, 212, 255, 0.3);
+}
+
+.scanner-badge.fallback {
+    background-color: var(--cyber-orange-dark);
+    border-color: var(--cyber-orange);
+    box-shadow: 0 0 5px rgba(255, 136, 0, 0.3);
+}
+
+.scanner-badge.unknown {
+    background-color: var(--text-muted);
+    border-color: var(--text-secondary);
+}
+
+/* Severity indicators */
+.severity {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    color: white;
+    font-weight: 500;
+    text-transform: capitalize;
+    font-size: 0.9em;
+}
+
+.severity-4, .severity-critical {
+    background-color: var(--cyber-red);
+    border: 1px solid var(--cyber-red-dark);
+    box-shadow: 0 0 5px rgba(231, 76, 60, 0.3);
+}
+
+.severity-3, .severity-high {
+    background-color: var(--cyber-orange);
+    border: 1px solid var(--cyber-orange-dark);
+    box-shadow: 0 0 5px rgba(243, 156, 18, 0.3);
+}
+
+.severity-2, .severity-medium {
+    background-color: var(--cyber-yellow);
+    border: 1px solid var(--cyber-yellow-dark);
+    box-shadow: 0 0 5px rgba(241, 196, 15, 0.3);
+}
+
+.severity-1, .severity-low {
+    background-color: var(--cyber-blue);
+    border: 1px solid var(--cyber-blue-dark);
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.severity-0, .severity-info {
+    background-color: var(--text-muted);
+    border: 1px solid var(--text-secondary);
+}
+
+/* Results tables */
+.results-table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.results-table thead th {
+    background-color: var(--bg-header);
+    padding: 12px;
+    text-align: left;
+    font-weight: 500;
+    border-bottom: 2px solid var(--border-primary);
+}
+
+.results-table tbody td {
+    padding: 10px 12px;
+    border-top: 1px solid var(--border-secondary);
+}
+
+.results-table tbody tr:hover {
+    background-color: var(--bg-hover);
+}
+
+.table-note {
+    font-size: 0.9em;
+    color: var(--text-muted);
+    margin-top: 10px;
+    text-align: right;
+    font-style: italic;
+}
+
+/* Scan summary */
+.scan-summary {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: 4px;
+}
+
+.scan-summary p {
+    margin: 8px 0;
+    color: var(--text-primary);
+}
+
+.scan-summary p strong {
+    color: var(--text-bright);
+    font-weight: 500;
+}
+
+/* Results sections */
+.vulnerabilities-table,
+.services-table {
+    margin-top: 25px;
+}
+
+.vulnerabilities-table h4,
+.services-table h4 {
+    color: var(--text-bright);
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    font-weight: 500;
+}
