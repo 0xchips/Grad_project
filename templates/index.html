@@ -178,13 +178,86 @@
 			            <button class="action-btn" onclick="deauthscan()">
                             <i class="fas fa-network-wired"></i>
                             <span>Deauth scan</span>
-                        </button>
-
-                        <button class="action-btn" onclick="networkDevicesList()">
+                        </button>                        <button class="action-btn" onclick="networkDevicesList()">
                             <i class="fas fa-network-wired"></i>
                             <span>Network Devices</span>
                         </button>
 
+                        <button class="action-btn" onclick="startKismet()">
+                            <i class="fas fa-wifi"></i>
+                            <span>Start Kismet</span>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kismet Wireless Monitoring Section -->
+            <div class="kismet-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-wifi"></i> Kismet Wireless Monitoring</h3>
+                    <div class="kismet-controls">
+                        <button id="kismet-start-btn" class="btn btn-success" onclick="startKismet()">
+                            <i class="fas fa-play"></i> Start Monitoring
+                        </button>
+                        <button id="kismet-stop-btn" class="btn btn-danger" onclick="stopKismet()" style="display: none;">
+                            <i class="fas fa-stop"></i> Stop Monitoring
+                        </button>
+                        <button id="kismet-refresh-btn" class="btn btn-info" onclick="refreshKismetData()">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="kismet-content">
+                    <div class="kismet-status">
+                        <div class="status-item">
+                            <span class="label">Status:</span>
+                            <span id="kismet-status" class="status-value stopped">Stopped</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="label">Interface:</span>
+                            <span id="kismet-interface" class="status-value">wlan0</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="label">Devices Found:</span>
+                            <span id="kismet-device-count" class="status-value">0</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="label">Uptime:</span>
+                            <span id="kismet-uptime" class="status-value">0s</span>
+                        </div>
+                    </div>
+                    
+                    <div class="kismet-devices">
+                        <h4>Detected Wireless Devices</h4>
+                        <div class="devices-table-container">
+                            <table id="kismet-devices-table" class="devices-table">
+                                <thead>
+                                    <tr>
+                                        <th>MAC Address</th>
+                                        <th>Device Name</th>
+                                        <th>Type</th>
+                                        <th>Manufacturer</th>
+                                        <th>Signal (dBm)</th>
+                                        <th>Packets</th>
+                                        <th>Last Seen</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="kismet-devices-body">
+                                    <tr>
+                                        <td colspan="7" class="no-data">Start Kismet monitoring to detect wireless devices</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="kismet-logs">
+                        <h4>Monitoring Logs</h4>
+                        <div id="kismet-log-container" class="log-container">
+                            <div class="log-entry">Kismet monitoring not started</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1330,18 +1403,227 @@
             alert('Generating combined PDF report...');
         }
 
-        // Make functions available globally
-        window.exportChart = exportChart;
-        window.expandChart = expandChart;
-        window.closeExpandedChart = closeExpandedChart;
-        window.exportExpandedChart = exportExpandedChart;
-        window.runFullScan = runFullScan;
-        window.muteAlerts = muteAlerts;
-        window.generateFullReport = generateFullReport;
-        window.scanBluetooth = scanBluetooth;
-        window.scanGPS = scanGPS;
-        window.scanNetwork = scanNetwork;
-        window.stopNessusScan = stopNessusScan;
+        // Kismet Wireless Monitoring Functions
+        let kismetUpdateInterval = null;
+
+        function startKismet() {
+            addKismetLogEntry('Starting Kismet wireless monitoring...');
+            
+            fetch('/api/kismet/start', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ interface: 'wlan0' })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addKismetLogEntry(data.message);
+                    updateKismetStatus('running');
+                    document.getElementById('kismet-start-btn').style.display = 'none';
+                    document.getElementById('kismet-stop-btn').style.display = 'inline-block';
+                    document.getElementById('kismet-interface').textContent = data.interface || 'wlan0';
+                    
+                    // Start periodic updates
+                    startKismetUpdates();
+                } else {
+                    addKismetLogEntry(`Error: ${data.message || data.error}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error starting Kismet:', error);
+                addKismetLogEntry('Failed to start Kismet monitoring');
+            });
+        }
+
+        function stopKismet() {
+            addKismetLogEntry('Stopping Kismet wireless monitoring...');
+            
+            fetch('/api/kismet/stop', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addKismetLogEntry(data.message);
+                    updateKismetStatus('stopped');
+                    document.getElementById('kismet-start-btn').style.display = 'inline-block';
+                    document.getElementById('kismet-stop-btn').style.display = 'none';
+                    
+                    // Stop periodic updates
+                    stopKismetUpdates();
+                    
+                    // Clear device table
+                    clearKismetDevices();
+                } else {
+                    addKismetLogEntry(`Error: ${data.message || data.error}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error stopping Kismet:', error);
+                addKismetLogEntry('Failed to stop Kismet monitoring');
+            });
+        }
+
+        function refreshKismetData() {
+            updateKismetStatus();
+            updateKismetDevices();
+        }
+
+        function updateKismetStatus() {
+            fetch('/api/kismet/status')
+            .then(response => response.json())
+            .then(data => {
+                if (data.running) {
+                    updateKismetStatus('running');
+                    document.getElementById('kismet-start-btn').style.display = 'none';
+                    document.getElementById('kismet-stop-btn').style.display = 'inline-block';
+                    
+                    // Update additional status info
+                    if (data.uptime) {
+                        document.getElementById('kismet-uptime').textContent = formatUptime(data.uptime);
+                    }
+                } else {
+                    updateKismetStatus('stopped');
+                    document.getElementById('kismet-start-btn').style.display = 'inline-block';
+                    document.getElementById('kismet-stop-btn').style.display = 'none';
+                }
+            })
+            .catch(error => {
+                console.error('Error getting Kismet status:', error);
+                updateKismetStatus('error');
+            });
+        }
+
+        function updateKismetDevices() {
+            fetch('/api/kismet/devices')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    displayKismetDevices(data.devices);
+                    document.getElementById('kismet-device-count').textContent = data.count || 0;
+                } else {
+                    addKismetLogEntry(`Error getting devices: ${data.error}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error getting Kismet devices:', error);
+            });
+        }
+
+        function displayKismetDevices(devices) {
+            const tbody = document.getElementById('kismet-devices-body');
+            
+            if (!devices || devices.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="no-data">No wireless devices detected yet</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = devices.map(device => `
+                <tr>
+                    <td>${device.mac}</td>
+                    <td>${device.name || 'Unknown'}</td>
+                    <td>${device.type || 'Unknown'}</td>
+                    <td>${device.manufacturer || 'Unknown'}</td>
+                    <td>${device.signal || 'N/A'}</td>
+                    <td>${device.packets || 0}</td>
+                    <td>${device.last_seen ? new Date(device.last_seen * 1000).toLocaleTimeString() : 'N/A'}</td>
+                </tr>
+            `).join('');
+        }
+
+        function clearKismetDevices() {
+            document.getElementById('kismet-devices-body').innerHTML = 
+                '<tr><td colspan="7" class="no-data">Start Kismet monitoring to detect wireless devices</td></tr>';
+            document.getElementById('kismet-device-count').textContent = '0';
+        }
+
+        function updateKismetStatus(status) {
+            const statusElement = document.getElementById('kismet-status');
+            statusElement.className = `status-value ${status}`;
+            
+            switch(status) {
+                case 'running':
+                    statusElement.textContent = 'Running';
+                    break;
+                case 'stopped':
+                    statusElement.textContent = 'Stopped';
+                    break;
+                case 'error':
+                    statusElement.textContent = 'Error';
+                    break;
+                default:
+                    statusElement.textContent = 'Unknown';
+            }
+        }
+
+        function addKismetLogEntry(message) {
+            const logContainer = document.getElementById('kismet-log-container');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            logEntry.innerHTML = `<span class="timestamp">[${timestamp}]</span> ${message}`;
+            
+            logContainer.insertBefore(logEntry, logContainer.firstChild);
+            
+            // Keep only last 50 log entries
+            while (logContainer.children.length > 50) {
+                logContainer.removeChild(logContainer.lastChild);
+            }
+        }
+
+        function startKismetUpdates() {
+            if (kismetUpdateInterval) {
+                clearInterval(kismetUpdateInterval);
+            }
+            
+            kismetUpdateInterval = setInterval(() => {
+                updateKismetStatus();
+                updateKismetDevices();
+            }, 5000); // Update every 5 seconds
+        }
+
+        function stopKismetUpdates() {
+            if (kismetUpdateInterval) {
+                clearInterval(kismetUpdateInterval);
+                kismetUpdateInterval = null;
+            }
+        }
+
+        function formatUptime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            
+            if (hours > 0) {
+                return `${hours}h ${minutes}m ${secs}s`;
+            } else if (minutes > 0) {
+                return `${minutes}m ${secs}s`;
+            } else {
+                return `${secs}s`;
+            }
+        }
+
+        // Initialize Kismet status on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // ...existing code...
+            
+            // Initialize Kismet status
+            setTimeout(() => {
+                updateKismetStatus();
+            }, 1000);
+        });
+
+        // Make Kismet functions available globally
+        window.startKismet = startKismet;
+        window.stopKismet = stopKismet;
+        window.refreshKismetData = refreshKismetData;
+
+        // ...existing code...
     </script>
 </body>
 </html>

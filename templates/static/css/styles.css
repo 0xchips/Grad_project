@@ -2067,3 +2067,244 @@ table tbody td {
         padding: 8px 10px;
     }
 }
+
+/* Kismet Wireless Monitoring Styles */
+.kismet-section {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 24px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.kismet-section .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.kismet-section .section-header h3 {
+    color: var(--text-primary);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.kismet-section .section-header h3 i {
+    color: var(--cyber-blue);
+}
+
+.kismet-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.kismet-controls .btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.kismet-controls .btn-success {
+    background: var(--success);
+    color: white;
+}
+
+.kismet-controls .btn-success:hover {
+    background: var(--success-dark);
+    transform: translateY(-2px);
+}
+
+.kismet-controls .btn-danger {
+    background: var(--danger);
+    color: white;
+}
+
+.kismet-controls .btn-danger:hover {
+    background: var(--danger-dark);
+    transform: translateY(-2px);
+}
+
+.kismet-controls .btn-info {
+    background: var(--primary);
+    color: white;
+}
+
+.kismet-controls .btn-info:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.kismet-content {
+    display: grid;
+    gap: 20px;
+}
+
+.kismet-status {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    padding: 15px;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-item .label {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.status-item .status-value {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.status-value.running {
+    color: var(--success);
+}
+
+.status-value.stopped {
+    color: var(--text-muted);
+}
+
+.status-value.error {
+    color: var(--danger);
+}
+
+.kismet-devices h4 {
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.devices-table-container {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.devices-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-secondary);
+}
+
+.devices-table th {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid var(--cyber-blue);
+}
+
+.devices-table td {
+    padding: 10px 12px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.devices-table tr:hover {
+    background: var(--bg-card-hover);
+}
+
+.devices-table .no-data {
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 20px;
+}
+
+.kismet-logs h4 {
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.log-container {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    padding: 15px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.log-entry {
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.log-entry:last-child {
+    margin-bottom: 0;
+}
+
+.log-entry .timestamp {
+    color: var(--cyber-blue);
+    font-weight: 600;
+}
+
+/* Responsive design for Kismet section */
+@media (max-width: 768px) {
+    .kismet-section .section-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .kismet-controls {
+        justify-content: center;
+    }
+    
+    .kismet-status {
+        grid-template-columns: 1fr;
+    }
+    
+    .devices-table-container {
+        font-size: 14px;
+    }
+    
+    .devices-table th,
+    .devices-table td {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .kismet-controls .btn {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+    
+    .devices-table th,
+    .devices-table td {
+        padding: 6px;
+        font-size: 12px;
+    }
+}

@@ -33277,3 +33277,500 @@ MySQLdb._exceptions.OperationalError: (2002, "Can't connect to local server thro
 2025-05-31 12:58:26,111 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 12:58:26] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
 2025-05-31 12:58:26,162 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
 2025-05-31 12:58:26,162 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 12:58:26] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-31 15:40:46,746 - flaskkk - INFO - Database initialized successfully
+2025-05-31 15:40:46,942 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 15:40:46,943 - werkzeug - INFO -  * Debugger PIN: 995-590-348
+2025-05-31 15:40:57,666 - __main__ - INFO - Database initialized successfully
+2025-05-31 15:41:11,412 - __main__ - INFO - Database initialized successfully
+2025-05-31 15:41:11,682 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://192.168.76.146:5050
+2025-05-31 15:41:11,683 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-31 15:41:11,686 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 15:41:12,010 - __main__ - INFO - Database initialized successfully
+2025-05-31 15:41:12,236 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 15:41:12,237 - werkzeug - INFO -  * Debugger PIN: 133-317-370
+2025-05-31 15:41:12,806 - __main__ - INFO - Request from 127.0.0.1: GET /
+2025-05-31 15:41:12,813 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 15:41:12] "GET / HTTP/1.1" 200 -
+2025-05-31 15:41:12,892 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-31 15:41:12,897 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 15:41:12] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-05-31 15:41:12,898 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-05-31 15:41:12,901 - __main__ - INFO - Request from 127.0.0.1: GET /js/auth.js
+2025-05-31 15:41:12,902 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 15:41:12] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-05-31 15:41:12,904 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 15:41:12] "GET /static/js/main.js HTTP/1.1" 200 -
+2025-05-31 15:41:12,960 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-31 15:41:12,960 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 15:41:12] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-31 15:45:58,606 - __main__ - INFO - Server started on port 5050
+2025-05-31 15:45:58,673 - __main__ - INFO - Server started on port 5050
+2025-05-31 16:03:13,817 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:03:14,201 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://192.168.76.146:5050
+2025-05-31 16:03:14,201 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-31 16:03:14,205 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:03:14,496 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:03:14,720 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:03:14,720 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:03:26,188 - __main__ - INFO - Request from 127.0.0.1: GET /
+2025-05-31 16:03:26,195 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:03:26] "GET /?id=5f33a0f9-5b60-4a49-b25c-d344b8e6b644&vscodeBrowserReqId=1748721805862 HTTP/1.1" 200 -
+2025-05-31 16:03:26,425 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-31 16:03:26,428 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:03:26] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-05-31 16:03:26,529 - __main__ - INFO - Request from 127.0.0.1: GET /js/auth.js
+2025-05-31 16:03:26,529 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:03:26] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-05-31 16:03:26,531 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-31 16:03:26,532 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:03:26] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-31 16:03:26,534 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-05-31 16:03:26,535 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:03:26] "GET /static/js/main.js HTTP/1.1" 200 -
+2025-05-31 16:04:46,949 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:04:47,018 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:04:47,365 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:04:47,592 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:04:47,593 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:05:44,120 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:05:44,338 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://192.168.76.146:5050
+2025-05-31 16:05:44,338 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-31 16:05:44,341 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:05:44,660 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:05:44,880 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:05:44,880 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:05:53,855 - __main__ - INFO - Request from 127.0.0.1: GET /
+2025-05-31 16:05:53,863 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:05:53] "GET /?id=5f33a0f9-5b60-4a49-b25c-d344b8e6b644&vscodeBrowserReqId=1748721953548 HTTP/1.1" 200 -
+2025-05-31 16:05:54,107 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-31 16:05:54,109 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:05:54] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-05-31 16:05:54,198 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-31 16:05:54,198 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:05:54] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-31 16:05:54,200 - __main__ - INFO - Request from 127.0.0.1: GET /js/auth.js
+2025-05-31 16:05:54,200 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:05:54] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-05-31 16:05:54,201 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-05-31 16:05:54,202 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:05:54] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-05-31 16:06:49,053 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/test_kismet_integration.py', reloading
+2025-05-31 16:06:49,104 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:06:49,428 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:06:49,667 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:06:49,667 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:06:58,341 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:06:58,344 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0', 'wlan0mon'])
+2025-05-31 16:07:00,346 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:07:00] "[35m[1mPOST /api/kismet/start HTTP/1.1[0m" 500 -
+2025-05-31 16:07:25,060 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-05-31 16:07:25,061 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:07:25] "[31m[1mGET /api/kismet/devices HTTP/1.1[0m" 400 -
+2025-05-31 16:08:04,866 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/test_kismet_integration.py', reloading
+2025-05-31 16:08:04,923 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:08:05,238 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:08:05,481 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:08:05,481 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:09:11,655 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:09:11,765 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:09:12,188 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:09:12,473 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:09:12,474 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:09:45,573 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:09:45,660 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:09:46,175 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:09:46,418 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:09:46,419 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:09:58,460 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:09:58,520 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:09:59,012 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:09:59,272 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:09:59,273 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:12:14,337 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:12:14,613 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://192.168.76.146:5050
+2025-05-31 16:12:14,613 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-31 16:12:14,616 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:12:14,925 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:12:15,166 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:12:15,166 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:12:27,796 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-05-31 16:12:27,796 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:12:27] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-05-31 16:12:27,801 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:12:27,804 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0', 'wlan0mon'])
+2025-05-31 16:12:27,811 - __main__ - INFO - Running command: kismet -c wlan0 --override httpd_user=4EB980F446769D0164739F9301A5C793 --override httpd_password=4EB980F446769D0164739F9301A5C793 --override httpd_port=2501 --override allowroot=true --override servername=CyberShield-Kismet
+2025-05-31 16:12:30,816 - __main__ - ERROR - Kismet failed to start: FATAL: Could not find override option 'servername=CyberShield-Kismet' as a file or in the Kismet config directory as '/etc/kismet/kismet_servername=CyberShield-Kismet.conf'.
+
+2025-05-31 16:12:30,817 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:12:30] "[35m[1mPOST /api/kismet/start HTTP/1.1[0m" 500 -
+2025-05-31 16:12:40,241 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:12:40,323 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:12:40,658 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:12:40,950 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:12:40,951 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:14:53,640 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:14:53,905 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://192.168.76.146:5050
+2025-05-31 16:14:53,905 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-31 16:14:53,908 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:14:54,222 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:14:54,469 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:14:54,469 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:15:03,197 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-05-31 16:15:03,197 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:15:03] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-05-31 16:15:03,199 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:15:03,202 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0', 'wlan0mon'])
+2025-05-31 16:15:03,208 - __main__ - INFO - Running command: kismet -c wlan0 --override httpd_user=4EB980F446769D0164739F9301A5C793 --override httpd_password=4EB980F446769D0164739F9301A5C793 --override httpd_port=2501 --override allowroot=true
+2025-05-31 16:15:06,213 - __main__ - ERROR - Kismet failed to start: FATAL: Could not find override option 'allowroot=true' as a file or in the Kismet config directory as '/etc/kismet/kismet_allowroot=true.conf'.
+
+2025-05-31 16:15:06,214 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:15:06] "[35m[1mPOST /api/kismet/start HTTP/1.1[0m" 500 -
+2025-05-31 16:15:14,537 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:15:14,628 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:15:14,951 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:15:15,187 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:15:15,187 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:16:51,739 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:16:51,994 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://192.168.76.146:5050
+2025-05-31 16:16:51,994 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-31 16:16:51,997 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:16:52,334 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:16:52,571 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:16:52,571 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:17:02,551 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-05-31 16:17:02,552 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:17:02] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-05-31 16:17:02,554 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:17:02,557 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0', 'wlan0mon'])
+2025-05-31 16:17:02,563 - __main__ - INFO - Running command: kismet -c wlan0 --override httpd_user=4EB980F446769D0164739F9301A5C793 --override httpd_password=4EB980F446769D0164739F9301A5C793 --override httpd_port=2501
+2025-05-31 16:17:05,567 - __main__ - ERROR - Kismet failed to start: FATAL: Could not find override option 'httpd_port=2501' as a file or in the Kismet config directory as '/etc/kismet/kismet_httpd_port=2501.conf'.
+
+2025-05-31 16:17:05,569 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:17:05] "[35m[1mPOST /api/kismet/start HTTP/1.1[0m" 500 -
+2025-05-31 16:19:53,023 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:19:53,081 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:19:53,357 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:19:53,565 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:19:53,565 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:20:15,627 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:20:15,662 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:20:15,931 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:20:16,137 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:20:16,138 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:20:27,174 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:20:27,317 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:20:27,626 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:20:28,014 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:20:28,016 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:20:35,071 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:20:35,220 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:20:35,839 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:20:36,182 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:20:36,183 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:20:41,210 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:20:41,331 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:20:41,940 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:20:42,246 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:20:42,247 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:20:51,282 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:20:51,322 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:20:51,614 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:20:51,832 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:20:51,832 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:21:24,631 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-05-31 16:21:24,632 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:21:24] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-05-31 16:21:24,634 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:21:24,637 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0', 'wlan0mon'])
+2025-05-31 16:21:24,644 - __main__ - INFO - Running command: kismet -c wlan0 --config-file /tmp/tmpa5lhmasy.conf --no-line-wrap
+2025-05-31 16:21:27,648 - __main__ - ERROR - Kismet failed to start: FATAL: No 'configdir' option in the config file; make sure that the Kismet config files are installed and up to date.
+
+*** KISMET IS SHUTTING DOWN ***
+Shutting down plugins...
+WARNING: Kismet changes the configuration of network devices.
+         In most cases you will need to restart networking for
+         your interface (varies per distribution/OS, but 
+         typically one of:
+         sudo service networking restart
+         sudo /etc/init.d/networking restart
+         or
+         nmcli device set [device] managed true
+
+Kismet exiting.
+EXITING: Signal service thread complete.
+
+2025-05-31 16:21:27,649 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:21:27] "[35m[1mPOST /api/kismet/start HTTP/1.1[0m" 500 -
+2025-05-31 16:21:37,946 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:21:37,995 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:21:38,304 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:21:38,551 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:21:38,552 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:21:59,611 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:21:59,678 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:22:00,026 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:22:00,233 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:22:00,234 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:22:07,261 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:22:07,363 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:22:07,704 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:22:07,924 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:22:07,925 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:22:16,958 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:22:16,998 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:22:17,308 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:22:17,556 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:22:17,557 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:22:23,586 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:22:23,662 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:22:23,967 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:22:24,186 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:22:24,186 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:22:31,215 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:22:31,288 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:22:31,589 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:22:31,801 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:22:31,802 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:22:39,127 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-05-31 16:22:39,128 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:22:39] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-05-31 16:22:39,130 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:22:39,132 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0', 'wlan0mon'])
+2025-05-31 16:22:39,139 - __main__ - INFO - Running command: kismet -c wlan0 --no-line-wrap
+2025-05-31 16:22:42,144 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:22:42] "POST /api/kismet/start HTTP/1.1" 200 -
+2025-05-31 16:22:47,147 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-05-31 16:22:47,152 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:22:47] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-05-31 16:22:47,154 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-05-31 16:22:47,156 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:22:47] "[35m[1mGET /api/kismet/devices HTTP/1.1[0m" 500 -
+2025-05-31 16:22:47,160 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/stop
+2025-05-31 16:22:47,383 - __main__ - INFO - Kismet stopped successfully
+2025-05-31 16:22:47,383 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:22:47] "POST /api/kismet/stop HTTP/1.1" 200 -
+2025-05-31 16:24:09,047 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:24:09,080 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:24:09,402 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:24:09,627 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:24:09,627 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:24:15,655 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:24:15,703 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:24:15,997 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:24:16,261 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:24:16,262 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:24:23,290 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:24:23,322 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:24:23,629 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:24:23,857 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:24:23,857 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:24:39,290 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-05-31 16:24:39,291 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:24:39] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-05-31 16:24:39,293 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:24:39,295 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0', 'wlan0mon'])
+2025-05-31 16:24:39,301 - __main__ - INFO - Running command: kismet -c wlan0 --no-line-wrap
+2025-05-31 16:24:42,304 - __main__ - ERROR - Kismet failed to start: FATAL: Failed to create IPV4 remote capture server; check your remote_capture_listen= and remote_capture_port= configuration: bind: Address already in use [system:98]
+FATAL: Fatal error encountered during startup.
+
+*** KISMET IS SHUTTING DOWN ***
+
+*** KISMET HAS ENCOUNTERED A FATAL ERROR AND CANNOT CONTINUE.  ***
+Shutting down plugins...
+WARNING: Kismet changes the configuration of network devices.
+         In most cases you will need to restart networking for
+         your interface (varies per distribution/OS, but 
+         typically one of:
+         sudo service networking restart
+         sudo /etc/init.d/networking restart
+         or
+         nmcli device set [device] managed true
+
+Kismet exiting.
+EXITING: Signal service thread complete.
+
+2025-05-31 16:24:42,305 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:24:42] "[35m[1mPOST /api/kismet/start HTTP/1.1[0m" 500 -
+2025-05-31 16:25:28,021 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:25:28,133 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:25:28,519 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:25:28,788 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:25:28,788 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:25:36,159 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-05-31 16:25:36,159 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:25:36] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-05-31 16:25:36,162 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:25:36,165 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0', 'wlan0mon'])
+2025-05-31 16:25:36,171 - __main__ - INFO - Running command: kismet -c wlan0 --config-file /home/kali/latest/dashboard/kismet_simple.conf --no-line-wrap
+2025-05-31 16:25:39,174 - __main__ - ERROR - Kismet failed to start: FATAL: No 'configdir' option in the config file; make sure that the Kismet config files are installed and up to date.
+
+*** KISMET IS SHUTTING DOWN ***
+Shutting down plugins...
+WARNING: Kismet changes the configuration of network devices.
+         In most cases you will need to restart networking for
+         your interface (varies per distribution/OS, but 
+         typically one of:
+         sudo service networking restart
+         sudo /etc/init.d/networking restart
+         or
+         nmcli device set [device] managed true
+
+Kismet exiting.
+EXITING: Signal service thread complete.
+
+2025-05-31 16:25:39,175 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:25:39] "[35m[1mPOST /api/kismet/start HTTP/1.1[0m" 500 -
+2025-05-31 16:26:14,907 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:26:14,963 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:26:15,246 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:26:15,480 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:26:15,480 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:26:26,641 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-05-31 16:26:26,642 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:26:26] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-05-31 16:26:26,646 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:26:26,650 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0', 'wlan0mon'])
+2025-05-31 16:26:26,658 - __main__ - INFO - Running command: kismet -c wlan0 --no-line-wrap --override httpd_username=kali --override httpd_password=kali
+2025-05-31 16:26:29,666 - __main__ - ERROR - Kismet failed to start: FATAL: Could not find override option 'httpd_password=kali' as a file or in the Kismet config directory as '/etc/kismet/kismet_httpd_password=kali.conf'.
+
+2025-05-31 16:26:29,667 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:26:29] "[35m[1mPOST /api/kismet/start HTTP/1.1[0m" 500 -
+2025-05-31 16:26:56,610 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:26:56,721 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:26:57,063 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:26:57,304 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:26:57,304 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:27:05,541 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-05-31 16:27:05,541 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:27:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-05-31 16:27:05,543 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:27:05,546 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0', 'wlan0mon'])
+2025-05-31 16:27:05,554 - __main__ - INFO - Running command: kismet -c wlan0 --no-line-wrap
+2025-05-31 16:27:08,559 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:27:08] "POST /api/kismet/start HTTP/1.1" 200 -
+2025-05-31 16:27:13,564 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-05-31 16:27:13,571 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:27:13] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-05-31 16:27:13,574 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-05-31 16:27:13,576 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:27:13] "[35m[1mGET /api/kismet/devices HTTP/1.1[0m" 500 -
+2025-05-31 16:27:13,581 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/stop
+2025-05-31 16:27:13,799 - __main__ - INFO - Kismet stopped successfully
+2025-05-31 16:27:13,799 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:27:13] "POST /api/kismet/stop HTTP/1.1" 200 -
+2025-05-31 16:27:37,129 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:27:37,129 - __main__ - ERROR - Error starting Kismet: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2025-05-31 16:27:37,130 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:27:37] "[35m[1mPOST /api/kismet/start HTTP/1.1[0m" 500 -
+2025-05-31 16:27:48,467 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:27:48,470 - __main__ - INFO - Starting Kismet on interface wlan0mon (available: ['wlan0', 'wlan0mon'])
+2025-05-31 16:27:48,478 - __main__ - INFO - Running command: kismet -c wlan0mon --no-line-wrap
+2025-05-31 16:27:51,484 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:27:51] "POST /api/kismet/start HTTP/1.1" 200 -
+2025-05-31 16:28:33,573 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:28:33,635 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:28:33,943 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:28:34,150 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:28:34,151 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:28:40,178 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:28:40,231 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:28:40,592 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:28:40,836 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:28:40,836 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:28:49,393 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-05-31 16:28:49,394 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:28:49] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-05-31 16:28:49,396 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:28:49,399 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0', 'wlan0mon'])
+2025-05-31 16:28:49,408 - __main__ - INFO - Running command: kismet -c wlan0 --no-line-wrap
+2025-05-31 16:28:52,412 - __main__ - ERROR - Kismet failed to start: FATAL: Failed to create IPV4 remote capture server; check your remote_capture_listen= and remote_capture_port= configuration: bind: Address already in use [system:98]
+FATAL: Fatal error encountered during startup.
+
+*** KISMET IS SHUTTING DOWN ***
+
+*** KISMET HAS ENCOUNTERED A FATAL ERROR AND CANNOT CONTINUE.  ***
+Shutting down plugins...
+WARNING: Kismet changes the configuration of network devices.
+         In most cases you will need to restart networking for
+         your interface (varies per distribution/OS, but 
+         typically one of:
+         sudo service networking restart
+         sudo /etc/init.d/networking restart
+         or
+         nmcli device set [device] managed true
+
+Kismet exiting.
+EXITING: Signal service thread complete.
+
+2025-05-31 16:28:52,413 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:28:52] "[35m[1mPOST /api/kismet/start HTTP/1.1[0m" 500 -
+2025-05-31 16:29:01,807 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/stop
+2025-05-31 16:29:01,860 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:29:01] "POST /api/kismet/stop HTTP/1.1" 200 -
+2025-05-31 16:29:15,844 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-05-31 16:29:15,845 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:29:15] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-05-31 16:29:15,847 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:29:15,849 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0', 'wlan0mon'])
+2025-05-31 16:29:15,858 - __main__ - INFO - Running command: kismet -c wlan0 --no-line-wrap
+2025-05-31 16:29:18,865 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:29:18] "POST /api/kismet/start HTTP/1.1" 200 -
+2025-05-31 16:29:23,869 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-05-31 16:29:23,876 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:29:23] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-05-31 16:29:23,878 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-05-31 16:29:23,880 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:29:23] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-05-31 16:29:23,883 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/stop
+2025-05-31 16:29:24,051 - __main__ - INFO - Kismet stopped successfully
+2025-05-31 16:29:24,051 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:29:24] "POST /api/kismet/stop HTTP/1.1" 200 -
+2025-05-31 16:29:31,451 - __main__ - INFO - Request from 127.0.0.1: GET /
+2025-05-31 16:29:31,458 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:29:31] "GET /?id=5f33a0f9-5b60-4a49-b25c-d344b8e6b644&vscodeBrowserReqId=1748723371129 HTTP/1.1" 200 -
+2025-05-31 16:29:31,701 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-05-31 16:29:31,704 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:29:31] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-05-31 16:29:31,800 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-05-31 16:29:31,801 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:29:31] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-05-31 16:29:31,803 - __main__ - INFO - Request from 127.0.0.1: GET /js/auth.js
+2025-05-31 16:29:31,803 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:29:31] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-05-31 16:29:31,804 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-05-31 16:29:31,805 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:29:31] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-05-31 16:29:42,809 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:29:42,812 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0', 'wlan0mon'])
+2025-05-31 16:29:42,820 - __main__ - INFO - Running command: kismet -c wlan0 --no-line-wrap
+2025-05-31 16:29:45,825 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:29:45] "POST /api/kismet/start HTTP/1.1" 200 -
+2025-05-31 16:29:50,832 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-05-31 16:29:50,835 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:29:50] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-05-31 16:29:56,146 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-05-31 16:29:56,148 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:29:56] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-05-31 16:29:57,040 - werkzeug - INFO -  * Detected change in '/home/kali/latest/dashboard/flaskkk.py', reloading
+2025-05-31 16:29:57,121 - werkzeug - INFO -  * Restarting with stat
+2025-05-31 16:29:57,431 - __main__ - INFO - Database initialized successfully
+2025-05-31 16:29:57,652 - werkzeug - WARNING -  * Debugger is active!
+2025-05-31 16:29:57,652 - werkzeug - INFO -  * Debugger PIN: 104-143-401
+2025-05-31 16:29:58,089 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/stop
+2025-05-31 16:29:58,139 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:29:58] "POST /api/kismet/stop HTTP/1.1" 200 -
+2025-05-31 16:30:00,091 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-05-31 16:30:00,099 - __main__ - INFO - Starting Kismet on interface wlan0mon (available: ['wlan0', 'wlan0mon'])
+2025-05-31 16:30:00,109 - __main__ - INFO - Running command: kismet -c wlan0mon --no-line-wrap
+2025-05-31 16:30:03,114 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:30:03] "POST /api/kismet/start HTTP/1.1" 200 -
+2025-05-31 16:30:20,545 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-05-31 16:30:20,548 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:30:20] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-05-31 16:30:58,791 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/stop
+2025-05-31 16:30:58,825 - __main__ - INFO - Kismet stopped successfully
+2025-05-31 16:30:58,826 - werkzeug - INFO - 127.0.0.1 - - [31/May/2025 16:30:58] "POST /api/kismet/stop HTTP/1.1" 200 -
+2025-06-01 13:34:11,867 - __main__ - INFO - Database initialized successfully
+2025-06-01 13:34:18,236 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5050
+ * Running on http://192.168.76.146:5050
+2025-06-01 13:34:18,236 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-01 13:34:18,250 - werkzeug - INFO -  * Restarting with stat
+2025-06-01 13:34:18,495 - __main__ - INFO - Database initialized successfully
+2025-06-01 13:34:18,684 - werkzeug - WARNING -  * Debugger is active!
+2025-06-01 13:34:18,685 - werkzeug - INFO -  * Debugger PIN: 139-677-786
+2025-06-01 13:34:20,914 - __main__ - INFO - Request from 127.0.0.1: GET /
+2025-06-01 13:34:20,951 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:34:20] "GET / HTTP/1.1" 200 -
+2025-06-01 13:34:21,544 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-06-01 13:34:21,803 - __main__ - INFO - Request from 127.0.0.1: GET /js/auth.js
+2025-06-01 13:34:21,804 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:34:21] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-06-01 13:34:21,805 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-06-01 13:34:21,806 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:34:21] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-06-01 13:34:22,213 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:34:22] "GET /static/js/main.js HTTP/1.1" 200 -
+2025-06-01 13:34:22,628 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-06-01 13:34:22,628 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:34:22] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-06-01 13:34:35,512 - __main__ - INFO - Request from 127.0.0.1: GET /favicon.ico
+2025-06-01 13:34:35,513 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-06-01 13:34:35,513 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:34:35] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-06-01 13:34:35,711 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0'])
+2025-06-01 13:34:38,585 - __main__ - INFO - Running command: kismet -c wlan0 --no-line-wrap
+2025-06-01 13:34:41,671 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:34:41] "POST /api/kismet/start HTTP/1.1" 200 -
+2025-06-01 13:34:46,752 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-01 13:34:46,769 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:34:46] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-01 13:34:51,730 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-01 13:34:51,733 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:34:51] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-01 13:34:54,713 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-01 13:34:54,811 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:34:54] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-01 13:34:57,195 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-01 13:34:57,197 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:34:57] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-01 13:35:02,117 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-01 13:35:02,120 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:35:02] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-01 13:35:07,159 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-01 13:35:07,163 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:35:07] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-01 13:35:11,702 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-01 13:35:11,705 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:35:11] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-01 13:35:16,702 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-01 13:35:16,705 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:35:16] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-01 13:35:21,702 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-01 13:35:21,705 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:35:21] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-01 13:35:26,701 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-01 13:35:26,705 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 13:35:26] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-01 13:35:27,227 - __main__ - INFO - Server started on port 5050
+2025-06-01 13:35:27,290 - __main__ - INFO - Server started on port 5050

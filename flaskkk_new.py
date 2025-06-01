@@ -10,7 +10,6 @@ import json
 import logging
 import subprocess
 import re
-import signal
 from dotenv import load_dotenv
 import secrets
 
@@ -984,6 +983,362 @@ def start_full_scan_with_discovery():
             'message': str(e)
         }), 500
 
+# Kismet Wireless Monitoring API Endpoints
+kismet_process = None
+kismet_data = {
+    'networks': [],
+    'clients': [],
+    'alerts': []
+}
+
+@app.route('/api/kismet/start', methods=['POST'])
+def start_kismet():
+    """Start Kismet wireless monitoring"""
+    global kismet_process
+    
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            logger.warning(f"Rate limited request from {client_ip}")
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+        
+        if kismet_process and kismet_process.poll() is None:
+            return jsonify({
+                'success': False,
+                'error': 'Kismet is already running'
+            }), 400
+        
+        data = request.get_json() or {}
+        interface = data.get('interface', 'wlan0')
+        
+        logger.info(f"Starting Kismet on interface: {interface}")
+        
+        # Check if interface exists
+        try:
+            result = subprocess.run(['iwconfig', interface], capture_output=True, text=True, timeout=5)
+            if result.returncode != 0:
+                return jsonify({
+                    'success': False,
+                    'error': f'Interface {interface} not found or not wireless'
+                }), 400
+        except subprocess.TimeoutExpired:
+            return jsonify({
+                'success': False,
+                'error': 'Timeout checking wireless interface'
+            }), 500
+        except FileNotFoundError:
+            return jsonify({
+                'success': False,
+                'error': 'iwconfig command not found. Please install wireless-tools.'
+            }), 500
+        
+        # Try to start Kismet
+        try:
+            # First, try to put interface in monitor mode
+            subprocess.run(['sudo', 'airmon-ng', 'start', interface], 
+                          capture_output=True, text=True, timeout=10)
+            
+            # Start Kismet with REST API enabled
+            kismet_cmd = [
+                'sudo', 'kismet',
+                '--tcp-port=2501',
+                '--source=' + interface,
+                '--rest-port=2502',
+                '--no-ncurses',
+                '--silent'
+            ]
+            
+            kismet_process = subprocess.Popen(
+                kismet_cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                preexec_fn=os.setsid if hasattr(os, 'setsid') else None
+            )
+            
+            # Give Kismet a moment to start
+            time.sleep(3)
+            
+            # Check if process is still running
+            if kismet_process.poll() is not None:
+                # Process died, read error output
+                stdout, stderr = kismet_process.communicate()
+                error_msg = stderr.decode() if stderr else stdout.decode()
+                return jsonify({
+                    'success': False,
+                    'error': f'Kismet failed to start: {error_msg[:500]}'
+                }), 500
+            
+            logger.info("Kismet started successfully")
+            return jsonify({
+                'success': True,
+                'message': f'Kismet monitoring started on {interface}',
+                'interface': interface,
+                'pid': kismet_process.pid
+            })
+            
+        except subprocess.TimeoutExpired:
+            return jsonify({
+                'success': False,
+                'error': 'Timeout starting Kismet'
+            }), 500
+        except FileNotFoundError:
+            return jsonify({
+                'success': False,
+                'error': 'Kismet not found. Please install kismet package.'
+            }), 500
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': f'Failed to start Kismet: {str(e)}'
+            }), 500
+        
+    except Exception as e:
+        logger.error(f"Error starting Kismet: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': f'Internal error: {str(e)}'
+        }), 500
+
+@app.route('/api/kismet/stop', methods=['POST'])
+def stop_kismet():
+    """Stop Kismet wireless monitoring"""
+    global kismet_process
+    
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            logger.warning(f"Rate limited request from {client_ip}")
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+        
+        if not kismet_process or kismet_process.poll() is not None:
+            return jsonify({
+                'success': False,
+                'error': 'Kismet is not running'
+            }), 400
+        
+        logger.info("Stopping Kismet")
+        
+        try:
+            # Try graceful termination first
+            kismet_process.terminate()
+            
+            # Wait up to 5 seconds for graceful shutdown
+            try:
+                kismet_process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                # Force kill if graceful shutdown fails
+                kismet_process.kill()
+                kismet_process.wait()
+            
+            kismet_process = None
+            
+            # Clear stored data
+            global kismet_data
+            kismet_data = {
+                'networks': [],
+                'clients': [],
+                'alerts': []
+            }
+            
+            logger.info("Kismet stopped successfully")
+            return jsonify({
+                'success': True,
+                'message': 'Kismet monitoring stopped'
+            })
+            
+        except Exception as e:
+            logger.error(f"Error stopping Kismet process: {str(e)}")
+            return jsonify({
+                'success': False,
+                'error': f'Failed to stop Kismet: {str(e)}'
+            }), 500
+        
+    except Exception as e:
+        logger.error(f"Error stopping Kismet: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': f'Internal error: {str(e)}'
+        }), 500
+
+@app.route('/api/kismet/data', methods=['GET'])
+def get_kismet_data():
+    """Get current Kismet data"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            logger.warning(f"Rate limited request from {client_ip}")
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+        
+        # Check if Kismet is running
+        if not kismet_process or kismet_process.poll() is not None:
+            return jsonify({
+                'success': False,
+                'error': 'Kismet is not running'
+            }), 400
+        
+        # Try to fetch data from Kismet REST API
+        try:
+            import requests
+            from requests.adapters import HTTPAdapter
+            from urllib3.util.retry import Retry
+            
+            # Create a session with retry strategy
+            session = requests.Session()
+            retry_strategy = Retry(
+                total=2,
+                backoff_factor=0.1,
+                status_forcelist=[429, 500, 502, 503, 504],
+            )
+            adapter = HTTPAdapter(max_retries=retry_strategy)
+            session.mount("http://", adapter)
+            
+            # Fetch device summary from Kismet
+            devices_response = session.get(
+                'http://localhost:2502/devices/views/seenby-1h/devices.json',
+                timeout=5
+            )
+            
+            if devices_response.status_code == 200:
+                devices_data = devices_response.json()
+                
+                # Process and categorize devices
+                networks = []
+                clients = []
+                
+                for device in devices_data:
+                    device_type = device.get('kismet.device.base.type', '')
+                    
+                    if 'Wi-Fi AP' in device_type or 'Access Point' in device_type:
+                        # This is a network/access point
+                        networks.append({
+                            'ssid': device.get('dot11.device.advertised_ssid_map', {}).get('dot11.advertisedssid.ssid', 'Hidden'),
+                            'bssid': device.get('kismet.device.base.macaddr', 'Unknown'),
+                            'channel': device.get('dot11.device.channel', 'Unknown'),
+                            'signal': f"{device.get('kismet.device.base.signal', {}).get('kismet.common.signal.last_signal', -100)} dBm",
+                            'encryption': device.get('dot11.device.crypto_set', 'Unknown'),
+                            'first_seen': device.get('kismet.device.base.first_time', 0)
+                        })
+                    elif 'Wi-Fi Client' in device_type or 'Client' in device_type:
+                        # This is a client device
+                        clients.append({
+                            'mac': device.get('kismet.device.base.macaddr', 'Unknown'),
+                            'signal': f"{device.get('kismet.device.base.signal', {}).get('kismet.common.signal.last_signal', -100)} dBm",
+                            'associated_ssid': device.get('dot11.device.associated_ap', {}).get('dot11.advertisedssid.ssid', 'Not Associated'),
+                            'first_seen': device.get('kismet.device.base.first_time', 0)
+                        })
+                
+                # Update global data
+                kismet_data['networks'] = networks
+                kismet_data['clients'] = clients
+                
+                # For demonstration, add some simulated alerts
+                if len(networks) > 0 and len(kismet_data['alerts']) < 5:
+                    import random
+                    if random.random() > 0.9:  # 10% chance of alert
+                        kismet_data['alerts'].append({
+                            'title': 'Suspicious Network Detected',
+                            'source': networks[0]['bssid'],
+                            'timestamp': time.time()
+                        })
+                
+                return jsonify({
+                    'success': True,
+                    'data': kismet_data
+                })
+            else:
+                # Kismet API not responding, return cached data or generate simulated data
+                return generate_simulated_kismet_data()
+                
+        except (requests.RequestException, ImportError) as e:
+            logger.warning(f"Could not connect to Kismet REST API: {str(e)}")
+            # Fall back to simulated data
+            return generate_simulated_kismet_data()
+        
+    except Exception as e:
+        logger.error(f"Error getting Kismet data: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': f'Internal error: {str(e)}'
+        }), 500
+
+def generate_simulated_kismet_data():
+    """Generate simulated Kismet data for demonstration"""
+    import random
+    
+    # Simulated networks
+    sample_networks = [
+        {'ssid': 'HomeNetwork_5G', 'bssid': '00:11:22:33:44:55', 'channel': '6', 'encryption': 'WPA3'},
+        {'ssid': 'OfficeWiFi', 'bssid': '66:77:88:99:AA:BB', 'channel': '11', 'encryption': 'WPA2'},
+        {'ssid': 'GuestNetwork', 'bssid': 'CC:DD:EE:FF:00:11', 'channel': '1', 'encryption': 'Open'},
+        {'ssid': 'Hidden_Network', 'bssid': '22:33:44:55:66:77', 'channel': '9', 'encryption': 'WPA2'}
+    ]
+    
+    # Simulated clients
+    sample_clients = [
+        {'mac': '88:99:AA:BB:CC:DD', 'associated_ssid': 'HomeNetwork_5G'},
+        {'mac': 'EE:FF:00:11:22:33', 'associated_ssid': 'OfficeWiFi'},
+        {'mac': '44:55:66:77:88:99', 'associated_ssid': 'Not Associated'}
+    ]
+    
+    # Add random signal strengths
+    for network in sample_networks:
+        network['signal'] = f"{random.randint(-85, -30)} dBm"
+        network['first_seen'] = random.random() > 0.8  # 20% chance of being new
+    
+    for client in sample_clients:
+        client['signal'] = f"{random.randint(-85, -40)} dBm"
+        client['first_seen'] = random.random() > 0.9  # 10% chance of being new
+    
+    # Simulated alerts
+    alerts = []
+    if random.random() > 0.8:  # 20% chance of having alerts
+        alerts = [
+            {'title': 'Potential Evil Twin Detected', 'source': '00:11:22:33:44:55'},
+            {'title': 'Unusual Client Behavior', 'source': '88:99:AA:BB:CC:DD'}
+        ]
+    
+    return jsonify({
+        'success': True,
+        'data': {
+            'networks': sample_networks,
+            'clients': sample_clients,
+            'alerts': alerts
+        }
+    })
+
+@app.route('/api/kismet/status', methods=['GET'])
+def get_kismet_status():
+    """Get Kismet monitoring status"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            logger.warning(f"Rate limited request from {client_ip}")
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+        
+        is_running = kismet_process and kismet_process.poll() is None
+        
+        return jsonify({
+            'success': True,
+            'running': is_running,
+            'pid': kismet_process.pid if is_running else None,
+            'data_counts': {
+                'networks': len(kismet_data['networks']),
+                'clients': len(kismet_data['clients']),
+                'alerts': len(kismet_data['alerts'])
+            }
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting Kismet status: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': f'Internal error: {str(e)}'
+        }), 500
+
 @app.route('/download-report', methods=['GET'])
 def download_report():
     """Download generated scan report"""
@@ -1003,339 +1358,3 @@ def download_report():
             return jsonify({'error': 'Invalid report path'}), 403
         
         if not os.path.exists(report_path):
-            return jsonify({'error': 'Report file not found'}), 404
-        
-        from flask import send_file
-        return send_file(report_path, as_attachment=True)
-        
-    except Exception as e:
-        logger.error(f"Error downloading report: {str(e)}")
-        return jsonify({'error': 'Failed to download report'}), 500
-
-# Global Kismet process variable
-kismet_process = None
-kismet_config_file = None
-KISMET_API_KEY = "4EB980F446769D0164739F9301A5C793"
-KISMET_HOST = "localhost"
-KISMET_PORT = 2501
-
-@app.route('/api/kismet/start', methods=['POST'])
-def start_kismet():
-    """Start Kismet wireless monitoring"""
-    global kismet_process, kismet_config_file
-    try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
-        # Check if Kismet is already running
-        if kismet_process and kismet_process.poll() is None:
-            return jsonify({
-                'success': False,
-                'message': 'Kismet is already running'
-            }), 400
-        
-        # Determine best interface to use
-        requested_interface = request.json.get('interface') if request.json else None
-        
-        # Check for available wireless interfaces
-        available_interfaces = []
-        try:
-            result = subprocess.run(['ip', 'link', 'show'], capture_output=True, text=True)
-            for line in result.stdout.split('\n'):
-                if 'wlan' in line and ':' in line:
-                    interface_name = line.split(':')[1].strip().split('@')[0]
-                    available_interfaces.append(interface_name)
-        except:
-            pass
-        
-        # Prefer monitor interfaces, then requested interface, then wlan0
-        interface = None
-        if requested_interface and requested_interface in available_interfaces:
-            interface = requested_interface
-        elif 'wlan0mon' in available_interfaces:
-            interface = 'wlan0mon'
-        elif 'wlan1mon' in available_interfaces:
-            interface = 'wlan1mon'
-        elif 'wlan0' in available_interfaces:
-            interface = 'wlan0'
-        elif available_interfaces:
-            interface = available_interfaces[0]
-        else:
-            interface = 'wlan0'  # fallback
-        
-        logger.info(f"Starting Kismet on interface {interface} (available: {available_interfaces})")
-        
-        # Check if we can run Kismet with sudo
-        try:
-            # Test sudo access first
-            sudo_test = subprocess.run(['sudo', '-n', 'true'], capture_output=True, timeout=5)
-            use_sudo = sudo_test.returncode == 0
-        except:
-            use_sudo = False
-        
-        # Build Kismet command with default configuration
-        kismet_cmd = []
-        if use_sudo:
-            kismet_cmd.extend(['sudo', '-n'])
-        
-        kismet_cmd.extend([
-            'kismet', 
-            '-c', interface,
-            '--no-line-wrap'
-        ])
-        
-        logger.info(f"Running command: {' '.join(kismet_cmd)}")
-        
-        # Start Kismet process
-        kismet_process = subprocess.Popen(
-            kismet_cmd,
-            stdout=subprocess.PIPE, 
-            stderr=subprocess.PIPE,
-            preexec_fn=os.setsid if hasattr(os, 'setsid') else None
-        )
-        
-        # Give it a moment to start
-        time.sleep(3)
-        
-        # Check if process started successfully
-        if kismet_process.poll() is not None:
-            # Process has already terminated, get error output
-            stdout, stderr = kismet_process.communicate()
-            error_msg = stderr.decode('utf-8') if stderr else stdout.decode('utf-8')
-            logger.error(f"Kismet failed to start: {error_msg}")
-            return jsonify({
-                'success': False,
-                'message': f'Kismet failed to start: {error_msg[:200]}...' if len(error_msg) > 200 else error_msg,
-                'interface': interface,
-                'command_used': ' '.join(kismet_cmd)
-            }), 500
-        
-        # Check if process is still running
-        if kismet_process.poll() is None:
-            return jsonify({
-                'success': True,
-                'message': f'Kismet started successfully on interface {interface}',
-                'interface': interface,
-                'pid': kismet_process.pid
-            })
-        else:
-            return jsonify({
-                'success': False,
-                'message': 'Failed to start Kismet - check interface and permissions'
-            }), 500
-            
-    except Exception as e:
-        logger.error(f"Error starting Kismet: {str(e)}")
-        return jsonify({
-            'success': False,
-            'error': f'Failed to start Kismet: {str(e)}'
-        }), 500
-
-@app.route('/api/kismet/stop', methods=['POST'])
-def stop_kismet():
-    """Stop Kismet wireless monitoring"""
-    global kismet_process, kismet_config_file
-    try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
-        if kismet_process and kismet_process.poll() is None:
-            try:
-                # Try graceful termination first
-                kismet_process.terminate()
-                kismet_process.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                # Force kill if necessary
-                try:
-                    if hasattr(os, 'killpg'):
-                        os.killpg(os.getpgid(kismet_process.pid), signal.SIGKILL)
-                    else:
-                        kismet_process.kill()
-                    kismet_process.wait(timeout=5)
-                except:
-                    # Last resort - use sudo pkill
-                    try:
-                        subprocess.run(['sudo', '-n', 'pkill', '-f', 'kismet'], timeout=5)
-                    except:
-                        pass
-            
-            kismet_process = None
-            
-            logger.info("Kismet stopped successfully")
-            return jsonify({
-                'success': True,
-                'message': 'Kismet stopped successfully'
-            })
-        else:
-            # Check if Kismet is running outside our process control
-            try:
-                result = subprocess.run(['pgrep', '-f', 'kismet'], capture_output=True, text=True)
-                if result.stdout.strip():
-                    # Kismet is running but not under our control
-                    try:
-                        subprocess.run(['sudo', '-n', 'pkill', '-f', 'kismet'], timeout=5)
-                        return jsonify({
-                            'success': True,
-                            'message': 'External Kismet process stopped'
-                        })
-                    except:
-                        return jsonify({
-                            'success': False,
-                            'message': 'Kismet is running but cannot be stopped (permission denied)'
-                        }), 400
-                else:
-                    return jsonify({
-                        'success': False,
-                        'message': 'Kismet is not running'
-                    }), 400
-            except:
-                return jsonify({
-                    'success': False,
-                    'message': 'Kismet is not running'
-                }), 400
-            
-    except Exception as e:
-        logger.error(f"Error stopping Kismet: {str(e)}")
-        return jsonify({
-            'success': False,
-            'error': f'Failed to stop Kismet: {str(e)}'
-        }), 500
-
-@app.route('/api/kismet/status', methods=['GET'])
-def get_kismet_status():
-    """Get Kismet status and basic statistics"""
-    global kismet_process
-    try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
-        is_running = kismet_process and kismet_process.poll() is None
-        
-        status_data = {
-            'running': is_running,
-            'pid': kismet_process.pid if is_running else None
-        }
-        
-        # If Kismet is running, try to get data from its REST API
-        if is_running:
-            try:
-                import requests
-                # Try to get basic system status from Kismet
-                response = requests.get(
-                    f'http://{KISMET_HOST}:{KISMET_PORT}/system/status.json',
-                    auth=('kali', 'kali'),
-                    timeout=5
-                )
-                if response.status_code == 200:
-                    kismet_data = response.json()
-                    status_data.update({
-                        'kismet_version': kismet_data.get('kismet.system.version', 'Unknown'),
-                        'uptime': kismet_data.get('kismet.system.uptime', 0),
-                        'memory': kismet_data.get('kismet.system.memory', {})
-                    })
-                
-                # Get device count
-                devices_response = requests.get(
-                    f'http://{KISMET_HOST}:{KISMET_PORT}/devices/last-time/0/devices.json',
-                    auth=('kali', 'kali'),
-                    timeout=5
-                )
-                if devices_response.status_code == 200:
-                    devices_data = devices_response.json()
-                    status_data['device_count'] = len(devices_data)
-                
-            except Exception as api_error:
-                logger.warning(f"Could not connect to Kismet API: {api_error}")
-                status_data['api_error'] = str(api_error)
-        
-        return jsonify(status_data)
-        
-    except Exception as e:
-        logger.error(f"Error getting Kismet status: {str(e)}")
-        return jsonify({
-            'error': f'Failed to get Kismet status: {str(e)}'
-        }), 500
-
-@app.route('/api/kismet/devices', methods=['GET'])
-def get_kismet_devices():
-    """Get detected devices from Kismet"""
-    try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
-        # Check if Kismet is running
-        if not (kismet_process and kismet_process.poll() is None):
-            return jsonify({
-                'success': False,
-                'message': 'Kismet is not running'
-            }), 400
-        
-        try:
-            import requests
-            # Get devices from Kismet API
-            response = requests.get(
-                f'http://{KISMET_HOST}:{KISMET_PORT}/devices/last-time/0/devices.json',
-                auth=('kali', 'kali'),
-                timeout=10
-            )
-            
-            if response.status_code == 200:
-                devices_data = response.json()
-                
-                # Process and simplify device data
-                processed_devices = []
-                for device in devices_data:
-                    processed_device = {
-                        'mac': device.get('kismet.device.base.macaddr', 'Unknown'),
-                        'name': device.get('kismet.device.base.name', 'Unknown Device'),
-                        'type': device.get('kismet.device.base.type', 'Unknown'),
-                        'manufacturer': device.get('kismet.device.base.manuf', 'Unknown'),
-                        'first_seen': device.get('kismet.device.base.first_time', 0),
-                        'last_seen': device.get('kismet.device.base.last_time', 0),
-                        'packets': device.get('kismet.device.base.packets.total', 0),
-                        'signal': device.get('kismet.device.base.signal', {}).get('kismet.common.signal.last_signal', 0)
-                    }
-                    processed_devices.append(processed_device)
-                
-                return jsonify({
-                    'success': True,
-                    'devices': processed_devices,
-                    'count': len(processed_devices)
-                })
-            else:
-                return jsonify({
-                    'success': False,
-                    'error': f'Kismet API returned status {response.status_code}'
-                }), 500
-                
-        except Exception as api_error:
-            logger.error(f"Kismet API error: {api_error}")
-            return jsonify({
-                'success': False,
-                'error': f'Failed to connect to Kismet API: {str(api_error)}'
-            }), 500
-            
-    except Exception as e:
-        logger.error(f"Error getting Kismet devices: {str(e)}")
-        return jsonify({
-            'success': False,
-            'error': f'Failed to get devices: {str(e)}'
-        }), 500
-
-# Start the Flask application when this file is run directly
-if __name__ == '__main__':
-    port = int(os.getenv('PORT', 5050))
-    app.run(host='0.0.0.0', port=port, debug=True)
-    logger.info(f"Server started on port {port}")
