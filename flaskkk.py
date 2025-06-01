@@ -1280,8 +1280,24 @@ def get_kismet_devices():
             logger.warning(f"Rate limited request from {client_ip}")
             return jsonify({'error': 'Rate limit exceeded'}), 429
         
-        # Check if Kismet is running
-        if not (kismet_process and kismet_process.poll() is None):
+        # Check if Kismet is running - simplified check with timeout
+        kismet_running = False
+        
+        # First check our own process
+        if kismet_process and kismet_process.poll() is None:
+            kismet_running = True
+        else:
+            # Quick check for external Kismet processes
+            try:
+                result = subprocess.run(['pgrep', 'kismet'], capture_output=True, text=True, timeout=2)
+                if result.returncode == 0 and result.stdout.strip():
+                    kismet_running = True
+            except subprocess.TimeoutExpired:
+                logger.warning("Process check timed out")
+            except:
+                pass
+        
+        if not kismet_running:
             return jsonify({
                 'success': False,
                 'message': 'Kismet is not running'
@@ -1289,100 +1305,110 @@ def get_kismet_devices():
         
         try:
             import requests
-            # Get devices from Kismet API
+            # Get devices from Kismet API with longer timeout
             response = requests.get(
                 f'http://{KISMET_HOST}:{KISMET_PORT}/devices/last-time/0/devices.json',
                 auth=('kali', 'kali'),
-                timeout=10
+                timeout=15
             )
             
             if response.status_code == 200:
                 devices_data = response.json()
                 
-                # First pass: Create BSSID to SSID mapping from Access Points
+                # First pass: Create BSSID to SSID mapping from Access Points (optimized)
                 bssid_to_ssid = {}
-                for device in devices_data:
-                    device_type = device.get('kismet.device.base.type', 'Unknown')
-                    if 'AP' in device_type or 'Access Point' in device_type:
-                        bssid = device.get('kismet.device.base.macaddr', '')
-                        dot11_device = device.get('dot11.device', {})
-                        if dot11_device:
-                            # Get the SSID from various possible locations
-                            ssid = None
-                            
-                            # Try to get advertised SSID map
-                            advertised_ssid_map = dot11_device.get('dot11.device.advertised_ssid_map', {})
-                            if advertised_ssid_map:
-                                for ssid_key, ssid_data in advertised_ssid_map.items():
-                                    if isinstance(ssid_data, dict):
-                                        ssid = ssid_data.get('dot11.advertisedssid.ssid', '')
-                                        if ssid:
-                                            break
-                            
-                            # Fallback: try to get from responded SSID map
-                            if not ssid:
-                                responded_ssid_map = dot11_device.get('dot11.device.responded_ssid_map', {})
-                                if responded_ssid_map:
-                                    for ssid_key, ssid_data in responded_ssid_map.items():
+                logger.info(f"Processing {len(devices_data)} devices for BSSID mapping")
+                
+                try:
+                    ap_count = 0
+                    for device in devices_data:
+                        device_type = device.get('kismet.device.base.type', 'Unknown')
+                        if 'AP' in device_type:
+                            ap_count += 1
+                            bssid = device.get('kismet.device.base.macaddr', '')
+                            dot11_device = device.get('dot11.device', {})
+                            if dot11_device and bssid:
+                                # Get the SSID from advertised SSID map (simplified)
+                                ssid = None
+                                advertised_ssid_map = dot11_device.get('dot11.device.advertised_ssid_map', {})
+                                
+                                if isinstance(advertised_ssid_map, list) and len(advertised_ssid_map) > 0:
+                                    ssid = advertised_ssid_map[0].get('dot11.advertisedssid.ssid', '')
+                                elif isinstance(advertised_ssid_map, dict):
+                                    for ssid_data in advertised_ssid_map.values():
                                         if isinstance(ssid_data, dict):
-                                            ssid = ssid_data.get('dot11.respondedssid.ssid', '')
+                                            ssid = ssid_data.get('dot11.advertisedssid.ssid', '')
                                             if ssid:
                                                 break
-                            
-                            # Store BSSID to SSID mapping
-                            if bssid and ssid:
-                                bssid_to_ssid[bssid] = ssid
+                                
+                                # Store mapping if we found a valid SSID
+                                if ssid:
+                                    bssid_to_ssid[bssid] = ssid
+                    
+                    logger.info(f"Processed {ap_count} APs, found {len(bssid_to_ssid)} with SSIDs")
                 
-                # Second pass: Process and simplify device data
+                except Exception as mapping_error:
+                    logger.warning(f"Error building BSSID to SSID mapping: {mapping_error}")
+                    # Continue with empty mapping if there's an error
+                
+                # Second pass: Process and simplify device data (optimized)
                 processed_devices = []
-                for device in devices_data:
-                    # Extract AP association information
-                    connected_ap = 'N/A'
-                    connected_ssid = 'N/A'
-                    device_type = device.get('kismet.device.base.type', 'Unknown')
-                    
-                    # For client devices, try to find associated AP
-                    if device_type == 'Wi-Fi Client' or 'client' in device_type.lower():
-                        # Check for associated access point
-                        dot11_device = device.get('dot11.device', {})
-                        if dot11_device:
-                            associated_ap = dot11_device.get('dot11.device.associated_client_map', {})
-                            if associated_ap:
-                                # Get first associated AP BSSID
-                                for ap_mac in associated_ap.keys():
-                                    connected_ap = ap_mac
-                                    # Map BSSID to SSID if available
-                                    connected_ssid = bssid_to_ssid.get(ap_mac, 'Unknown SSID')
-                                    break
+                client_count = 0
+                ap_count = 0
+                
+                try:
+                    for device in devices_data:
+                        try:
+                            # Extract basic device information
+                            mac = device.get('kismet.device.base.macaddr', 'Unknown')
+                            device_type = device.get('kismet.device.base.type', 'Unknown')
+                            device_name = device.get('kismet.device.base.name', 'Unknown Device')
                             
-                            # Alternative: check if this is a client and get the AP BSSID
-                            if connected_ap == 'N/A':
-                                client_map = dot11_device.get('dot11.device.client_map', {})
-                                if not client_map:
-                                    # Try another approach - look for BSSID in last SSID records
-                                    last_bssid = dot11_device.get('dot11.device.last_bssid', None)
-                                    if last_bssid and last_bssid != device.get('kismet.device.base.macaddr'):
-                                        connected_ap = last_bssid
-                                        connected_ssid = bssid_to_ssid.get(last_bssid, 'Unknown SSID')
-                    
-                    # For Access Points, get their own SSID
-                    elif 'AP' in device_type or 'Access Point' in device_type:
-                        bssid = device.get('kismet.device.base.macaddr', '')
-                        connected_ssid = bssid_to_ssid.get(bssid, 'Unknown SSID')
-                    
-                    processed_device = {
-                        'mac': device.get('kismet.device.base.macaddr', 'Unknown'),
-                        'name': device.get('kismet.device.base.name', 'Unknown Device'),
-                        'type': device_type,
-                        'manufacturer': device.get('kismet.device.base.manuf', 'Unknown'),
-                        'first_seen': device.get('kismet.device.base.first_time', 0),
-                        'last_seen': device.get('kismet.device.base.last_time', 0),
-                        'packets': device.get('kismet.device.base.packets.total', 0),
-                        'signal': device.get('kismet.device.base.signal', {}).get('kismet.common.signal.last_signal', 0),
-                        'connected_ap': connected_ap,
-                        'connected_ssid': connected_ssid
-                    }
-                    processed_devices.append(processed_device)
+                            # Initialize connection info
+                            connected_ap = 'N/A'
+                            connected_ssid = 'N/A'
+                            
+                            # Handle client devices
+                            if 'Client' in device_type:
+                                client_count += 1
+                                dot11_device = device.get('dot11.device', {})
+                                if dot11_device:
+                                    # Check for last connected BSSID
+                                    last_bssid = dot11_device.get('dot11.device.last_bssid', '')
+                                    if last_bssid and last_bssid in bssid_to_ssid:
+                                        connected_ssid = bssid_to_ssid[last_bssid]
+                                        connected_ap = f"{last_bssid} ({connected_ssid})"
+                            
+                            # Handle access points
+                            elif 'AP' in device_type:
+                                ap_count += 1
+                                connected_ssid = bssid_to_ssid.get(mac, 'Unknown SSID')
+                                connected_ap = f"{mac} (Self - {connected_ssid})"
+                            
+                            # Create simplified device object
+                            processed_device = {
+                                'mac': mac,
+                                'name': device_name,
+                                'type': device_type,
+                                'manufacturer': device.get('kismet.device.base.manuf', 'Unknown'),
+                                'first_seen': device.get('kismet.device.base.first_time', 0),
+                                'last_seen': device.get('kismet.device.base.last_time', 0),
+                                'packets': device.get('kismet.device.base.packets.total', 0),
+                                'signal': device.get('kismet.device.base.signal', {}).get('kismet.common.signal.last_signal', 0),
+                                'connected_ap': connected_ap,
+                                'connected_ssid': connected_ssid
+                            }
+                            processed_devices.append(processed_device)
+                            
+                        except Exception as device_error:
+                            logger.warning(f"Error processing device {device.get('kismet.device.base.macaddr', 'Unknown')}: {device_error}")
+                            continue
+                
+                    logger.info(f"Processed {len(processed_devices)} devices ({ap_count} APs, {client_count} clients)")
+                
+                except Exception as processing_error:
+                    logger.error(f"Error processing devices: {processing_error}")
+                    # Return what we have so far
                 
                 return jsonify({
                     'success': True,
@@ -1412,6 +1438,6 @@ def get_kismet_devices():
 
 # Start the Flask application when this file is run directly
 if __name__ == '__main__':
-    port = int(os.getenv('PORT', 5050))
+    port = int(os.getenv('PORT', 5053))  # Changed to 5053
     app.run(host='0.0.0.0', port=port, debug=True)
     logger.info(f"Server started on port {port}")
