@@ -2199,112 +2199,243 @@ table tbody td {
     font-weight: 600;
 }
 
+/* Enhanced Scrollable Device Table */
 .devices-table-container {
-    overflow-x: auto;
+    overflow: hidden;
     border-radius: 8px;
     border: 1px solid rgba(0, 212, 255, 0.2);
+    background: var(--bg-secondary);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.devices-table-wrapper {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: auto;
 }
 
 .devices-table {
     width: 100%;
     border-collapse: collapse;
-    background: var(--bg-secondary);
+    background: transparent;
+    min-width: 800px; /* Ensure minimum width for all columns */
 }
 
-.devices-table th {
-    background: var(--bg-tertiary);
+.devices-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.devices-table thead th {
+    background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-card));
     color: var(--text-primary);
-    padding: 12px;
+    padding: 15px 12px;
     text-align: left;
     font-weight: 600;
     border-bottom: 2px solid var(--cyber-blue);
+    white-space: nowrap;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.devices-table td {
-    padding: 10px 12px;
+.devices-table tbody td {
+    padding: 12px;
     color: var(--text-secondary);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+    font-size: 0.9rem;
 }
 
-.devices-table tr:hover {
-    background: var(--bg-card-hover);
+.devices-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.devices-table tbody tr:hover {
+    background: rgba(0, 212, 255, 0.08);
 }
 
 .devices-table .no-data {
     text-align: center;
     color: var(--text-muted);
     font-style: italic;
-    padding: 20px;
+    padding: 30px;
+    background: var(--bg-secondary);
 }
 
-.kismet-logs h4 {
-    color: var(--text-primary);
+/* Column specific styling */
+.devices-table .mac-column {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--cyber-blue);
+    font-weight: 500;
+}
+
+.devices-table .signal-column {
+    text-align: center;
+    font-weight: 600;
+}
+
+.devices-table .signal-strong {
+    color: var(--success);
+}
+
+.devices-table .signal-medium {
+    color: var(--warning);
+}
+
+.devices-table .signal-weak {
+    color: var(--danger);
+}
+
+.devices-table .packets-column {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
+
+.devices-table .type-column {
+    font-weight: 500;
+}
+
+.devices-table .type-ap {
+    color: var(--success);
+}
+
+.devices-table .type-client {
+    color: var(--cyber-blue);
+}
+
+.devices-table .connected-ap-column {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--purple);
+}
+
+/* Custom scrollbar for device table */
+.devices-table-wrapper::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.devices-table-wrapper::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+}
+
+.devices-table-wrapper::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, var(--cyber-blue), var(--purple));
+    border-radius: 4px;
+}
+
+.devices-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, var(--primary-dark), var(--purple-dark));
+}
+
+.devices-table-wrapper::-webkit-scrollbar-corner {
+    background: var(--bg-tertiary);
+}
+
+/* Device table header with device count */
+.kismet-devices .devices-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 15px;
+}
+
+.kismet-devices .devices-header h4 {
+    margin: 0;
+    color: var(--text-primary);
     font-size: 1.2rem;
     font-weight: 600;
 }
 
-.log-container {
-    background: var(--bg-secondary);
-    border-radius: 8px;
-    border: 1px solid rgba(0, 212, 255, 0.1);
-    padding: 15px;
-    max-height: 200px;
-    overflow-y: auto;
-}
-
-.log-entry {
-    color: var(--text-secondary);
-    margin-bottom: 8px;
-    font-family: 'Courier New', monospace;
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-.log-entry:last-child {
-    margin-bottom: 0;
-}
-
-.log-entry .timestamp {
-    color: var(--cyber-blue);
+.kismet-devices .device-count {
+    background: var(--cyber-blue);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
     font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 212, 255, 0.3);
 }
 
-/* Responsive design for Kismet section */
+/* Loading state for device table */
+.devices-table-loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+}
+
+.devices-table-loading i {
+    font-size: 2rem;
+    color: var(--cyber-blue);
+    margin-bottom: 10px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments for device table */
+@media (max-width: 1200px) {
+    .devices-table {
+        min-width: 900px;
+    }
+    
+    .devices-table-wrapper {
+        max-height: 350px;
+    }
+}
+
 @media (max-width: 768px) {
-    .kismet-section .section-header {
+    .devices-table {
+        min-width: 700px;
+        font-size: 0.8rem;
+    }
+    
+    .devices-table thead th {
+        padding: 12px 8px;
+        font-size: 0.8rem;
+    }
+    
+    .devices-table tbody td {
+        padding: 10px 8px;
+        font-size: 0.8rem;
+    }
+    
+    .devices-table-wrapper {
+        max-height: 300px;
+    }
+    
+    .kismet-devices .devices-header {
         flex-direction: column;
-        gap: 15px;
-        align-items: stretch;
-    }
-    
-    .kismet-controls {
-        justify-content: center;
-    }
-    
-    .kismet-status {
-        grid-template-columns: 1fr;
-    }
-    
-    .devices-table-container {
-        font-size: 14px;
-    }
-    
-    .devices-table th,
-    .devices-table td {
-        padding: 8px;
+        gap: 10px;
+        align-items: flex-start;
     }
 }
 
 @media (max-width: 480px) {
-    .kismet-controls .btn {
-        font-size: 12px;
-        padding: 6px 12px;
+    .devices-table {
+        min-width: 600px;
+        font-size: 0.75rem;
     }
     
-    .devices-table th,
-    .devices-table td {
-        padding: 6px;
-        font-size: 12px;
+    .devices-table thead th {
+        padding: 10px 6px;
+        font-size: 0.75rem;
+    }
+    
+    .devices-table tbody td {
+        padding: 8px 6px;
+        font-size: 0.75rem;
+    }
+    
+    .devices-table-wrapper {
+        max-height: 250px;
     }
 }
