@@ -35359,3 +35359,21 @@ EXITING: Signal service thread complete.
 2025-06-01 15:46:21,706 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 15:46:21] "GET /api/gps?hours=1 HTTP/1.1" 200 -
 2025-06-01 15:46:31,700 - __main__ - INFO - Request from 127.0.0.1: GET /api/gps
 2025-06-01 15:46:31,701 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 15:46:31] "GET /api/gps?hours=1 HTTP/1.1" 200 -
+2025-06-01 15:46:41,696 - __main__ - INFO - Request from 127.0.0.1: GET /api/gps
+2025-06-01 15:46:41,697 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 15:46:41] "GET /api/gps?hours=1 HTTP/1.1" 200 -
+2025-06-01 15:46:51,700 - __main__ - INFO - Request from 127.0.0.1: GET /api/gps
+2025-06-01 15:46:51,702 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 15:46:51] "GET /api/gps?hours=1 HTTP/1.1" 200 -
+2025-06-01 15:47:01,705 - __main__ - INFO - Request from 127.0.0.1: GET /api/gps
+2025-06-01 15:47:01,707 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 15:47:01] "GET /api/gps?hours=1 HTTP/1.1" 200 -
+2025-06-01 15:47:11,694 - __main__ - INFO - Request from 127.0.0.1: GET /api/gps
+2025-06-01 15:47:11,696 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 15:47:11] "GET /api/gps?hours=1 HTTP/1.1" 200 -
+2025-06-01 15:47:22,377 - __main__ - INFO - Request from 127.0.0.1: GET /api/gps
+2025-06-01 15:47:22,378 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 15:47:22] "GET /api/gps?hours=1 HTTP/1.1" 200 -
+2025-06-01 15:47:32,367 - __main__ - INFO - Request from 127.0.0.1: GET /api/gps
+2025-06-01 15:47:32,368 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 15:47:32] "GET /api/gps?hours=1 HTTP/1.1" 200 -
+2025-06-01 15:47:42,374 - __main__ - INFO - Request from 127.0.0.1: GET /api/gps
+2025-06-01 15:47:42,375 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 15:47:42] "GET /api/gps?hours=1 HTTP/1.1" 200 -
+2025-06-01 15:47:52,380 - __main__ - INFO - Request from 127.0.0.1: GET /api/gps
+2025-06-01 15:47:52,382 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 15:47:52] "GET /api/gps?hours=1 HTTP/1.1" 200 -
+2025-06-01 15:47:57,222 - __main__ - INFO - Server started on port 5053
+2025-06-01 15:47:57,291 - __main__ - INFO - Server started on port 5053
