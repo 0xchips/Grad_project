@@ -35377,3 +35377,1855 @@ EXITING: Signal service thread complete.
 2025-06-01 15:47:52,382 - werkzeug - INFO - 127.0.0.1 - - [01/Jun/2025 15:47:52] "GET /api/gps?hours=1 HTTP/1.1" 200 -
 2025-06-01 15:47:57,222 - __main__ - INFO - Server started on port 5053
 2025-06-01 15:47:57,291 - __main__ - INFO - Server started on port 5053
+2025-06-03 14:32:57,769 - __main__ - INFO - Database initialized successfully
+2025-06-03 14:32:59,572 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5053
+ * Running on http://192.168.76.146:5053
+2025-06-03 14:32:59,573 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-03 14:32:59,610 - werkzeug - INFO -  * Restarting with stat
+2025-06-03 14:33:00,542 - __main__ - INFO - Database initialized successfully
+2025-06-03 14:33:01,123 - werkzeug - WARNING -  * Debugger is active!
+2025-06-03 14:33:01,130 - werkzeug - INFO -  * Debugger PIN: 632-477-463
+2025-06-03 14:33:01,175 - __main__ - INFO - Request from 127.0.0.1: GET /
+2025-06-03 14:33:01,199 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:01] "GET / HTTP/1.1" 200 -
+2025-06-03 14:33:01,284 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-06-03 14:33:01,287 - __main__ - INFO - Request from 127.0.0.1: GET /js/auth.js
+2025-06-03 14:33:01,290 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:01] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-06-03 14:33:01,293 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:01] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-03 14:33:01,300 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-06-03 14:33:01,301 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:01] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-06-03 14:33:01,399 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-06-03 14:33:01,400 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:01] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-06-03 14:33:01,691 - __main__ - INFO - Request from 127.0.0.1: GET /favicon.ico
+2025-06-03 14:33:01,693 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:01] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-06-03 14:33:02,577 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:33:02,632 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:02] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:33:03,710 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/start
+2025-06-03 14:33:03,782 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0'])
+2025-06-03 14:33:03,782 - __main__ - INFO - Running command: sudo kismet -c wlan0
+2025-06-03 14:33:06,829 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:06] "POST /api/kismet/start HTTP/1.1" 200 -
+2025-06-03 14:33:11,881 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:33:11,884 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:33:11,887 - __main__ - WARNING - Could not connect to Kismet API: HTTPConnectionPool(host='localhost', port=2501): Max retries exceeded with url: /system/status.json (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fa239032350>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2025-06-03 14:33:11,887 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:11] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:33:11,888 - __main__ - ERROR - Kismet API error: HTTPConnectionPool(host='localhost', port=2501): Max retries exceeded with url: /devices/last-time/0/devices.json (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fa2390e2900>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2025-06-03 14:33:11,889 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:11] "[35m[1mGET /api/kismet/devices HTTP/1.1[0m" 500 -
+2025-06-03 14:33:16,876 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:33:16,881 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:33:16,973 - __main__ - INFO - Processing 4 devices for BSSID mapping
+2025-06-03 14:33:16,974 - __main__ - INFO - Processed 4 APs, found 4 with SSIDs
+2025-06-03 14:33:16,974 - __main__ - INFO - Processed 4 devices (4 APs, 0 clients)
+2025-06-03 14:33:16,976 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:16] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 14:33:16,990 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:16] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:33:21,894 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:33:21,900 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:33:21,922 - __main__ - INFO - Processing 10 devices for BSSID mapping
+2025-06-03 14:33:21,923 - __main__ - INFO - Processed 6 APs, found 6 with SSIDs
+2025-06-03 14:33:21,923 - __main__ - INFO - Processed 10 devices (6 APs, 2 clients)
+2025-06-03 14:33:21,924 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:21] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 14:33:21,941 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:21] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:33:26,900 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:33:26,901 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:33:26,914 - __main__ - INFO - Processing 14 devices for BSSID mapping
+2025-06-03 14:33:26,914 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 14:33:26,914 - __main__ - INFO - Processed 14 devices (7 APs, 4 clients)
+2025-06-03 14:33:26,915 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:26] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 14:33:26,929 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:26] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:33:38,392 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:33:38,396 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:33:38,423 - __main__ - INFO - Processing 14 devices for BSSID mapping
+2025-06-03 14:33:38,424 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 14:33:38,424 - __main__ - INFO - Processed 14 devices (7 APs, 4 clients)
+2025-06-03 14:33:38,431 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:38] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 14:33:38,450 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:38] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:33:38,527 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:33:38,531 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:33:38,545 - __main__ - INFO - Processing 14 devices for BSSID mapping
+2025-06-03 14:33:38,547 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 14:33:38,547 - __main__ - INFO - Processed 14 devices (7 APs, 4 clients)
+2025-06-03 14:33:38,549 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:38] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 14:33:38,569 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:38] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:33:41,849 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:33:41,851 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:33:41,862 - __main__ - INFO - Processing 17 devices for BSSID mapping
+2025-06-03 14:33:41,862 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 14:33:41,862 - __main__ - INFO - Processed 17 devices (7 APs, 7 clients)
+2025-06-03 14:33:41,863 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:41] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 14:33:42,047 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:42] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:33:46,855 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:33:46,858 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:33:46,889 - __main__ - INFO - Processing 17 devices for BSSID mapping
+2025-06-03 14:33:46,889 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 14:33:46,890 - __main__ - INFO - Processed 17 devices (7 APs, 7 clients)
+2025-06-03 14:33:46,891 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:46] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 14:33:46,900 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:46] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:33:51,848 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:33:51,853 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:33:51,865 - __main__ - INFO - Processing 18 devices for BSSID mapping
+2025-06-03 14:33:51,866 - __main__ - INFO - Processed 8 APs, found 8 with SSIDs
+2025-06-03 14:33:51,866 - __main__ - INFO - Processed 18 devices (8 APs, 7 clients)
+2025-06-03 14:33:51,867 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:51] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 14:33:51,879 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:51] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:33:57,205 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:33:57,220 - __main__ - INFO - Processing 18 devices for BSSID mapping
+2025-06-03 14:33:57,221 - __main__ - INFO - Processed 8 APs, found 8 with SSIDs
+2025-06-03 14:33:57,221 - __main__ - INFO - Processed 18 devices (8 APs, 7 clients)
+2025-06-03 14:33:57,221 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:57] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 14:33:57,451 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:33:57,544 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:33:57] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:34:02,283 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:34:02,379 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:02] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:34:02,445 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:34:02,462 - __main__ - INFO - Processing 19 devices for BSSID mapping
+2025-06-03 14:34:02,463 - __main__ - INFO - Processed 8 APs, found 8 with SSIDs
+2025-06-03 14:34:02,463 - __main__ - INFO - Processed 19 devices (8 APs, 8 clients)
+2025-06-03 14:34:02,463 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:02] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 14:34:07,076 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:34:07,077 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:34:07,093 - __main__ - INFO - Processing 20 devices for BSSID mapping
+2025-06-03 14:34:07,094 - __main__ - INFO - Processed 8 APs, found 8 with SSIDs
+2025-06-03 14:34:07,094 - __main__ - INFO - Processed 20 devices (8 APs, 9 clients)
+2025-06-03 14:34:07,095 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:07] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 14:34:07,171 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:07] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:34:12,237 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:34:12,251 - __main__ - INFO - Processing 21 devices for BSSID mapping
+2025-06-03 14:34:12,252 - __main__ - INFO - Processed 8 APs, found 8 with SSIDs
+2025-06-03 14:34:12,252 - __main__ - INFO - Processed 21 devices (8 APs, 9 clients)
+2025-06-03 14:34:12,253 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:12] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 14:34:12,508 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:34:12,535 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:12] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:34:17,062 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:34:17,072 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:34:17,105 - __main__ - INFO - Processing 24 devices for BSSID mapping
+2025-06-03 14:34:17,105 - __main__ - INFO - Processed 9 APs, found 8 with SSIDs
+2025-06-03 14:34:17,105 - __main__ - INFO - Processed 24 devices (9 APs, 10 clients)
+2025-06-03 14:34:17,106 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 14:34:17,125 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:34:21,944 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:34:22,075 - __main__ - INFO - Processing 24 devices for BSSID mapping
+2025-06-03 14:34:22,077 - __main__ - INFO - Processed 9 APs, found 8 with SSIDs
+2025-06-03 14:34:22,077 - __main__ - INFO - Processed 24 devices (9 APs, 10 clients)
+2025-06-03 14:34:22,078 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:22] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 14:34:22,136 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:34:22,166 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:22] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:34:31,273 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:34:31,278 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:34:31,285 - __main__ - INFO - Request from 127.0.0.1: POST /api/kismet/stop
+2025-06-03 14:34:31,313 - __main__ - INFO - Processing 25 devices for BSSID mapping
+2025-06-03 14:34:31,313 - __main__ - INFO - Processed 9 APs, found 8 with SSIDs
+2025-06-03 14:34:31,313 - __main__ - INFO - Processed 25 devices (9 APs, 11 clients)
+2025-06-03 14:34:31,314 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:31] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 14:34:31,321 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:31] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:34:31,962 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-03 14:34:31,963 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/devices
+2025-06-03 14:34:32,182 - __main__ - INFO - Kismet stopped successfully
+2025-06-03 14:34:32,182 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:32] "POST /api/kismet/stop HTTP/1.1" 200 -
+2025-06-03 14:34:33,088 - __main__ - WARNING - Could not connect to Kismet API: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-06-03 14:34:33,088 - __main__ - ERROR - Kismet API error: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-06-03 14:34:33,090 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:33] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 14:34:33,090 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:33] "[35m[1mGET /api/kismet/devices HTTP/1.1[0m" 500 -
+2025-06-03 14:34:36,758 - __main__ - INFO - Request from 127.0.0.1: POST /api/nessus/full-scan-with-discovery
+2025-06-03 14:34:36,759 - __main__ - INFO - Starting full scan with network discovery...
+2025-06-03 14:34:36,759 - __main__ - INFO - Running network discovery...
+2025-06-03 14:34:39,075 - __main__ - INFO - Discovered 2 network devices
+2025-06-03 14:34:39,075 - __main__ - INFO - Starting Nessus scan for discovered targets: 192.168.76.1,192.168.76.2
+2025-06-03 14:34:39,082 - nessus_scanner - INFO - Nessus not available, using fallback security scanning...
+2025-06-03 14:34:39,082 - fallback_scanner - INFO - Starting fallback security scan for 192.168.76.1,192.168.76.2
+2025-06-03 14:34:39,092 - fallback_scanner - INFO - Running nmap scan on 192.168.76.1,192.168.76.2
+2025-06-03 14:34:39,092 - nessus_scanner - INFO - Fallback security scan started successfully
+2025-06-03 14:34:39,093 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:39] "POST /api/nessus/full-scan-with-discovery HTTP/1.1" 200 -
+2025-06-03 14:34:42,493 - __main__ - INFO - Request from 127.0.0.1: GET /api/nessus/scan/status
+2025-06-03 14:34:42,493 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:42] "GET /api/nessus/scan/status HTTP/1.1" 200 -
+2025-06-03 14:34:46,009 - __main__ - INFO - Request from 127.0.0.1: POST /api/network-discovery
+2025-06-03 14:34:47,353 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:47] "POST /api/network-discovery HTTP/1.1" 200 -
+2025-06-03 14:34:47,609 - __main__ - INFO - Request from 127.0.0.1: GET /api/nessus/scan/status
+2025-06-03 14:34:47,610 - werkzeug - INFO - 127.0.0.1 - - [03/Jun/2025 14:34:47] "GET /api/nessus/scan/status HTTP/1.1" 200 -
+2025-06-03 14:36:25,723 - fallback_scanner - INFO - Running Nikto web vulnerability scan...
+2025-06-03 14:36:25,723 - fallback_scanner - INFO - Running Nikto scan on 192.168.76.1,192.168.76.2
+2025-06-03 14:36:25,731 - fallback_scanner - INFO - Running SSL scan on 192.168.76.1,192.168.76.2
+2025-06-03 14:36:25,732 - fallback_scanner - INFO - Running whatweb on 192.168.76.1,192.168.76.2
+2025-06-03 17:10:50,902 - __main__ - INFO - Database initialized successfully
+2025-06-03 17:10:51,294 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5053
+ * Running on http://192.168.76.146:5053
+2025-06-03 17:10:51,294 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-03 17:10:51,297 - werkzeug - INFO -  * Restarting with stat
+2025-06-03 17:10:51,600 - __main__ - INFO - Database initialized successfully
+2025-06-03 17:10:51,813 - werkzeug - WARNING -  * Debugger is active!
+2025-06-03 17:10:51,813 - werkzeug - INFO -  * Debugger PIN: 201-634-330
+2025-06-03 17:11:01,038 - __main__ - INFO - Request from 192.168.76.1: GET /
+2025-06-03 17:11:01,047 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:11:01] "GET / HTTP/1.1" 200 -
+2025-06-03 17:11:01,087 - __main__ - INFO - Request from 192.168.76.1: GET /static/css/styles.css
+2025-06-03 17:11:01,093 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:11:01] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-06-03 17:11:01,116 - __main__ - INFO - Request from 192.168.76.1: GET /static/css/tailwindcss
+2025-06-03 17:11:01,117 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:11:01] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-06-03 17:11:01,118 - __main__ - INFO - Request from 192.168.76.1: GET /static/js/main.js
+2025-06-03 17:11:01,121 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:11:01] "GET /static/js/main.js HTTP/1.1" 200 -
+2025-06-03 17:11:01,124 - __main__ - INFO - Request from 192.168.76.1: GET /js/auth.js
+2025-06-03 17:11:01,125 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:11:01] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-06-03 17:11:01,777 - __main__ - INFO - Request from 192.168.76.1: GET /favicon.ico
+2025-06-03 17:11:01,777 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:11:01] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-06-03 17:11:02,680 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:11:02,691 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:11:02] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:56:45,116 - __main__ - INFO - Request from 192.168.76.1: GET /deauth.html
+2025-06-03 17:56:45,123 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:56:45] "GET /deauth.html HTTP/1.1" 200 -
+2025-06-03 17:56:45,179 - __main__ - INFO - Request from 192.168.76.1: GET /static/css/styles.css
+2025-06-03 17:56:45,181 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:56:45] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-03 17:56:45,183 - __main__ - INFO - Request from 192.168.76.1: GET /static/js/deauth.js
+2025-06-03 17:56:45,184 - __main__ - INFO - Request from 192.168.76.1: GET /static/js/main.js
+2025-06-03 17:56:45,185 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:56:45] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-06-03 17:56:45,189 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:56:45] "GET /static/js/deauth.js HTTP/1.1" 200 -
+2025-06-03 17:56:45,240 - __main__ - INFO - Request from 192.168.76.1: GET /static/css/tailwindcss
+2025-06-03 17:56:45,241 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:56:45] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-06-03 17:56:45,310 - __main__ - INFO - Request from 192.168.76.1: GET /api/deauth_logs
+2025-06-03 17:56:45,377 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:56:45] "GET /api/deauth_logs HTTP/1.1" 200 -
+2025-06-03 17:56:46,291 - __main__ - INFO - Request from 192.168.76.1: GET /index.html
+2025-06-03 17:56:46,292 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:56:46] "GET /index.html HTTP/1.1" 200 -
+2025-06-03 17:56:46,338 - __main__ - INFO - Request from 192.168.76.1: GET /static/css/styles.css
+2025-06-03 17:56:46,339 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:56:46] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-03 17:56:46,340 - __main__ - INFO - Request from 192.168.76.1: GET /static/js/main.js
+2025-06-03 17:56:46,341 - __main__ - INFO - Request from 192.168.76.1: GET /js/auth.js
+2025-06-03 17:56:46,341 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:56:46] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-06-03 17:56:46,341 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:56:46] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-06-03 17:56:46,363 - __main__ - INFO - Request from 192.168.76.1: GET /static/css/tailwindcss
+2025-06-03 17:56:46,363 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:56:46] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-06-03 17:56:47,409 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:56:47,421 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:56:47] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:56:47,694 - __main__ - INFO - Request from 192.168.76.1: POST /api/kismet/start
+2025-06-03 17:56:47,731 - __main__ - INFO - Starting Kismet on interface wlan0 (available: ['wlan0'])
+2025-06-03 17:56:47,731 - __main__ - INFO - Running command: sudo kismet -c wlan0
+2025-06-03 17:56:50,741 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:56:50] "POST /api/kismet/start HTTP/1.1" 200 -
+2025-06-03 17:56:55,762 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:56:55,764 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:56:55,792 - __main__ - INFO - Processing 6 devices for BSSID mapping
+2025-06-03 17:56:55,792 - __main__ - INFO - Processed 4 APs, found 4 with SSIDs
+2025-06-03 17:56:55,793 - __main__ - INFO - Processed 6 devices (4 APs, 0 clients)
+2025-06-03 17:56:55,793 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:56:55] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:56:55,796 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:56:55] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:57:01,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:57:01,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:57:01,221 - __main__ - INFO - Processing 7 devices for BSSID mapping
+2025-06-03 17:57:01,221 - __main__ - INFO - Processed 5 APs, found 5 with SSIDs
+2025-06-03 17:57:01,221 - __main__ - INFO - Processed 7 devices (5 APs, 1 clients)
+2025-06-03 17:57:01,221 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:01] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:57:01,228 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:01] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:57:06,215 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:57:06,217 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:57:06,226 - __main__ - INFO - Processing 8 devices for BSSID mapping
+2025-06-03 17:57:06,226 - __main__ - INFO - Processed 5 APs, found 5 with SSIDs
+2025-06-03 17:57:06,226 - __main__ - INFO - Processed 8 devices (5 APs, 1 clients)
+2025-06-03 17:57:06,227 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:06] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:57:06,231 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:06] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:57:11,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:57:11,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:57:11,219 - __main__ - INFO - Processing 9 devices for BSSID mapping
+2025-06-03 17:57:11,220 - __main__ - INFO - Processed 6 APs, found 6 with SSIDs
+2025-06-03 17:57:11,220 - __main__ - INFO - Processed 9 devices (6 APs, 1 clients)
+2025-06-03 17:57:11,221 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:11] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:57:11,225 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:11] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:57:16,218 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:57:16,218 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:57:16,229 - __main__ - INFO - Processing 9 devices for BSSID mapping
+2025-06-03 17:57:16,229 - __main__ - INFO - Processed 6 APs, found 6 with SSIDs
+2025-06-03 17:57:16,229 - __main__ - INFO - Processed 9 devices (6 APs, 1 clients)
+2025-06-03 17:57:16,230 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:16] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:57:16,235 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:16] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:57:21,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:57:21,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:57:21,225 - __main__ - INFO - Processing 10 devices for BSSID mapping
+2025-06-03 17:57:21,225 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:57:21,225 - __main__ - INFO - Processed 10 devices (7 APs, 1 clients)
+2025-06-03 17:57:21,226 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:21] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:57:21,234 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:21] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:57:26,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:57:26,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:57:26,224 - __main__ - INFO - Processing 10 devices for BSSID mapping
+2025-06-03 17:57:26,224 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:57:26,225 - __main__ - INFO - Processed 10 devices (7 APs, 1 clients)
+2025-06-03 17:57:26,225 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:26] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:57:26,234 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:26] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:57:31,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:57:31,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:57:31,222 - __main__ - INFO - Processing 12 devices for BSSID mapping
+2025-06-03 17:57:31,223 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:57:31,223 - __main__ - INFO - Processed 12 devices (7 APs, 2 clients)
+2025-06-03 17:57:31,224 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:31] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:57:31,231 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:31] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:57:36,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:57:36,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:57:36,225 - __main__ - INFO - Processing 12 devices for BSSID mapping
+2025-06-03 17:57:36,225 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:57:36,225 - __main__ - INFO - Processed 12 devices (7 APs, 2 clients)
+2025-06-03 17:57:36,226 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:36] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:57:36,232 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:36] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:57:41,215 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:57:41,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:57:41,227 - __main__ - INFO - Processing 12 devices for BSSID mapping
+2025-06-03 17:57:41,227 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:57:41,227 - __main__ - INFO - Processed 12 devices (7 APs, 2 clients)
+2025-06-03 17:57:41,228 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:41] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:57:41,235 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:41] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:57:46,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:57:46,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:57:46,223 - __main__ - INFO - Processing 12 devices for BSSID mapping
+2025-06-03 17:57:46,223 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:57:46,223 - __main__ - INFO - Processed 12 devices (7 APs, 2 clients)
+2025-06-03 17:57:46,224 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:46] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:57:46,231 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:46] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:57:50,762 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:57:50,763 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:57:50,777 - __main__ - INFO - Processing 12 devices for BSSID mapping
+2025-06-03 17:57:50,777 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:57:50,777 - __main__ - INFO - Processed 12 devices (7 APs, 2 clients)
+2025-06-03 17:57:50,778 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:50] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:57:50,784 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:50] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:57:56,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:57:56,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:57:56,224 - __main__ - INFO - Processing 12 devices for BSSID mapping
+2025-06-03 17:57:56,224 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:57:56,224 - __main__ - INFO - Processed 12 devices (7 APs, 2 clients)
+2025-06-03 17:57:56,225 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:56] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:57:56,234 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:57:56] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:58:01,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:58:01,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:58:01,226 - __main__ - INFO - Processing 12 devices for BSSID mapping
+2025-06-03 17:58:01,227 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:58:01,228 - __main__ - INFO - Processed 12 devices (7 APs, 2 clients)
+2025-06-03 17:58:01,229 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:01] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:58:01,234 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:01] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:58:06,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:58:06,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:58:06,225 - __main__ - INFO - Processing 12 devices for BSSID mapping
+2025-06-03 17:58:06,225 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:58:06,226 - __main__ - INFO - Processed 12 devices (7 APs, 2 clients)
+2025-06-03 17:58:06,227 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:06] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:58:06,234 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:06] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:58:11,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:58:11,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:58:11,228 - __main__ - INFO - Processing 13 devices for BSSID mapping
+2025-06-03 17:58:11,228 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:58:11,228 - __main__ - INFO - Processed 13 devices (7 APs, 3 clients)
+2025-06-03 17:58:11,229 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:11] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:58:11,239 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:11] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:58:16,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:58:16,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:58:16,227 - __main__ - INFO - Processing 14 devices for BSSID mapping
+2025-06-03 17:58:16,227 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:58:16,227 - __main__ - INFO - Processed 14 devices (7 APs, 4 clients)
+2025-06-03 17:58:16,228 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:16] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:58:16,236 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:16] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:58:21,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:58:21,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:58:21,224 - __main__ - INFO - Processing 14 devices for BSSID mapping
+2025-06-03 17:58:21,224 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:58:21,224 - __main__ - INFO - Processed 14 devices (7 APs, 4 clients)
+2025-06-03 17:58:21,225 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:21] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:58:21,232 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:21] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:58:25,800 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:58:25,800 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:58:25,813 - __main__ - INFO - Processing 14 devices for BSSID mapping
+2025-06-03 17:58:25,813 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:58:25,813 - __main__ - INFO - Processed 14 devices (7 APs, 4 clients)
+2025-06-03 17:58:25,815 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:25] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:58:25,823 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:25] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:58:30,762 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:58:30,763 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:58:30,774 - __main__ - INFO - Processing 15 devices for BSSID mapping
+2025-06-03 17:58:30,774 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:58:30,775 - __main__ - INFO - Processed 15 devices (7 APs, 5 clients)
+2025-06-03 17:58:30,776 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:30] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:58:30,786 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:30] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:58:36,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:58:36,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:58:36,227 - __main__ - INFO - Processing 15 devices for BSSID mapping
+2025-06-03 17:58:36,227 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:58:36,227 - __main__ - INFO - Processed 15 devices (7 APs, 5 clients)
+2025-06-03 17:58:36,228 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:36] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:58:36,237 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:36] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:58:41,222 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:58:41,222 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:58:41,233 - __main__ - INFO - Processing 16 devices for BSSID mapping
+2025-06-03 17:58:41,233 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:58:41,234 - __main__ - INFO - Processed 16 devices (7 APs, 6 clients)
+2025-06-03 17:58:41,234 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:41] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:58:41,242 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:41] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:58:46,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:58:46,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:58:46,231 - __main__ - INFO - Processing 16 devices for BSSID mapping
+2025-06-03 17:58:46,232 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:58:46,232 - __main__ - INFO - Processed 16 devices (7 APs, 6 clients)
+2025-06-03 17:58:46,233 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:46] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:58:46,245 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:46] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:58:51,210 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:58:51,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:58:51,223 - __main__ - INFO - Processing 17 devices for BSSID mapping
+2025-06-03 17:58:51,224 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:58:51,224 - __main__ - INFO - Processed 17 devices (7 APs, 7 clients)
+2025-06-03 17:58:51,225 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:51] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:58:51,233 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:51] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:58:56,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:58:56,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:58:56,226 - __main__ - INFO - Processing 17 devices for BSSID mapping
+2025-06-03 17:58:56,226 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:58:56,226 - __main__ - INFO - Processed 17 devices (7 APs, 7 clients)
+2025-06-03 17:58:56,226 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:56] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:58:56,237 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:58:56] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:59:01,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:59:01,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:59:01,228 - __main__ - INFO - Processing 18 devices for BSSID mapping
+2025-06-03 17:59:01,228 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:59:01,229 - __main__ - INFO - Processed 18 devices (7 APs, 8 clients)
+2025-06-03 17:59:01,229 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:01] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:59:01,244 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:01] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:59:06,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:59:06,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:59:06,226 - __main__ - INFO - Processing 19 devices for BSSID mapping
+2025-06-03 17:59:06,226 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:59:06,226 - __main__ - INFO - Processed 19 devices (7 APs, 9 clients)
+2025-06-03 17:59:06,227 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:06] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:59:06,277 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:06] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:59:11,215 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:59:11,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:59:11,230 - __main__ - INFO - Processing 19 devices for BSSID mapping
+2025-06-03 17:59:11,230 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:59:11,231 - __main__ - INFO - Processed 19 devices (7 APs, 9 clients)
+2025-06-03 17:59:11,232 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:11] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:59:11,243 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:11] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:59:16,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:59:16,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:59:16,223 - __main__ - INFO - Processing 19 devices for BSSID mapping
+2025-06-03 17:59:16,224 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:59:16,224 - __main__ - INFO - Processed 19 devices (7 APs, 9 clients)
+2025-06-03 17:59:16,225 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:16] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:59:16,234 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:16] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:59:21,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:59:21,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:59:21,224 - __main__ - INFO - Processing 20 devices for BSSID mapping
+2025-06-03 17:59:21,224 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:59:21,225 - __main__ - INFO - Processed 20 devices (7 APs, 9 clients)
+2025-06-03 17:59:21,225 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:21] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:59:21,233 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:21] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:59:26,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:59:26,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:59:26,226 - __main__ - INFO - Processing 20 devices for BSSID mapping
+2025-06-03 17:59:26,226 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:59:26,227 - __main__ - INFO - Processed 20 devices (7 APs, 9 clients)
+2025-06-03 17:59:26,228 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:26] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:59:26,235 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:26] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:59:31,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:59:31,217 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:59:31,231 - __main__ - INFO - Processing 21 devices for BSSID mapping
+2025-06-03 17:59:31,231 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:59:31,231 - __main__ - INFO - Processed 21 devices (7 APs, 10 clients)
+2025-06-03 17:59:31,232 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:31] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:59:31,247 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:31] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:59:36,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:59:36,215 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:59:36,227 - __main__ - INFO - Processing 21 devices for BSSID mapping
+2025-06-03 17:59:36,227 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:59:36,227 - __main__ - INFO - Processed 21 devices (7 APs, 10 clients)
+2025-06-03 17:59:36,229 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:36] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:59:36,239 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:36] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:59:41,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:59:41,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:59:41,229 - __main__ - INFO - Processing 22 devices for BSSID mapping
+2025-06-03 17:59:41,229 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:59:41,230 - __main__ - INFO - Processed 22 devices (7 APs, 11 clients)
+2025-06-03 17:59:41,230 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:41] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:59:41,244 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:41] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:59:46,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:59:46,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:59:46,225 - __main__ - INFO - Processing 23 devices for BSSID mapping
+2025-06-03 17:59:46,225 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:59:46,225 - __main__ - INFO - Processed 23 devices (7 APs, 12 clients)
+2025-06-03 17:59:46,226 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:46] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:59:46,238 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:46] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:59:50,762 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:59:50,762 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:59:50,779 - __main__ - INFO - Processing 23 devices for BSSID mapping
+2025-06-03 17:59:50,780 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:59:50,781 - __main__ - INFO - Processed 23 devices (7 APs, 12 clients)
+2025-06-03 17:59:50,781 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:50] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:59:50,792 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:50] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 17:59:55,761 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 17:59:55,762 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 17:59:55,779 - __main__ - INFO - Processing 23 devices for BSSID mapping
+2025-06-03 17:59:55,779 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 17:59:55,779 - __main__ - INFO - Processed 23 devices (7 APs, 12 clients)
+2025-06-03 17:59:55,780 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:55] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 17:59:55,795 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 17:59:55] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:00:00,763 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:00:00,764 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:00:00,777 - __main__ - INFO - Processing 23 devices for BSSID mapping
+2025-06-03 18:00:00,777 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 18:00:00,777 - __main__ - INFO - Processed 23 devices (7 APs, 12 clients)
+2025-06-03 18:00:00,778 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:00] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:00:00,790 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:00] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:00:06,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:00:06,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:00:06,228 - __main__ - INFO - Processing 23 devices for BSSID mapping
+2025-06-03 18:00:06,229 - __main__ - INFO - Processed 7 APs, found 7 with SSIDs
+2025-06-03 18:00:06,229 - __main__ - INFO - Processed 23 devices (7 APs, 12 clients)
+2025-06-03 18:00:06,229 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:06] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:00:06,238 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:06] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:00:11,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:00:11,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:00:11,225 - __main__ - INFO - Processing 24 devices for BSSID mapping
+2025-06-03 18:00:11,225 - __main__ - INFO - Processed 8 APs, found 8 with SSIDs
+2025-06-03 18:00:11,226 - __main__ - INFO - Processed 24 devices (8 APs, 12 clients)
+2025-06-03 18:00:11,226 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:11] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:00:11,237 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:11] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:00:16,215 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:00:16,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:00:16,229 - __main__ - INFO - Processing 24 devices for BSSID mapping
+2025-06-03 18:00:16,229 - __main__ - INFO - Processed 8 APs, found 8 with SSIDs
+2025-06-03 18:00:16,229 - __main__ - INFO - Processed 24 devices (8 APs, 12 clients)
+2025-06-03 18:00:16,232 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:16] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:00:16,241 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:16] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:00:21,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:00:21,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:00:21,232 - __main__ - INFO - Processing 24 devices for BSSID mapping
+2025-06-03 18:00:21,233 - __main__ - INFO - Processed 8 APs, found 8 with SSIDs
+2025-06-03 18:00:21,233 - __main__ - INFO - Processed 24 devices (8 APs, 12 clients)
+2025-06-03 18:00:21,234 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:21] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:00:21,248 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:21] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:00:26,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:00:26,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:00:26,226 - __main__ - INFO - Processing 24 devices for BSSID mapping
+2025-06-03 18:00:26,226 - __main__ - INFO - Processed 8 APs, found 8 with SSIDs
+2025-06-03 18:00:26,226 - __main__ - INFO - Processed 24 devices (8 APs, 12 clients)
+2025-06-03 18:00:26,227 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:26] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:00:26,237 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:26] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:00:31,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:00:31,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:00:31,228 - __main__ - INFO - Processing 27 devices for BSSID mapping
+2025-06-03 18:00:31,228 - __main__ - INFO - Processed 9 APs, found 9 with SSIDs
+2025-06-03 18:00:31,228 - __main__ - INFO - Processed 27 devices (9 APs, 13 clients)
+2025-06-03 18:00:31,229 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:31] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:00:31,241 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:31] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:00:36,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:00:36,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:00:36,231 - __main__ - INFO - Processing 27 devices for BSSID mapping
+2025-06-03 18:00:36,232 - __main__ - INFO - Processed 9 APs, found 9 with SSIDs
+2025-06-03 18:00:36,232 - __main__ - INFO - Processed 27 devices (9 APs, 13 clients)
+2025-06-03 18:00:36,232 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:36] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:00:36,245 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:36] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:00:41,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:00:41,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:00:41,231 - __main__ - INFO - Processing 27 devices for BSSID mapping
+2025-06-03 18:00:41,231 - __main__ - INFO - Processed 9 APs, found 9 with SSIDs
+2025-06-03 18:00:41,231 - __main__ - INFO - Processed 27 devices (9 APs, 13 clients)
+2025-06-03 18:00:41,232 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:41] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:00:41,245 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:41] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:00:46,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:00:46,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:00:46,229 - __main__ - INFO - Processing 27 devices for BSSID mapping
+2025-06-03 18:00:46,230 - __main__ - INFO - Processed 9 APs, found 9 with SSIDs
+2025-06-03 18:00:46,230 - __main__ - INFO - Processed 27 devices (9 APs, 13 clients)
+2025-06-03 18:00:46,231 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:46] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:00:46,245 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:46] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:00:51,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:00:51,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:00:51,229 - __main__ - INFO - Processing 27 devices for BSSID mapping
+2025-06-03 18:00:51,229 - __main__ - INFO - Processed 9 APs, found 9 with SSIDs
+2025-06-03 18:00:51,230 - __main__ - INFO - Processed 27 devices (9 APs, 13 clients)
+2025-06-03 18:00:51,230 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:51] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:00:51,247 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:51] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:00:56,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:00:56,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:00:56,230 - __main__ - INFO - Processing 27 devices for BSSID mapping
+2025-06-03 18:00:56,230 - __main__ - INFO - Processed 9 APs, found 9 with SSIDs
+2025-06-03 18:00:56,230 - __main__ - INFO - Processed 27 devices (9 APs, 13 clients)
+2025-06-03 18:00:56,231 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:56] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:00:56,246 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:00:56] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:01:01,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:01:01,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:01:01,226 - __main__ - INFO - Processing 27 devices for BSSID mapping
+2025-06-03 18:01:01,227 - __main__ - INFO - Processed 9 APs, found 9 with SSIDs
+2025-06-03 18:01:01,227 - __main__ - INFO - Processed 27 devices (9 APs, 13 clients)
+2025-06-03 18:01:01,228 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:01] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:01:01,241 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:01] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:01:17,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:01:17,217 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:01:17,234 - __main__ - INFO - Processing 28 devices for BSSID mapping
+2025-06-03 18:01:17,235 - __main__ - INFO - Processed 9 APs, found 9 with SSIDs
+2025-06-03 18:01:17,235 - __main__ - INFO - Processed 28 devices (9 APs, 14 clients)
+2025-06-03 18:01:17,236 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:01:17,248 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:01:20,761 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:01:20,762 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:01:20,778 - __main__ - INFO - Processing 28 devices for BSSID mapping
+2025-06-03 18:01:20,779 - __main__ - INFO - Processed 9 APs, found 9 with SSIDs
+2025-06-03 18:01:20,779 - __main__ - INFO - Processed 28 devices (9 APs, 14 clients)
+2025-06-03 18:01:20,780 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:20] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:01:20,795 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:20] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:01:25,910 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:01:25,914 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:01:25,931 - __main__ - INFO - Processing 28 devices for BSSID mapping
+2025-06-03 18:01:25,931 - __main__ - INFO - Processed 9 APs, found 9 with SSIDs
+2025-06-03 18:01:25,932 - __main__ - INFO - Processed 28 devices (9 APs, 14 clients)
+2025-06-03 18:01:25,933 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:25] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:01:25,948 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:25] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:01:30,763 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:01:30,763 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:01:30,783 - __main__ - INFO - Processing 28 devices for BSSID mapping
+2025-06-03 18:01:30,783 - __main__ - INFO - Processed 9 APs, found 9 with SSIDs
+2025-06-03 18:01:30,784 - __main__ - INFO - Processed 28 devices (9 APs, 14 clients)
+2025-06-03 18:01:30,784 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:30] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:01:30,798 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:30] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:01:35,762 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:01:35,763 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:01:35,782 - __main__ - INFO - Processing 28 devices for BSSID mapping
+2025-06-03 18:01:35,782 - __main__ - INFO - Processed 9 APs, found 9 with SSIDs
+2025-06-03 18:01:35,782 - __main__ - INFO - Processed 28 devices (9 APs, 14 clients)
+2025-06-03 18:01:35,783 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:35] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:01:35,795 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:35] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:01:41,210 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:01:41,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:01:41,226 - __main__ - INFO - Processing 31 devices for BSSID mapping
+2025-06-03 18:01:41,227 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:01:41,227 - __main__ - INFO - Processed 31 devices (10 APs, 15 clients)
+2025-06-03 18:01:41,227 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:41] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:01:41,242 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:41] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:01:46,219 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:01:46,220 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:01:46,239 - __main__ - INFO - Processing 31 devices for BSSID mapping
+2025-06-03 18:01:46,240 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:01:46,240 - __main__ - INFO - Processed 31 devices (10 APs, 15 clients)
+2025-06-03 18:01:46,241 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:46] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:01:46,257 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:46] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:01:51,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:01:51,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:01:51,232 - __main__ - INFO - Processing 31 devices for BSSID mapping
+2025-06-03 18:01:51,233 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:01:51,233 - __main__ - INFO - Processed 31 devices (10 APs, 15 clients)
+2025-06-03 18:01:51,234 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:51] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:01:51,246 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:51] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:01:56,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:01:56,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:01:56,228 - __main__ - INFO - Processing 31 devices for BSSID mapping
+2025-06-03 18:01:56,229 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:01:56,229 - __main__ - INFO - Processed 31 devices (10 APs, 15 clients)
+2025-06-03 18:01:56,230 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:56] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:01:56,256 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:01:56] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:02:01,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:02:01,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:02:01,234 - __main__ - INFO - Processing 33 devices for BSSID mapping
+2025-06-03 18:02:01,234 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:02:01,234 - __main__ - INFO - Processed 33 devices (10 APs, 15 clients)
+2025-06-03 18:02:01,234 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:01] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:02:01,251 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:01] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:02:06,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:02:06,215 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:02:06,231 - __main__ - INFO - Processing 33 devices for BSSID mapping
+2025-06-03 18:02:06,231 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:02:06,231 - __main__ - INFO - Processed 33 devices (10 APs, 15 clients)
+2025-06-03 18:02:06,232 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:06] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:02:06,247 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:06] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:02:10,760 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:02:10,761 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:02:10,781 - __main__ - INFO - Processing 33 devices for BSSID mapping
+2025-06-03 18:02:10,781 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:02:10,781 - __main__ - INFO - Processed 33 devices (10 APs, 15 clients)
+2025-06-03 18:02:10,782 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:10] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:02:10,798 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:10] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:02:16,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:02:16,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:02:16,233 - __main__ - INFO - Processing 34 devices for BSSID mapping
+2025-06-03 18:02:16,234 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:02:16,234 - __main__ - INFO - Processed 34 devices (10 APs, 16 clients)
+2025-06-03 18:02:16,234 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:16] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:02:16,251 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:16] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:02:21,210 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:02:21,210 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:02:21,230 - __main__ - INFO - Processing 35 devices for BSSID mapping
+2025-06-03 18:02:21,230 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:02:21,230 - __main__ - INFO - Processed 35 devices (10 APs, 17 clients)
+2025-06-03 18:02:21,230 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:21] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:02:21,247 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:21] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:02:26,210 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:02:26,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:02:26,232 - __main__ - INFO - Processing 35 devices for BSSID mapping
+2025-06-03 18:02:26,232 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:02:26,232 - __main__ - INFO - Processed 35 devices (10 APs, 17 clients)
+2025-06-03 18:02:26,233 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:26] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:02:26,249 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:26] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:02:31,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:02:31,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:02:31,231 - __main__ - INFO - Processing 37 devices for BSSID mapping
+2025-06-03 18:02:31,231 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:02:31,231 - __main__ - INFO - Processed 37 devices (10 APs, 18 clients)
+2025-06-03 18:02:31,233 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:31] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:02:31,248 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:31] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:02:36,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:02:36,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:02:36,236 - __main__ - INFO - Processing 38 devices for BSSID mapping
+2025-06-03 18:02:36,236 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:02:36,236 - __main__ - INFO - Processed 38 devices (10 APs, 19 clients)
+2025-06-03 18:02:36,237 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:36] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:02:36,257 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:36] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:02:41,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:02:41,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:02:41,242 - __main__ - INFO - Processing 38 devices for BSSID mapping
+2025-06-03 18:02:41,242 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:02:41,242 - __main__ - INFO - Processed 38 devices (10 APs, 19 clients)
+2025-06-03 18:02:41,243 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:41] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:02:41,260 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:41] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:02:46,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:02:46,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:02:46,231 - __main__ - INFO - Processing 38 devices for BSSID mapping
+2025-06-03 18:02:46,232 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:02:46,232 - __main__ - INFO - Processed 38 devices (10 APs, 19 clients)
+2025-06-03 18:02:46,232 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:46] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:02:46,250 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:46] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:02:51,210 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:02:51,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:02:51,231 - __main__ - INFO - Processing 39 devices for BSSID mapping
+2025-06-03 18:02:51,231 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:02:51,231 - __main__ - INFO - Processed 39 devices (10 APs, 20 clients)
+2025-06-03 18:02:51,232 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:51] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:02:51,250 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:51] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:02:56,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:02:56,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:02:56,235 - __main__ - INFO - Processing 39 devices for BSSID mapping
+2025-06-03 18:02:56,235 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:02:56,235 - __main__ - INFO - Processed 39 devices (10 APs, 20 clients)
+2025-06-03 18:02:56,236 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:56] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:02:56,253 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:02:56] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:03:01,215 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:03:01,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:03:01,235 - __main__ - INFO - Processing 39 devices for BSSID mapping
+2025-06-03 18:03:01,235 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:03:01,235 - __main__ - INFO - Processed 39 devices (10 APs, 20 clients)
+2025-06-03 18:03:01,236 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:03:01] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:03:01,254 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:03:01] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:03:06,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:03:06,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:03:06,257 - __main__ - INFO - Processing 39 devices for BSSID mapping
+2025-06-03 18:03:06,258 - __main__ - INFO - Processed 10 APs, found 9 with SSIDs
+2025-06-03 18:03:06,258 - __main__ - INFO - Processed 39 devices (10 APs, 20 clients)
+2025-06-03 18:03:06,261 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:03:06] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:03:06,292 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:03:06] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:03:11,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:03:11,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:03:11,234 - __main__ - INFO - Processing 41 devices for BSSID mapping
+2025-06-03 18:03:11,235 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:03:11,235 - __main__ - INFO - Processed 41 devices (11 APs, 21 clients)
+2025-06-03 18:03:11,235 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:03:11] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:03:11,257 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:03:11] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:03:17,218 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:03:17,219 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:03:17,241 - __main__ - INFO - Processing 41 devices for BSSID mapping
+2025-06-03 18:03:17,241 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:03:17,242 - __main__ - INFO - Processed 41 devices (11 APs, 22 clients)
+2025-06-03 18:03:17,243 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:03:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:03:17,261 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:03:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:04:17,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:04:17,215 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:04:17,242 - __main__ - INFO - Processing 43 devices for BSSID mapping
+2025-06-03 18:04:17,242 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:04:17,243 - __main__ - INFO - Processed 43 devices (11 APs, 24 clients)
+2025-06-03 18:04:17,244 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:04:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:04:17,263 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:04:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:04:37,196 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:04:37,201 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:04:37,222 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:04:37] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:04:37,243 - __main__ - INFO - Processing 44 devices for BSSID mapping
+2025-06-03 18:04:37,243 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:04:37,243 - __main__ - INFO - Processed 44 devices (11 APs, 25 clients)
+2025-06-03 18:04:37,244 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:04:37] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:04:41,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:04:41,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:04:41,235 - __main__ - INFO - Processing 44 devices for BSSID mapping
+2025-06-03 18:04:41,236 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:04:41,236 - __main__ - INFO - Processed 44 devices (11 APs, 25 clients)
+2025-06-03 18:04:41,237 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:04:41] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:04:41,256 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:04:41] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:04:46,274 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:04:46,275 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:04:46,300 - __main__ - INFO - Processing 44 devices for BSSID mapping
+2025-06-03 18:04:46,300 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:04:46,301 - __main__ - INFO - Processed 44 devices (11 APs, 25 clients)
+2025-06-03 18:04:46,301 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:04:46] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:04:46,322 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:04:46] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:04:51,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:04:51,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:04:51,234 - __main__ - INFO - Processing 45 devices for BSSID mapping
+2025-06-03 18:04:51,235 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:04:51,235 - __main__ - INFO - Processed 45 devices (11 APs, 26 clients)
+2025-06-03 18:04:51,236 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:04:51] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:04:51,256 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:04:51] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:04:56,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:04:56,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:04:56,236 - __main__ - INFO - Processing 45 devices for BSSID mapping
+2025-06-03 18:04:56,236 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:04:56,236 - __main__ - INFO - Processed 45 devices (11 APs, 26 clients)
+2025-06-03 18:04:56,238 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:04:56] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:04:56,256 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:04:56] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:05:01,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:05:01,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:05:01,236 - __main__ - INFO - Processing 45 devices for BSSID mapping
+2025-06-03 18:05:01,236 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:05:01,236 - __main__ - INFO - Processed 45 devices (11 APs, 26 clients)
+2025-06-03 18:05:01,237 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:01] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:05:01,255 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:01] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:05:06,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:05:06,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:05:06,233 - __main__ - INFO - Processing 45 devices for BSSID mapping
+2025-06-03 18:05:06,234 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:05:06,234 - __main__ - INFO - Processed 45 devices (11 APs, 26 clients)
+2025-06-03 18:05:06,235 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:06] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:05:06,252 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:06] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:05:11,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:05:11,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:05:11,237 - __main__ - INFO - Processing 45 devices for BSSID mapping
+2025-06-03 18:05:11,237 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:05:11,238 - __main__ - INFO - Processed 45 devices (11 APs, 26 clients)
+2025-06-03 18:05:11,238 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:11] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:05:11,258 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:11] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:05:16,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:05:16,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:05:16,234 - __main__ - INFO - Processing 45 devices for BSSID mapping
+2025-06-03 18:05:16,234 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:05:16,234 - __main__ - INFO - Processed 45 devices (11 APs, 26 clients)
+2025-06-03 18:05:16,235 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:16] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:05:16,253 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:16] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:05:21,210 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:05:21,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:05:21,232 - __main__ - INFO - Processing 46 devices for BSSID mapping
+2025-06-03 18:05:21,233 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:05:21,233 - __main__ - INFO - Processed 46 devices (11 APs, 27 clients)
+2025-06-03 18:05:21,234 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:21] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:05:21,294 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:21] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:05:25,762 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:05:25,762 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:05:25,785 - __main__ - INFO - Processing 46 devices for BSSID mapping
+2025-06-03 18:05:25,785 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:05:25,786 - __main__ - INFO - Processed 46 devices (11 APs, 27 clients)
+2025-06-03 18:05:25,786 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:25] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:05:25,810 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:25] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:05:31,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:05:31,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:05:31,240 - __main__ - INFO - Processing 47 devices for BSSID mapping
+2025-06-03 18:05:31,240 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:05:31,240 - __main__ - INFO - Processed 47 devices (11 APs, 28 clients)
+2025-06-03 18:05:31,242 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:31] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:05:31,262 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:31] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:05:36,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:05:36,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:05:36,249 - __main__ - INFO - Processing 47 devices for BSSID mapping
+2025-06-03 18:05:36,250 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:05:36,251 - __main__ - INFO - Processed 47 devices (11 APs, 28 clients)
+2025-06-03 18:05:36,254 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:36] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:05:36,281 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:36] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:05:41,209 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:05:41,210 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:05:41,231 - __main__ - INFO - Processing 47 devices for BSSID mapping
+2025-06-03 18:05:41,231 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:05:41,231 - __main__ - INFO - Processed 47 devices (11 APs, 28 clients)
+2025-06-03 18:05:41,232 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:41] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:05:41,251 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:41] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:05:46,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:05:46,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:05:46,237 - __main__ - INFO - Processing 47 devices for BSSID mapping
+2025-06-03 18:05:46,238 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:05:46,238 - __main__ - INFO - Processed 47 devices (11 APs, 28 clients)
+2025-06-03 18:05:46,240 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:46] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:05:46,260 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:46] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:05:51,209 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:05:51,210 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:05:51,233 - __main__ - INFO - Processing 47 devices for BSSID mapping
+2025-06-03 18:05:51,233 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:05:51,233 - __main__ - INFO - Processed 47 devices (11 APs, 28 clients)
+2025-06-03 18:05:51,234 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:51] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:05:51,251 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:51] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:05:56,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:05:56,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:05:56,236 - __main__ - INFO - Processing 47 devices for BSSID mapping
+2025-06-03 18:05:56,236 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:05:56,236 - __main__ - INFO - Processed 47 devices (11 APs, 28 clients)
+2025-06-03 18:05:56,240 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:56] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:05:56,262 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:05:56] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:06:01,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:06:01,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:06:01,237 - __main__ - INFO - Processing 47 devices for BSSID mapping
+2025-06-03 18:06:01,238 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:06:01,238 - __main__ - INFO - Processed 47 devices (11 APs, 28 clients)
+2025-06-03 18:06:01,240 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:06:01] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:06:01,260 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:06:01] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:06:06,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:06:06,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:06:06,244 - __main__ - INFO - Processing 47 devices for BSSID mapping
+2025-06-03 18:06:06,244 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:06:06,245 - __main__ - INFO - Processed 47 devices (11 APs, 28 clients)
+2025-06-03 18:06:06,246 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:06:06] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:06:06,275 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:06:06] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:06:11,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:06:11,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:06:11,243 - __main__ - INFO - Processing 49 devices for BSSID mapping
+2025-06-03 18:06:11,243 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:06:11,244 - __main__ - INFO - Processed 49 devices (11 APs, 30 clients)
+2025-06-03 18:06:11,245 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:06:11] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:06:11,265 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:06:11] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:06:16,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:06:16,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:06:16,237 - __main__ - INFO - Processing 49 devices for BSSID mapping
+2025-06-03 18:06:16,238 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:06:16,239 - __main__ - INFO - Processed 49 devices (11 APs, 30 clients)
+2025-06-03 18:06:16,240 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:06:16] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:06:16,260 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:06:16] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:06:21,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:06:21,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:06:21,247 - __main__ - INFO - Processing 49 devices for BSSID mapping
+2025-06-03 18:06:21,249 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:06:21,249 - __main__ - INFO - Processed 49 devices (11 APs, 30 clients)
+2025-06-03 18:06:21,250 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:06:21] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:06:21,282 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:06:21] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:06:26,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:06:26,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:06:26,237 - __main__ - INFO - Processing 49 devices for BSSID mapping
+2025-06-03 18:06:26,237 - __main__ - INFO - Processed 11 APs, found 10 with SSIDs
+2025-06-03 18:06:26,237 - __main__ - INFO - Processed 49 devices (11 APs, 30 clients)
+2025-06-03 18:06:26,238 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:06:26] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:06:26,259 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:06:26] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:07:17,218 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:07:17,220 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:07:17,245 - __main__ - INFO - Processing 54 devices for BSSID mapping
+2025-06-03 18:07:17,245 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:07:17,246 - __main__ - INFO - Processed 54 devices (12 APs, 34 clients)
+2025-06-03 18:07:17,247 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:07:17,268 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:07:27,988 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:07:27,995 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:07:28,024 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:28] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:07:28,046 - __main__ - INFO - Processing 54 devices for BSSID mapping
+2025-06-03 18:07:28,047 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:07:28,047 - __main__ - INFO - Processed 54 devices (12 APs, 34 clients)
+2025-06-03 18:07:28,047 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:28] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:07:30,763 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:07:30,764 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:07:30,801 - __main__ - INFO - Processing 54 devices for BSSID mapping
+2025-06-03 18:07:30,801 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:07:30,801 - __main__ - INFO - Processed 54 devices (12 APs, 34 clients)
+2025-06-03 18:07:30,803 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:30] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:07:30,844 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:30] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:07:36,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:07:36,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:07:36,243 - __main__ - INFO - Processing 54 devices for BSSID mapping
+2025-06-03 18:07:36,244 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:07:36,244 - __main__ - INFO - Processed 54 devices (12 APs, 34 clients)
+2025-06-03 18:07:36,245 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:36] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:07:36,268 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:36] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:07:41,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:07:41,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:07:41,234 - __main__ - INFO - Processing 54 devices for BSSID mapping
+2025-06-03 18:07:41,235 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:07:41,235 - __main__ - INFO - Processed 54 devices (12 APs, 34 clients)
+2025-06-03 18:07:41,236 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:41] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:07:41,257 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:41] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:07:46,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:07:46,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:07:46,238 - __main__ - INFO - Processing 54 devices for BSSID mapping
+2025-06-03 18:07:46,239 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:07:46,239 - __main__ - INFO - Processed 54 devices (12 APs, 34 clients)
+2025-06-03 18:07:46,240 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:46] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:07:46,259 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:46] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:07:51,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:07:51,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:07:51,249 - __main__ - INFO - Processing 54 devices for BSSID mapping
+2025-06-03 18:07:51,250 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:07:51,250 - __main__ - INFO - Processed 54 devices (12 APs, 34 clients)
+2025-06-03 18:07:51,251 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:51] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:07:51,276 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:51] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:07:56,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:07:56,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:07:56,238 - __main__ - INFO - Processing 55 devices for BSSID mapping
+2025-06-03 18:07:56,238 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:07:56,238 - __main__ - INFO - Processed 55 devices (12 APs, 35 clients)
+2025-06-03 18:07:56,240 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:56] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:07:56,261 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:07:56] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:08:01,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:08:01,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:08:01,241 - __main__ - INFO - Processing 55 devices for BSSID mapping
+2025-06-03 18:08:01,241 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:08:01,241 - __main__ - INFO - Processed 55 devices (12 APs, 35 clients)
+2025-06-03 18:08:01,241 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:08:01] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:08:01,263 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:08:01] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:08:06,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:08:06,211 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:08:06,236 - __main__ - INFO - Processing 55 devices for BSSID mapping
+2025-06-03 18:08:06,237 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:08:06,237 - __main__ - INFO - Processed 55 devices (12 APs, 35 clients)
+2025-06-03 18:08:06,237 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:08:06] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:08:06,260 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:08:06] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:08:11,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:08:11,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:08:11,238 - __main__ - INFO - Processing 55 devices for BSSID mapping
+2025-06-03 18:08:11,239 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:08:11,240 - __main__ - INFO - Processed 55 devices (12 APs, 35 clients)
+2025-06-03 18:08:11,241 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:08:11] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:08:11,259 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:08:11] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:08:16,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:08:16,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:08:16,249 - __main__ - INFO - Processing 56 devices for BSSID mapping
+2025-06-03 18:08:16,249 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:08:16,249 - __main__ - INFO - Processed 56 devices (12 APs, 36 clients)
+2025-06-03 18:08:16,250 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:08:16] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:08:16,274 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:08:16] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:08:21,212 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:08:21,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:08:21,240 - __main__ - INFO - Processing 56 devices for BSSID mapping
+2025-06-03 18:08:21,242 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:08:21,242 - __main__ - INFO - Processed 56 devices (12 APs, 36 clients)
+2025-06-03 18:08:21,243 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:08:21] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:08:21,270 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:08:21] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:08:26,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:08:26,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:08:26,243 - __main__ - INFO - Processing 56 devices for BSSID mapping
+2025-06-03 18:08:26,244 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:08:26,244 - __main__ - INFO - Processed 56 devices (12 APs, 36 clients)
+2025-06-03 18:08:26,245 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:08:26] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:08:26,264 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:08:26] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:08:31,215 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:08:31,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:08:31,241 - __main__ - INFO - Processing 56 devices for BSSID mapping
+2025-06-03 18:08:31,241 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:08:31,241 - __main__ - INFO - Processed 56 devices (12 APs, 36 clients)
+2025-06-03 18:08:31,242 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:08:31] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:08:31,264 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:08:31] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:09:17,218 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:09:17,218 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:09:17,252 - __main__ - INFO - Processing 56 devices for BSSID mapping
+2025-06-03 18:09:17,252 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:09:17,252 - __main__ - INFO - Processed 56 devices (12 APs, 36 clients)
+2025-06-03 18:09:17,253 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:09:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:09:17,277 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:09:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:10:17,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:10:17,215 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:10:17,246 - __main__ - INFO - Processing 57 devices for BSSID mapping
+2025-06-03 18:10:17,247 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:10:17,247 - __main__ - INFO - Processed 57 devices (12 APs, 37 clients)
+2025-06-03 18:10:17,248 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:10:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:10:17,274 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:10:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:11:17,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:11:17,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:11:17,243 - __main__ - INFO - Processing 61 devices for BSSID mapping
+2025-06-03 18:11:17,243 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:11:17,244 - __main__ - INFO - Processed 61 devices (12 APs, 41 clients)
+2025-06-03 18:11:17,245 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:11:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:11:17,271 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:11:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:12:17,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:12:17,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:12:17,248 - __main__ - INFO - Processing 62 devices for BSSID mapping
+2025-06-03 18:12:17,249 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:12:17,249 - __main__ - INFO - Processed 62 devices (12 APs, 42 clients)
+2025-06-03 18:12:17,250 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:12:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:12:17,273 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:12:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:13:17,219 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:13:17,221 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:13:17,248 - __main__ - INFO - Processing 67 devices for BSSID mapping
+2025-06-03 18:13:17,248 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:13:17,248 - __main__ - INFO - Processed 67 devices (12 APs, 46 clients)
+2025-06-03 18:13:17,250 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:13:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:13:17,273 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:13:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:14:17,215 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:14:17,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:14:17,274 - __main__ - INFO - Processing 68 devices for BSSID mapping
+2025-06-03 18:14:17,276 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:14:17,277 - __main__ - INFO - Processed 68 devices (12 APs, 47 clients)
+2025-06-03 18:14:17,279 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:14:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:14:17,314 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:14:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:15:17,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:15:17,218 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:15:17,257 - __main__ - INFO - Processing 70 devices for BSSID mapping
+2025-06-03 18:15:17,257 - __main__ - INFO - Processed 12 APs, found 11 with SSIDs
+2025-06-03 18:15:17,257 - __main__ - INFO - Processed 70 devices (12 APs, 49 clients)
+2025-06-03 18:15:17,260 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:15:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:15:17,292 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:15:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:16:17,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:16:17,217 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:16:17,254 - __main__ - INFO - Processing 78 devices for BSSID mapping
+2025-06-03 18:16:17,254 - __main__ - INFO - Processed 13 APs, found 12 with SSIDs
+2025-06-03 18:16:17,254 - __main__ - INFO - Processed 78 devices (13 APs, 55 clients)
+2025-06-03 18:16:17,256 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:16:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:16:17,282 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:16:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:17:17,215 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:17:17,215 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:17:17,254 - __main__ - INFO - Processing 84 devices for BSSID mapping
+2025-06-03 18:17:17,255 - __main__ - INFO - Processed 13 APs, found 12 with SSIDs
+2025-06-03 18:17:17,255 - __main__ - INFO - Processed 84 devices (13 APs, 61 clients)
+2025-06-03 18:17:17,257 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:17:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:17:17,284 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:17:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:18:17,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:18:17,218 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:18:17,255 - __main__ - INFO - Processing 90 devices for BSSID mapping
+2025-06-03 18:18:17,255 - __main__ - INFO - Processed 13 APs, found 12 with SSIDs
+2025-06-03 18:18:17,255 - __main__ - INFO - Processed 90 devices (13 APs, 67 clients)
+2025-06-03 18:18:17,257 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:18:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:18:17,289 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:18:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:19:17,229 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:19:17,230 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:19:17,275 - __main__ - INFO - Processing 94 devices for BSSID mapping
+2025-06-03 18:19:17,275 - __main__ - INFO - Processed 14 APs, found 13 with SSIDs
+2025-06-03 18:19:17,275 - __main__ - INFO - Processed 94 devices (14 APs, 70 clients)
+2025-06-03 18:19:17,277 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:19:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:19:17,313 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:19:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:20:17,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:20:17,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:20:17,257 - __main__ - INFO - Processing 97 devices for BSSID mapping
+2025-06-03 18:20:17,258 - __main__ - INFO - Processed 14 APs, found 13 with SSIDs
+2025-06-03 18:20:17,258 - __main__ - INFO - Processed 97 devices (14 APs, 73 clients)
+2025-06-03 18:20:17,259 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:20:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:20:17,295 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:20:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:21:17,217 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:21:17,219 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:21:17,263 - __main__ - INFO - Processing 108 devices for BSSID mapping
+2025-06-03 18:21:17,263 - __main__ - INFO - Processed 16 APs, found 14 with SSIDs
+2025-06-03 18:21:17,264 - __main__ - INFO - Processed 108 devices (16 APs, 80 clients)
+2025-06-03 18:21:17,264 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:21:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:21:17,301 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:21:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:22:17,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:22:17,218 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:22:17,263 - __main__ - INFO - Processing 116 devices for BSSID mapping
+2025-06-03 18:22:17,263 - __main__ - INFO - Processed 16 APs, found 14 with SSIDs
+2025-06-03 18:22:17,263 - __main__ - INFO - Processed 116 devices (16 APs, 88 clients)
+2025-06-03 18:22:17,265 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:22:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:22:17,303 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:22:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:23:17,220 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:23:17,220 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:23:17,271 - __main__ - INFO - Processing 120 devices for BSSID mapping
+2025-06-03 18:23:17,272 - __main__ - INFO - Processed 16 APs, found 14 with SSIDs
+2025-06-03 18:23:17,272 - __main__ - INFO - Processed 120 devices (16 APs, 91 clients)
+2025-06-03 18:23:17,273 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:23:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:23:17,315 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:23:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:24:17,213 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:24:17,214 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:24:17,266 - __main__ - INFO - Processing 122 devices for BSSID mapping
+2025-06-03 18:24:17,266 - __main__ - INFO - Processed 16 APs, found 14 with SSIDs
+2025-06-03 18:24:17,267 - __main__ - INFO - Processed 122 devices (16 APs, 93 clients)
+2025-06-03 18:24:17,269 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:24:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:24:17,317 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:24:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:25:17,224 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:25:17,224 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:25:17,278 - __main__ - INFO - Processing 125 devices for BSSID mapping
+2025-06-03 18:25:17,278 - __main__ - INFO - Processed 16 APs, found 14 with SSIDs
+2025-06-03 18:25:17,278 - __main__ - INFO - Processed 125 devices (16 APs, 96 clients)
+2025-06-03 18:25:17,280 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:25:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:25:17,323 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:25:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:26:17,215 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:26:17,218 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:26:17,273 - __main__ - INFO - Processing 128 devices for BSSID mapping
+2025-06-03 18:26:17,273 - __main__ - INFO - Processed 16 APs, found 14 with SSIDs
+2025-06-03 18:26:17,274 - __main__ - INFO - Processed 128 devices (16 APs, 98 clients)
+2025-06-03 18:26:17,276 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:26:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:26:17,325 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:26:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:27:17,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:27:17,217 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:27:17,268 - __main__ - INFO - Processing 129 devices for BSSID mapping
+2025-06-03 18:27:17,269 - __main__ - INFO - Processed 16 APs, found 14 with SSIDs
+2025-06-03 18:27:17,269 - __main__ - INFO - Processed 129 devices (16 APs, 100 clients)
+2025-06-03 18:27:17,270 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:27:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:27:17,315 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:27:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-03 18:28:17,215 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-03 18:28:17,216 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-03 18:28:17,273 - __main__ - INFO - Processing 130 devices for BSSID mapping
+2025-06-03 18:28:17,274 - __main__ - INFO - Processed 17 APs, found 15 with SSIDs
+2025-06-03 18:28:17,274 - __main__ - INFO - Processed 130 devices (17 APs, 100 clients)
+2025-06-03 18:28:17,275 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:28:17] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-03 18:28:17,326 - werkzeug - INFO - 192.168.76.1 - - [03/Jun/2025 18:28:17] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:36:04,126 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:36:04,127 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:36:04,215 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:36:04,217 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:36:04,217 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:36:04,218 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:36:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:36:04,264 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:36:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:37:04,128 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:37:04,129 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:37:04,197 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:37:04,198 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:37:04,198 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:37:04,199 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:37:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:37:04,245 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:37:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:38:04,119 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:38:04,121 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:38:04,183 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:38:04,183 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:38:04,183 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:38:04,184 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:38:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:38:04,233 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:38:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:39:04,118 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:39:04,118 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:39:04,189 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:39:04,190 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:39:04,190 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:39:04,190 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:39:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:39:04,237 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:39:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:40:04,112 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:40:04,113 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:40:04,178 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:40:04,179 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:40:04,179 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:40:04,179 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:40:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:40:04,225 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:40:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:41:04,126 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:41:04,126 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:41:04,189 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:41:04,190 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:41:04,191 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:41:04,191 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:41:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:41:04,239 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:41:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:42:04,112 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:42:04,113 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:42:04,178 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:42:04,179 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:42:04,179 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:42:04,181 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:42:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:42:04,226 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:42:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:43:04,122 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:43:04,129 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:43:04,186 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:43:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:43:04,233 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:43:04,233 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:43:04,233 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:43:04,234 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:43:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:44:04,114 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:44:04,116 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:44:04,176 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:44:04,177 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:44:04,177 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:44:04,177 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:44:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:44:04,224 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:44:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:45:04,109 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:45:04,110 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:45:04,176 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:45:04,176 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:45:04,176 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:45:04,178 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:45:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:45:04,225 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:45:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:46:04,116 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:46:04,117 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:46:04,183 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:46:04,184 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:46:04,184 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:46:04,184 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:46:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:46:04,230 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:46:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:47:04,105 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:47:04,106 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:47:04,165 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:47:04,165 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:47:04,165 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:47:04,167 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:47:04,210 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:47:08,108 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:47:08,108 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:47:08,173 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:47:08,173 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:47:08,174 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:47:08,175 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:08] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:47:08,230 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:08] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:47:13,110 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:47:13,112 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:47:13,173 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:47:13,173 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:47:13,173 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:47:13,174 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:13] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:47:13,225 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:13] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:47:18,108 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:47:18,109 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:47:18,172 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:47:18,173 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:47:18,173 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:47:18,174 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:18] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:47:18,224 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:18] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:47:23,108 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:47:23,109 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:47:23,169 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:47:23,170 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:47:23,171 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:47:23,172 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:23] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:47:23,219 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:23] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:47:28,106 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:47:28,107 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:47:28,169 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:47:28,169 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:47:28,169 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:47:28,171 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:28] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:47:28,220 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:28] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:47:33,105 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:47:33,107 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:47:33,166 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:47:33,167 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:47:33,167 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:47:33,168 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:33] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:47:33,216 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:33] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:47:38,105 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:47:38,106 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:47:38,169 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:47:38,169 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:47:38,169 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:47:38,171 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:38] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:47:38,219 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:38] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:47:43,105 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:47:43,108 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:47:43,171 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:47:43,172 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:47:43,172 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:47:43,173 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:43] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:47:43,221 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:43] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:47:48,105 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:47:48,106 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:47:48,165 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:47:48,165 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:47:48,165 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:47:48,166 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:48] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:47:48,218 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:48] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:47:53,109 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:47:53,110 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:47:53,174 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:47:53,174 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:47:53,174 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:47:53,175 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:53] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:47:53,225 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:53] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:47:58,117 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:47:58,118 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:47:58,183 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:47:58,183 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:47:58,183 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:47:58,184 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:58] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:47:58,237 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:47:58] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:48:03,114 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:48:03,114 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:48:03,180 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:48:03,181 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:48:03,181 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:48:03,182 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:48:03] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:48:03,228 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:48:03] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:49:04,114 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:49:04,115 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:49:04,177 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:49:04,177 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:49:04,177 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:49:04,178 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:49:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:49:04,227 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:49:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:50:04,120 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:50:04,123 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:50:04,182 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:50:04,182 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:50:04,183 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:50:04,184 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:50:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:50:04,229 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:50:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:51:04,119 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:51:04,120 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:51:04,186 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:51:04,187 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:51:04,187 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:51:04,188 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:51:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:51:04,240 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:51:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:52:04,114 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:52:04,115 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:52:04,175 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:52:04,176 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:52:04,176 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:52:04,177 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:52:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:52:04,222 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:52:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:53:04,127 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:53:04,128 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:53:04,200 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:53:04,200 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:53:04,201 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:53:04,202 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:53:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:53:04,248 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:53:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:54:04,119 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:54:04,119 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:54:04,184 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:54:04,185 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:54:04,185 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:54:04,186 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:54:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:54:04,237 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:54:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:55:04,121 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:55:04,122 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:55:04,185 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:55:04,185 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:55:04,186 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:55:04,186 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:55:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:55:04,237 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:55:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:56:04,126 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:56:04,126 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:56:04,187 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:56:04,187 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:56:04,187 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:56:04,189 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:56:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:56:04,236 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:56:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:57:04,119 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:57:04,120 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:57:04,189 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:57:04,189 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:57:04,189 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:57:04,191 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:57:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:57:04,242 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:57:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:58:04,121 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:58:04,123 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:58:04,216 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:58:04,216 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:58:04,216 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:58:04,217 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:58:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:58:04,233 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:58:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 13:59:04,129 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 13:59:04,130 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 13:59:04,188 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 13:59:04,188 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 13:59:04,189 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 13:59:04,189 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:59:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 13:59:04,237 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 13:59:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:00:04,129 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:00:04,131 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:00:04,198 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:00:04,198 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:00:04,198 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:00:04,199 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:00:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:00:04,248 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:00:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:01:04,125 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:01:04,126 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:01:04,191 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:01:04,191 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:01:04,191 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:01:04,192 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:01:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:01:04,239 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:01:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:02:04,123 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:02:04,124 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:02:04,183 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:02:04,183 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:02:04,183 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:02:04,185 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:02:04] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:02:04,231 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:02:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:03:05,351 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:03:05,351 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:03:05,414 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:03:05,414 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:03:05,414 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:03:05,416 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:03:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:03:05,469 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:03:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:04:05,358 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:04:05,359 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:04:05,426 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:04:05,427 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:04:05,427 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:04:05,428 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:04:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:04:05,479 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:04:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:05:05,350 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:05:05,351 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:05:05,423 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:05:05,423 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:05:05,423 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:05:05,424 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:05:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:05:05,473 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:05:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:06:05,351 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:06:05,352 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:06:05,410 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:06:05,410 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:06:05,411 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:06:05,412 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:06:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:06:05,457 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:06:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:07:05,355 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:07:05,357 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:07:05,420 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:07:05,421 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:07:05,422 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:07:05,422 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:07:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:07:05,469 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:07:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:08:05,363 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:08:05,365 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:08:05,446 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:08:05,446 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:08:05,446 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:08:05,447 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:08:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:08:05,497 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:08:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:09:05,355 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:09:05,356 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:09:05,417 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:09:05,417 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:09:05,417 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:09:05,419 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:09:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:09:05,467 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:09:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:10:05,366 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:10:05,366 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:10:05,431 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:10:05,431 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:10:05,431 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:10:05,433 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:10:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:10:05,484 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:10:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:11:05,357 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:11:05,358 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:11:05,418 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:11:05,418 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:11:05,419 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:11:05,420 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:11:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:11:05,470 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:11:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:12:05,346 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:12:05,347 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:12:05,408 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:12:05,408 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:12:05,409 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:12:05,410 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:12:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:12:05,460 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:12:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:13:05,349 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:13:05,351 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:13:05,414 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:13:05,414 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:13:05,414 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:13:05,415 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:13:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:13:05,463 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:13:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:14:05,356 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:14:05,359 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:14:05,423 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:14:05,423 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:14:05,423 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:14:05,424 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:14:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:14:05,469 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:14:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:15:05,366 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:15:05,367 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:15:05,439 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:15:05,439 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:15:05,439 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:15:05,440 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:15:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:15:05,487 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:15:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:16:05,349 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:16:05,350 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:16:05,412 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:16:05,412 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:16:05,413 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:16:05,413 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:16:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:16:05,459 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:16:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:17:05,349 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:17:05,351 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:17:05,414 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:17:05,414 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:17:05,414 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:17:05,415 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:17:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:17:05,463 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:17:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:18:05,354 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:18:05,354 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:18:05,417 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:18:05,417 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:18:05,417 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:18:05,420 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:18:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:18:05,466 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:18:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:19:05,360 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:19:05,362 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:19:05,432 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:19:05,432 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:19:05,433 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:19:05,434 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:19:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:19:05,482 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:19:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:20:05,357 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:20:05,357 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:20:05,423 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:20:05,423 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:20:05,423 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:20:05,424 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:20:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:20:05,475 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:20:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:21:05,353 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:21:05,353 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:21:05,418 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:21:05,419 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:21:05,419 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:21:05,420 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:21:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:21:05,471 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:21:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:22:05,351 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:22:05,352 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:22:05,421 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:22:05,421 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:22:05,422 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:22:05,422 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:22:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:22:05,469 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:22:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:23:05,366 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:23:05,368 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:23:05,430 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:23:05,430 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:23:05,430 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:23:05,432 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:23:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:23:05,480 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:23:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:24:05,353 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:24:05,355 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:24:05,414 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:24:05,414 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:24:05,415 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:24:05,415 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:24:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:24:05,466 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:24:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:25:05,364 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:25:05,366 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:25:05,427 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:25:05,427 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:25:05,428 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:25:05,429 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:25:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:25:05,476 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:25:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:26:05,360 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:26:05,361 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:26:05,424 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:26:05,424 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:26:05,424 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:26:05,426 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:26:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:26:05,469 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:26:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:27:05,361 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:27:05,362 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:27:05,420 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:27:05,420 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:27:05,420 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:27:05,421 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:27:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:27:05,467 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:27:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:28:05,356 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:28:05,356 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:28:05,414 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:28:05,415 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:28:05,415 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:28:05,416 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:28:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:28:05,462 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:28:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:29:05,362 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:29:05,363 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:29:05,438 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:29:05,438 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:29:05,439 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:29:05,440 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:29:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:29:05,488 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:29:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:30:05,348 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:30:05,349 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:30:05,414 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:30:05,414 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:30:05,414 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:30:05,415 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:30:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:30:05,460 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:30:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:31:05,353 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:31:05,354 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:31:05,422 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:31:05,422 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:31:05,423 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:31:05,423 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:31:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:31:05,473 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:31:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:32:05,357 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:32:05,358 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:32:05,420 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:32:05,421 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:32:05,421 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:32:05,421 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:05] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:32:05,471 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:05] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:32:27,568 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:32:27,574 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:32:27,644 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:27] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:32:27,697 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:32:27,697 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:32:27,697 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:32:27,698 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:27] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:32:28,902 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:32:28,902 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:32:29,000 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:32:29,001 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:32:29,001 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:32:29,002 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:29] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:32:29,063 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:29] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:32:33,904 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:32:33,905 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:32:34,018 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:32:34,018 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:32:34,019 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:32:34,020 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:34] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:32:34,087 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:34] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:32:38,901 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:32:38,902 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:32:38,972 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:32:38,973 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:32:38,973 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:32:38,975 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:38] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:32:39,033 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:39] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:32:44,620 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:32:44,621 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:32:44,682 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:32:44,682 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:32:44,682 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:32:44,684 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:44] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:32:44,730 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:44] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:32:48,901 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:32:48,904 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:32:48,967 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:32:48,968 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:32:48,968 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:32:48,969 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:48] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:32:49,031 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:49] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:32:53,901 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:32:53,901 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:32:53,967 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:32:53,967 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:32:53,967 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:32:53,968 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:53] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:32:54,025 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:54] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:32:58,899 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:32:58,899 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:32:58,964 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:32:58,965 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:32:58,966 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:32:58,966 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:58] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:32:59,024 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:32:59] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:33:03,898 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:33:03,898 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:33:03,966 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:33:03,966 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:33:03,966 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:33:03,967 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:03] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:33:04,023 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:04] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:33:08,898 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:33:08,898 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:33:08,961 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:33:08,962 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:33:08,962 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:33:08,963 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:08] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:33:09,021 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:09] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:33:14,335 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:33:14,337 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:33:14,406 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:33:14,407 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:33:14,408 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:33:14,409 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:14] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:33:14,474 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:14] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:33:19,063 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:33:19,065 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:33:19,167 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:33:19,168 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:33:19,168 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:33:19,169 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:19] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:33:19,258 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:19] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:33:24,061 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:33:24,063 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:33:24,192 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:33:24,192 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:33:24,193 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:33:24,194 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:24] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:33:24,260 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:24] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:33:29,000 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:33:29,000 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:33:29,070 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:33:29,070 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:33:29,070 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:33:29,071 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:29] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:33:29,131 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:29] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:33:33,936 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:33:34,016 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:34] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:33:34,035 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:33:34,098 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:33:34,098 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:33:34,098 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:33:34,099 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:34] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:33:38,900 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:33:38,901 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:33:38,973 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:33:38,973 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:33:38,974 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:33:38,976 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:38] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:33:39,050 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:39] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:33:43,906 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:33:43,910 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:33:44,015 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:33:44,015 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:33:44,015 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:33:44,017 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:44] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:33:44,137 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:44] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:33:48,978 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:33:48,980 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:33:49,046 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:33:49,046 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:33:49,047 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:33:49,048 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:49] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:33:49,100 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:49] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:33:54,492 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:33:54,493 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:33:54,564 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:33:54,565 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:33:54,567 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:33:54,654 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:54] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:33:54,720 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:33:54] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:34:08,241 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:34:08,248 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:34:08,400 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:34:08,401 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:34:08,401 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:34:08,402 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:08] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:34:08,464 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:08] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:34:09,314 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:34:09,317 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:34:09,451 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:34:09,452 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:34:09,452 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:34:09,454 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:09] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:34:09,461 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:34:10,097 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:10] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:34:10,172 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:34:10,179 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:34:10,179 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:34:10,179 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:34:10,181 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:10] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:34:14,045 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:14] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:34:15,107 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:34:15,115 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:34:15,224 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:34:15,226 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:34:15,226 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:34:15,228 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:15] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:34:15,301 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:15] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:34:27,073 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:34:27,073 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:34:27,204 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:34:27,205 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:34:27,205 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:34:27,206 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:27] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:34:27,219 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:34:27,292 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:27] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:34:27,325 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:34:27,384 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:34:27,384 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:34:27,384 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:34:27,385 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:27] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:34:27,511 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:27] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:34:28,899 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:34:28,901 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:34:28,966 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:34:28,967 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:34:28,967 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:34:28,968 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:28] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:34:29,019 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:29] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:34:34,043 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:34:34,044 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:34:34,195 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:34] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:34:34,295 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:34:34,295 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:34:34,295 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:34:34,296 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:34] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 14:34:39,377 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 14:34:39,402 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/devices
+2025-06-04 14:34:39,443 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:39] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-04 14:34:39,496 - __main__ - INFO - Processing 134 devices for BSSID mapping
+2025-06-04 14:34:39,496 - __main__ - INFO - Processed 18 APs, found 16 with SSIDs
+2025-06-04 14:34:39,496 - __main__ - INFO - Processed 134 devices (18 APs, 103 clients)
+2025-06-04 14:34:39,497 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 14:34:39] "GET /api/kismet/devices HTTP/1.1" 200 -
+2025-06-04 15:07:58,038 - __main__ - INFO - Database initialized successfully
+2025-06-04 15:08:06,542 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5053
+ * Running on http://192.168.76.146:5053
+2025-06-04 15:08:06,542 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-04 15:08:06,554 - werkzeug - INFO -  * Restarting with stat
+2025-06-04 15:08:06,832 - __main__ - INFO - Database initialized successfully
+2025-06-04 15:08:07,040 - werkzeug - WARNING -  * Debugger is active!
+2025-06-04 15:08:07,040 - werkzeug - INFO -  * Debugger PIN: 873-421-168
+2025-06-04 15:08:13,785 - __main__ - INFO - Request from 192.168.76.1: GET /
+2025-06-04 15:08:13,809 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 15:08:13] "GET / HTTP/1.1" 200 -
+2025-06-04 15:08:13,869 - __main__ - INFO - Request from 192.168.76.1: GET /static/css/styles.css
+2025-06-04 15:08:13,872 - __main__ - INFO - Request from 192.168.76.1: GET /js/auth.js
+2025-06-04 15:08:13,873 - __main__ - INFO - Request from 192.168.76.1: GET /static/js/main.js
+2025-06-04 15:08:13,874 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 15:08:13] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-06-04 15:08:13,886 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 15:08:13] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-04 15:08:13,888 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 15:08:13] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-06-04 15:08:13,919 - __main__ - INFO - Request from 192.168.76.1: GET /static/css/tailwindcss
+2025-06-04 15:08:13,919 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 15:08:13] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-06-04 15:08:22,335 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-04 15:08:22,369 - werkzeug - INFO - 192.168.76.1 - - [04/Jun/2025 15:08:22] "GET /api/kismet/status HTTP/1.1" 200 -
