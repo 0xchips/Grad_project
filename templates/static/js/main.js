@@ -18,6 +18,18 @@ const threatData = {
     network: []
 };
 
+// System resources data storage
+let systemResourcesData = {
+    cpu: { usage: 0, cores: 0 },
+    memory: { usage: 0, used: 0, total: 0, available: 0 },
+    network: { bytesSent: 0, bytesRecv: 0, packetsSent: 0, packetsRecv: 0 },
+    disk: { usage: 0, used: 0, total: 0, free: 0 },
+    timestamp: null
+};
+
+// System resources update interval
+let systemResourcesInterval = null;
+
 // WebSocket connection management
 let socket;
 const connectionStatus = document.querySelector('.connection-status');
@@ -35,9 +47,11 @@ document.addEventListener('DOMContentLoaded', function() {
     updateTime();
     setInterval(updateTime, 1000);
     connectWebSocket();
-    
-    // Load initial data
+      // Load initial data
     loadInitialData();
+    
+    // Initialize system resources monitoring
+    initializeSystemResources();
 });
 
 function loadInitialData() {
@@ -357,6 +371,146 @@ function updateDashboardStats() {
     const networkHigh = document.getElementById('network-high-total');
     if (networkEvents) networkEvents.textContent = threatData.network.length;
     if (networkHigh) networkHigh.textContent = threatData.network.filter(d => d.severity === 'high').length;
+}
+
+// System resources monitoring
+// System resources monitoring
+function initializeSystemResources() {
+    // Start system resources monitoring
+    updateSystemResources();
+    
+    // Set up auto-refresh every 2 seconds
+    systemResourcesInterval = setInterval(updateSystemResources, 2000);
+}
+
+function updateSystemResources() {
+    fetch('/api/system-resources')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            systemResourcesData = data;
+            systemResourcesData.timestamp = new Date();
+            renderSystemResources();
+        })
+        .catch(error => {
+            console.error('Error fetching system resources:', error);
+            showAlert('Failed to fetch system resources data', 'error');
+        });
+}
+
+function renderSystemResources() {
+    // Update CPU usage in header
+    const cpuPercentageHeaderElement = document.getElementById('cpu-percentage-header');
+    if (cpuPercentageHeaderElement) {
+        const cpuUsage = systemResourcesData.cpu?.percent || 0;
+        cpuPercentageHeaderElement.textContent = `${cpuUsage.toFixed(1)}%`;
+        
+        // Update CPU emoji based on usage
+        const cpuCompact = cpuPercentageHeaderElement.closest('.resource-compact.cpu');
+        const cpuEmoji = cpuCompact?.querySelector('.resource-emoji');
+        if (cpuEmoji) {
+            if (cpuUsage > 80) {
+                cpuEmoji.textContent = '🔴'; // Red for high usage
+            } else if (cpuUsage > 60) {
+                cpuEmoji.textContent = '🟠'; // Orange for medium usage
+            } else {
+                cpuEmoji.textContent = '🟢'; // Green for low usage
+            }
+        }
+    }
+      // Update Memory usage in header
+    const memoryPercentageHeaderElement = document.getElementById('memory-percentage-header');
+    if (memoryPercentageHeaderElement) {
+        const memoryUsage = systemResourcesData.memory?.percent || 0;
+        const memoryUsedGB = systemResourcesData.memory?.used_gb || 0;
+        const memoryTotalGB = systemResourcesData.memory?.total_gb || 0;
+        
+        // Display format: Memory: 81.2% (3.56GB/4.8GB)
+        memoryPercentageHeaderElement.textContent = `${memoryUsage.toFixed(1)}% (${memoryUsedGB.toFixed(2)}GB/${memoryTotalGB.toFixed(1)}GB)`;
+        
+        // Update Memory emoji based on usage
+        const memoryCompact = memoryPercentageHeaderElement.closest('.resource-compact.memory');
+        const memoryEmoji = memoryCompact?.querySelector('.resource-emoji');
+        if (memoryEmoji) {
+            if (memoryUsage > 80) {
+                memoryEmoji.textContent = '🔴'; // Red for high usage
+            } else if (memoryUsage > 60) {
+                memoryEmoji.textContent = '🟠'; // Orange for medium usage
+            } else {
+                memoryEmoji.textContent = '🟡'; // Yellow for normal usage
+            }
+        }
+    }
+    
+    // Update Network I/O in header
+    const networkUpElement = document.getElementById('network-up-header');
+    const networkDownElement = document.getElementById('network-down-header');
+    
+    if (networkUpElement && networkDownElement) {
+        const bytesSent = systemResourcesData.network?.bytes_sent || 0;
+        const bytesRecv = systemResourcesData.network?.bytes_recv || 0;
+        
+        // Format network data
+        const sentMB = bytesSent / (1024 * 1024);
+        const recvMB = bytesRecv / (1024 * 1024);
+        
+        // Format based on size
+        if (sentMB < 1) {
+            networkUpElement.textContent = `${(sentMB * 1024).toFixed(0)}K`;
+        } else if (sentMB < 1024) {
+            networkUpElement.textContent = `${sentMB.toFixed(1)}M`;
+        } else {
+            networkUpElement.textContent = `${(sentMB / 1024).toFixed(1)}G`;
+        }
+        
+        if (recvMB < 1) {
+            networkDownElement.textContent = `${(recvMB * 1024).toFixed(0)}K`;
+        } else if (recvMB < 1024) {
+            networkDownElement.textContent = `${recvMB.toFixed(1)}M`;
+        } else {
+            networkDownElement.textContent = `${(recvMB / 1024).toFixed(1)}G`;
+        }
+        
+        // Update Network emoji based on activity
+        const networkCompact = networkUpElement.closest('.resource-compact.network');
+        const networkEmoji = networkCompact?.querySelector('.resource-emoji');
+        if (networkEmoji) {
+            const totalActivity = sentMB + recvMB;
+            if (totalActivity > 100) {
+                networkEmoji.textContent = '🟠'; // Orange for high activity
+            } else if (totalActivity > 10) {
+                networkEmoji.textContent = '🟡'; // Yellow for medium activity
+            } else {
+                networkEmoji.textContent = '🔵'; // Blue for normal activity
+            }
+        }
+    }
+    
+    // Update Disk usage in header
+    const diskPercentageHeaderElement = document.getElementById('disk-percentage-header');
+    if (diskPercentageHeaderElement) {
+        const diskUsage = systemResourcesData.disk?.percent || 0;
+        diskPercentageHeaderElement.textContent = `${diskUsage.toFixed(1)}%`;
+        
+        // Update Disk emoji based on usage
+        const diskCompact = diskPercentageHeaderElement.closest('.resource-compact.disk');
+        const diskEmoji = diskCompact?.querySelector('.resource-emoji');
+        if (diskEmoji) {
+            if (diskUsage > 90) {
+                diskEmoji.textContent = '🔴'; // Red for very high usage
+            } else if (diskUsage > 75) {
+                diskEmoji.textContent = '🟠'; // Orange for high usage
+            } else {
+                diskEmoji.textContent = '🟠'; // Orange as default
+            }
+        }
+    }
+      // Update timestamp
+    systemResourcesData.timestamp = new Date();
 }
 
 // Fake logs generator

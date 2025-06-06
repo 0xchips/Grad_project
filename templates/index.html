@@ -41,8 +41,35 @@
                     <i class="fas fa-calendar-alt"></i>
                     <input type="text" id="dateRangePicker" placeholder="Select date range">
                 </div>
-            </div>
-            <div class="header-right">
+            </div>            <div class="header-right">
+                <!-- Compact System Resources -->
+                <div class="system-resources-header">
+                    <div class="resource-compact cpu">
+                        <span class="resource-emoji">🟢</span>
+                        <span class="resource-label">CPU</span>
+                        <span class="resource-value" id="cpu-percentage-header">0%</span>
+                    </div>
+                    <div class="resource-compact memory">
+                        <span class="resource-emoji">🟡</span>
+                        <span class="resource-label">RAM</span>
+                        <span class="resource-value" id="memory-percentage-header">0%</span>
+                    </div>
+                    <div class="resource-compact network">
+                        <span class="resource-emoji">🔵</span>
+                        <span class="resource-label">Net</span>
+                        <span class="resource-speed" id="network-speed-header">
+                            <i class="fas fa-arrow-up" style="color: #00ff88;"></i>
+                            <span id="network-up-header">0</span>
+                            <i class="fas fa-arrow-down" style="color: #00aaff;"></i>
+                            <span id="network-down-header">0</span>
+                        </span>
+                    </div>
+                    <div class="resource-compact disk">
+                        <span class="resource-emoji">🟠</span>
+                        <span class="resource-label">Disk</span>
+                        <span class="resource-value" id="disk-percentage-header">0%</span>
+                    </div>
+                </div>
                 <div class="alert-bell">
                     <i class="fas fa-bell"></i>
                     <span class="alert-count">3</span>
@@ -51,10 +78,7 @@
                     <!-- <span class="status-indicator connected"></span> -->
                     <span>Connected</span>
                 </div>
-            </div>
-        </header>
-
-        <div class="content-wrapper">
+            </div></header>        <div class="content-wrapper">
             <!-- Summary Cards -->
             <div class="summary-cards">
                 <div class="summary-card critical">

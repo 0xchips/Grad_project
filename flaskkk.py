@@ -13,6 +13,7 @@ import re
 import signal
 from dotenv import load_dotenv
 import secrets
+import psutil
 
 # Load environment variables
 load_dotenv()
@@ -521,6 +522,60 @@ def clear_gps_data():
         }), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/api/system-resources', methods=['GET'])
+def get_system_resources():
+    """Get real-time system resource usage"""
+    try:
+        # Get CPU usage (percentage)
+        cpu_percent = psutil.cpu_percent(interval=1)
+        
+        # Get memory usage
+        memory = psutil.virtual_memory()
+        memory_percent = memory.percent
+        memory_used = round(memory.used / (1024**3), 2)  # GB
+        memory_total = round(memory.total / (1024**3), 2)  # GB
+        
+        # Get network I/O statistics
+        network_io = psutil.net_io_counters()
+        
+        # Calculate network usage (bytes per second)
+        network_sent = network_io.bytes_sent
+        network_recv = network_io.bytes_recv
+        
+        # Get disk I/O for context
+        disk_io = psutil.disk_io_counters()
+        disk_usage = psutil.disk_usage('/')
+        
+        return jsonify({
+            'cpu': {
+                'percent': round(cpu_percent, 1),
+                'cores': psutil.cpu_count()
+            },
+            'memory': {
+                'percent': round(memory_percent, 1),
+                'used_gb': memory_used,
+                'total_gb': memory_total,
+                'available_gb': round(memory.available / (1024**3), 2)
+            },
+            'network': {
+                'bytes_sent': network_sent,
+                'bytes_recv': network_recv,
+                'packets_sent': network_io.packets_sent,
+                'packets_recv': network_io.packets_recv
+            },
+            'disk': {
+                'total_gb': round(disk_usage.total / (1024**3), 2),
+                'used_gb': round(disk_usage.used / (1024**3), 2),
+                'free_gb': round(disk_usage.free / (1024**3), 2),
+                'percent': round((disk_usage.used / disk_usage.total) * 100, 1)
+            },
+            'timestamp': time.time()
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting system resources: {str(e)}")
+        return jsonify({'error': f'Failed to get system resources: {str(e)}'}), 500
 
 @app.route('/api/network-discovery', methods=['POST'])
 def network_discovery():
