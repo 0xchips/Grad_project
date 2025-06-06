@@ -154,6 +154,62 @@ def init_db():
         )
         ''')
 
+        # NIDS alerts table
+        c.execute('''
+        CREATE TABLE IF NOT EXISTS nids_alerts (
+            id VARCHAR(36) PRIMARY KEY,
+            timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            alert_severity ENUM('low', 'medium', 'high', 'critical') NOT NULL,
+            category VARCHAR(100),
+            protocol VARCHAR(100),
+            source_ip VARCHAR(45),
+            destination_ip VARCHAR(45),
+            alert_data TEXT,
+            INDEX idx_timestamp (timestamp),
+            INDEX idx_severity (alert_severity),
+            INDEX idx_category (category),
+            INDEX idx_protocol (protocol)
+        )
+        ''')
+
+        # DNS logs table
+        c.execute('''
+        CREATE TABLE IF NOT EXISTS dns_logs (
+            id VARCHAR(36) PRIMARY KEY,
+            timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            query_name VARCHAR(255),
+            query_type VARCHAR(10),
+            response_code VARCHAR(10),
+            is_suspicious BOOLEAN DEFAULT FALSE,
+            threat_type VARCHAR(100),
+            source_ip VARCHAR(45),
+            destination_ip VARCHAR(45),
+            INDEX idx_timestamp (timestamp),
+            INDEX idx_query_name (query_name),
+            INDEX idx_response_code (response_code),
+            INDEX idx_threat_type (threat_type)
+        )
+        ''')
+
+        # GeoIP information table
+        c.execute('''
+        CREATE TABLE IF NOT EXISTS geoip_info (
+            id VARCHAR(36) PRIMARY KEY,
+            ip_address VARCHAR(45) NOT NULL,
+            country VARCHAR(100),
+            region VARCHAR(100),
+            city VARCHAR(100),
+            zip_code VARCHAR(20),
+            latitude DECIMAL(10,8),
+            longitude DECIMAL(11,8),
+            timezone VARCHAR(50),
+            isp VARCHAR(100),
+            organization VARCHAR(100),
+            asn VARCHAR(50),
+            INDEX idx_ip_address (ip_address)
+        )
+        ''')
+
         conn.commit()
         logger.info("Database initialized successfully")
     except Exception as e:
@@ -391,9 +447,8 @@ def add_deauth_log():
     # Generate unique ID
     attack_id = str(uuid.uuid4())
     
-    # Add timestamp if missing
-    if 'timestamp' not in data:
-        data['timestamp'] = datetime.datetime.now().isoformat()
+    # Always use current server time for timestamp
+    current_timestamp = datetime.datetime.now().isoformat()
     
     # Store in database
     conn = MySQLdb.connect(**db_config)
@@ -409,22 +464,28 @@ def add_deauth_log():
             """,
             (
                 attack_id,
-                data.get('timestamp'),
+                current_timestamp,
                 data.get('alert_type', 'Deauth Attack'),
-                data.get('attacker_bssid', 'Unknown'),
+                data.get('attacker_bssid', data.get('attacker_mac', 'Unknown')),  # Fallback to attacker_mac
                 data.get('attacker_ssid', 'Unknown'),
-                data.get('destination_bssid', 'Unknown'),
-                data.get('destination_ssid', 'Unknown'),
-                data.get('attack_count', 0)
+                data.get('destination_bssid', data.get('target_bssid', 'Unknown')),  # Fallback to target_bssid
+                data.get('destination_ssid', data.get('target_ssid', 'Unknown')),  # Fallback to target_ssid
+                data.get('attack_count', 1)
             )
         )
         conn.commit()
         conn.close()
-        return jsonify({'id': attack_id, 'timestamp': data.get('timestamp')}), 201
+        return jsonify({
+            'status': 'success',
+            'id': attack_id, 
+            'timestamp': current_timestamp,
+            'event': data.get('event', 'unknown')
+        }), 201
     except Exception as e:
         conn.close()
+        print(f"Database error: {str(e)}")  # For debugging
         return jsonify({'error': str(e)}), 500
-
+    
 @app.route('/api/deauth_logs/clear', methods=['DELETE'])
 def clear_deauth_logs():
     try:
@@ -592,46 +653,57 @@ def test_subprocess():
         return jsonify({
             'success': True,
             'output': result.stdout.strip(),
+            'error': result.stderr.strip(),
             'returncode': result.returncode
         })
     except Exception as e:
         return jsonify({
             'success': False,
             'error': str(e)
-        })
+        }), 500
 
-# Import Nessus scanner
-try:
-    from nessus_scanner import NessusScanner
-    NESSUS_AVAILABLE = True
-except ImportError:
-    NESSUS_AVAILABLE = False
-    logger.warning("Nessus scanner module not available")
-
-# Global Nessus scanner instance
-nessus_scanner = None
-if NESSUS_AVAILABLE:
-    nessus_scanner = NessusScanner(host='localhost', port=8834, username='chips', password='chips')
-
-# Main routes for pages
+# Main dashboard routes
 @app.route('/')
 def index():
+    """Render the main dashboard page"""
     return render_template('index.html')
 
-@app.route('/<page>.html')
-def render_page(page):
-    try:
-        return render_template(f"{page}.html")
-    except:
-        return "Page not found", 404
-
-@app.route('/index')
-def index_alt():
+@app.route('/index.html')
+def index_html():
+    """Render the main dashboard page"""
     return render_template('index.html')
 
-@app.route('/api/nessus/scan/start', methods=['POST'])
-def start_nessus_scan():
-    """Start a Nessus vulnerability scan"""
+@app.route('/network.html')
+def network_dashboard():
+    """Render the network dashboard page"""
+    return render_template('network.html')
+
+@app.route('/deauth.html')
+def deauth_dashboard():
+    """Render the deauth dashboard page"""
+    return render_template('deauth.html')
+
+@app.route('/gps.html')
+def gps_dashboard():
+    """Render the GPS dashboard page"""
+    return render_template('gps.html')
+
+@app.route('/bluetooth.html')
+def bluetooth_dashboard():
+    """Render the Bluetooth dashboard page"""
+    return render_template('bluetooth.html')
+
+# NIDS Dashboard Route Handler
+@app.route('/nids.html')
+def nids_dashboard():
+    """Render the NIDS dashboard page"""
+    return render_template('nids.html')
+
+# ============== NIDS API ENDPOINTS ==============
+
+@app.route('/api/nids-stats', methods=['GET'])
+def get_nids_stats():
+    """Get NIDS dashboard statistics"""
     try:
         # Rate limiting
         client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
@@ -639,354 +711,109 @@ def start_nessus_scan():
             logger.warning(f"Rate limited request from {client_ip}")
             return jsonify({'error': 'Rate limit exceeded'}), 429
         
-        if not NESSUS_AVAILABLE or not nessus_scanner:
-            return jsonify({
-                'error': 'Scanner not available',
-                'message': 'Scanner module not properly configured'
-            }), 500
-
-        data = request.get_json() or {}
-        targets = data.get('targets', '192.168.1.0/24')
-        scan_name = data.get('scan_name', f'CyberShield_Scan_{int(time.time())}')
+        hours = request.args.get('hours', 24, type=int)
         
-        logger.info(f"Starting security scan for targets: {targets}")
+        conn = get_db_connection()
+        if not conn:
+            return jsonify({'error': 'Database connection failed'}), 500
         
-        # Start the scan and get initial result
-        initial_result = nessus_scanner.run_full_scan(targets)
-        
-        if initial_result.get('success'):
-            scanner_type = initial_result.get('scanner_type', 'unknown')
-            if scanner_type == 'fallback':
-                message = f'Security scan initiated using built-in Kali tools for targets: {targets}'
-                scan_info = f'Using: {", ".join(initial_result.get("tools_available", {}).keys())}'
-            else:
-                message = f'Professional vulnerability scan initiated for targets: {targets}'
-                scan_info = 'Using: Nessus Professional Scanner'
-        else:
-            message = initial_result.get('message', 'Scan initiation failed')
-            scan_info = initial_result.get('error', 'Unknown error')
-        
-        return jsonify({
-            'success': initial_result.get('success', False),
-            'message': message,
-            'targets': targets,
-            'scan_name': scan_name,
-            'status': 'starting',
-            'scanner_type': initial_result.get('scanner_type', 'unknown'),
-            'scan_info': scan_info,
-            'tools_available': initial_result.get('tools_available', {})
-        })
-        
-    except Exception as e:
-        logger.error(f"Error starting Nessus scan: {str(e)}")
-        return jsonify({
-            'error': 'Failed to start scan',
-            'message': str(e)
-        }), 500
-
-@app.route('/api/nessus/scan/status', methods=['GET'])
-def get_nessus_scan_status():
-    """Get current scan status (Nessus or fallback scanner)"""
-    try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
-        if not nessus_scanner:
-            return jsonify({
-                'error': 'Scanner not available'
-            }), 500
-
-        scan_id = request.args.get('scan_id')
-        
-        if scan_id:
-            try:
-                scan_id = int(scan_id)
-                status = nessus_scanner.get_scan_status(scan_id)
-            except ValueError:
-                return jsonify({'error': 'Invalid scan ID'}), 400
-        else:
-            status = nessus_scanner.get_scan_status()
-        
-        return jsonify(status)
-        
-    except Exception as e:
-        logger.error(f"Error getting scan status: {str(e)}")
-        return jsonify({
-            'error': 'Failed to get scan status',
-            'message': str(e)
-        }), 500
-
-@app.route('/api/nessus/scan/results', methods=['GET'])
-def get_nessus_scan_results():
-    """Get scan results (Nessus or fallback scanner)"""
-    try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
-        if not nessus_scanner:
-            return jsonify({
-                'error': 'Scanner not available'
-            }), 500
-
-        scan_id = request.args.get('scan_id')
-        
-        if scan_id:
-            try:
-                scan_id = int(scan_id)
-                results = nessus_scanner.get_scan_results(scan_id)
-            except ValueError:
-                return jsonify({'error': 'Invalid scan ID'}), 400
-        else:
-            results = nessus_scanner.get_scan_results()
-        
-        return jsonify(results)
-        
-    except Exception as e:
-        logger.error(f"Error getting Nessus scan results: {str(e)}")
-        return jsonify({
-            'error': 'Failed to get scan results',
-            'message': str(e)
-        }), 500
-
-@app.route('/api/nessus/scan/report', methods=['GET'])
-def export_nessus_report():
-    """Export scan report (Nessus or fallback scanner)"""
-    try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
-        if not nessus_scanner:
-            return jsonify({
-                'error': 'Scanner not available'
-            }), 500
-
-        scan_id = request.args.get('scan_id')
-        format_type = request.args.get('format', 'pdf')
-        
-        if scan_id:
-            try:
-                scan_id = int(scan_id)
-            except ValueError:
-                return jsonify({'error': 'Invalid scan ID'}), 400
-        
-        report_path = nessus_scanner.export_scan_report(scan_id, format_type)
-        
-        if report_path and os.path.exists(report_path):
-            return jsonify({
-                'success': True,
-                'report_path': report_path,
-                'message': f'Report exported successfully'
-            })
-        else:
-            return jsonify({
-                'error': 'Failed to export report'
-            }), 500
-        
-    except Exception as e:
-        logger.error(f"Error exporting Nessus report: {str(e)}")
-        return jsonify({
-            'error': 'Failed to export report',
-            'message': str(e)
-        }), 500
-
-@app.route('/api/nessus/setup', methods=['POST'])
-def setup_nessus():
-    """Setup and configure Nessus scanner"""
-    try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
-        if not NESSUS_AVAILABLE:
-            return jsonify({
-                'error': 'Nessus scanner module not available',
-                'message': 'Please ensure nessus_scanner.py is in the dashboard directory'
-            }), 500
-
-        logger.info("Starting Nessus setup process...")
-        
-        # Run setup in background thread
-        def run_setup():
-            try:
-                global nessus_scanner
-                if not nessus_scanner:
-                    nessus_scanner = NessusScanner(host='localhost', port=8834, username='chips', password='chips')
-                
-                success = nessus_scanner.setup_nessus()
-                logger.info(f"Nessus setup completed: {success}")
-            except Exception as e:
-                logger.error(f"Nessus setup error: {str(e)}")
-        
-        setup_thread = threading.Thread(target=run_setup)
-        setup_thread.daemon = True
-        setup_thread.start()
-        
-        return jsonify({
-            'success': True,
-            'message': 'Nessus setup initiated. This may take several minutes...',
-            'status': 'setting_up'
-        })
-        
-    except Exception as e:
-        logger.error(f"Error setting up Nessus: {str(e)}")
-        return jsonify({
-            'error': 'Failed to setup Nessus',
-            'message': str(e)
-        }), 500
-
-@app.route('/api/nessus/scan/stop', methods=['POST'])
-def stop_nessus_scan():
-    """Stop any running vulnerability scan (Nessus or fallback)"""
-    try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
-        if not nessus_scanner:
-            return jsonify({
-                'error': 'Scanner not available'
-            }), 500
-
-        # Stop the scan
-        result = nessus_scanner.stop_scan()
-        
-        # Log the action
-        logger.info(f"Scan stop requested by {client_ip}: {result}")
-        
-        return jsonify({
-            'success': True,
-            'message': result.get('message', 'Scan stop requested'),
-        })
-        
-    except Exception as e:
-        logger.error(f"Error stopping scan: {str(e)}")
-        return jsonify({
-            'error': 'Failed to stop scan',
-            'message': str(e)
-        }), 500
-
-@app.route('/api/nessus/full-scan-with-discovery', methods=['POST'])
-def start_full_scan_with_discovery():
-    """Start a complete scan: first discover network devices, then run Nessus scan on discovered IPs"""
-    try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
-        logger.info("Starting full scan with network discovery...")
-        
-        # Step 1: Network Discovery using netdiscover.py
         try:
-            logger.info("Running network discovery...")
-            result = subprocess.run(['python3', 'netdiscover.py'], 
-                                  capture_output=True, text=True, timeout=120)
+            c = conn.cursor(MySQLdb.cursors.DictCursor)
             
-            if result.returncode != 0:
-                logger.warning(f"Network discovery failed: {result.stderr}")
-                # Fall back to default network range
-                discovered_ips = []
-                target_range = "192.168.1.0/24"
-            else:
-                # Parse the JSON output from netdiscover.py
-                output = result.stdout
-                json_start = output.find('[JSON_START]')
-                json_end = output.find('[JSON_END]')
-                
-                if json_start != -1 and json_end != -1:
-                    json_data = output[json_start + 12:json_end]  # +12 to skip '[JSON_START]'
-                    try:
-                        devices = json.loads(json_data)
-                        discovered_ips = [device['ip'] for device in devices if device.get('ip')]
-                        logger.info(f"Discovered {len(discovered_ips)} network devices")
-                        
-                        # Create target string from discovered IPs
-                        if discovered_ips:
-                            target_range = ','.join(discovered_ips)
-                        else:
-                            target_range = "192.168.1.0/24"  # Fallback
-                    except json.JSONDecodeError:
-                        logger.warning("Failed to parse network discovery JSON")
-                        discovered_ips = []
-                        target_range = "192.168.1.0/24"
-                else:
-                    logger.warning("No JSON output found from network discovery")
-                    discovered_ips = []
-                    target_range = "192.168.1.0/24"
-                    
-        except subprocess.TimeoutExpired:
-            logger.warning("Network discovery timed out")
-            discovered_ips = []
-            target_range = "192.168.1.0/24"
-        except Exception as e:
-            logger.error(f"Network discovery error: {str(e)}")
-            discovered_ips = []
-            target_range = "192.168.1.0/24"
-        
-        # Step 2: Start Nessus scan on discovered targets
-        if not NESSUS_AVAILABLE or not nessus_scanner:
+            # Get total alerts in timeframe
+            c.execute("""
+                SELECT COUNT(*) as total_alerts
+                FROM nids_alerts 
+                WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR)
+            """, [hours])
+            result = c.fetchone()
+            total_alerts = result['total_alerts'] if result else 0
+            
+            # Get alerts by severity
+            c.execute("""
+                SELECT alert_severity, COUNT(*) as count 
+                FROM nids_alerts 
+                WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR)
+                GROUP BY alert_severity
+            """, [hours])
+            by_severity = {row['alert_severity']: row['count'] for row in c.fetchall()}
+            
+            # Get alerts by category
+            c.execute("""
+                SELECT category, COUNT(*) as count 
+                FROM nids_alerts 
+                WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR)
+                GROUP BY category
+            """, [hours])
+            by_category = {row['category']: row['count'] for row in c.fetchall()}
+            
+            # Get alerts by protocol
+            c.execute("""
+                SELECT protocol, COUNT(*) as count 
+                FROM nids_alerts 
+                WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR)
+                GROUP BY protocol
+            """, [hours])
+            by_protocol = {row['protocol']: row['count'] for row in c.fetchall()}
+            
+            # Get top source IPs
+            c.execute("""
+                SELECT source_ip, COUNT(*) as count 
+                FROM nids_alerts 
+                WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR) 
+                AND source_ip IS NOT NULL
+                GROUP BY source_ip 
+                ORDER BY count DESC 
+                LIMIT 10
+            """, [hours])
+            top_source_ips = [{'ip': row['source_ip'], 'count': row['count']} for row in c.fetchall()]
+            
+            # Get top destination IPs
+            c.execute("""
+                SELECT destination_ip, COUNT(*) as count 
+                FROM nids_alerts 
+                WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR) 
+                AND destination_ip IS NOT NULL
+                GROUP BY destination_ip 
+                ORDER BY count DESC 
+                LIMIT 10
+            """, [hours])
+            top_destination_ips = [{'ip': row['destination_ip'], 'count': row['count']} for row in c.fetchall()]
+            
+            # Get hourly trend
+            c.execute("""
+                SELECT DATE_FORMAT(timestamp, '%%Y-%%m-%%d %%H:00:00') as hour, COUNT(*) as count
+                FROM nids_alerts 
+                WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR)
+                GROUP BY hour 
+                ORDER BY hour
+            """, [hours])
+            hourly_trend = [{'hour': row['hour'], 'count': row['count']} for row in c.fetchall()]
+            
             return jsonify({
-                'error': 'Scanner not available',
-                'message': 'Nessus scanner module not properly configured'
-            }), 500
-
-        data = request.get_json() or {}
-        scan_name = data.get('scan_name', f'CyberShield_Full_Discovery_Scan_{int(time.time())}')
-        
-        logger.info(f"Starting Nessus scan for discovered targets: {target_range}")
-        
-        # Start the scan
-        initial_result = nessus_scanner.run_full_scan(target_range)
-        
-        if initial_result.get('success'):
-            scanner_type = initial_result.get('scanner_type', 'unknown')
-            if scanner_type == 'fallback':
-                message = f'Full security scan initiated (discovered {len(discovered_ips)} devices) using built-in tools'
-                scan_info = f'Network Discovery + Security Tools: {", ".join(initial_result.get("tools_available", {}).keys())}'
-            else:
-                message = f'Full vulnerability scan initiated (discovered {len(discovered_ips)} devices) using Nessus'
-                scan_info = 'Network Discovery + Nessus Professional Scanner'
-        else:
-            message = initial_result.get('message', 'Scan initiation failed')
-            scan_info = initial_result.get('error', 'Unknown error')
-        
-        return jsonify({
-            'success': initial_result.get('success', False),
-            'message': message,
-            'targets': target_range,
-            'discovered_devices': len(discovered_ips),
-            'discovered_ips': discovered_ips[:10],  # Limit to first 10 for response size
-            'scan_name': scan_name,
-            'status': 'starting',
-            'scanner_type': initial_result.get('scanner_type', 'unknown'),
-            'scan_info': scan_info,
-            'tools_available': initial_result.get('tools_available', {})
-        })
-        
+                'total_alerts': total_alerts,
+                'by_severity': by_severity,
+                'by_category': by_category,
+                'by_protocol': by_protocol,
+                'top_source_ips': top_source_ips,
+                'top_destination_ips': top_destination_ips,
+                'hourly_trend': hourly_trend,
+                'timeframe_hours': hours
+            })
+            
+        except Exception as e:
+            logger.error(f"Database error in NIDS stats: {str(e)}")
+            return jsonify({'error': 'Database query failed'}), 500
+        finally:
+            conn.close()
+            
     except Exception as e:
-        logger.error(f"Error in full scan with discovery: {str(e)}")
-        return jsonify({
-            'error': 'Failed to start full scan',
-            'message': str(e)
-        }), 500
+        logger.error(f"Error getting NIDS stats: {str(e)}")
+        return jsonify({'error': 'Failed to get NIDS statistics'}), 500
 
-@app.route('/download-report', methods=['GET'])
-def download_report():
-    """Download generated scan report"""
+@app.route('/api/nids-alerts', methods=['GET'])
+def get_nids_alerts():
+    """Get NIDS alerts with filtering options"""
     try:
         # Rate limiting
         client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
@@ -994,23 +821,255 @@ def download_report():
             logger.warning(f"Rate limited request from {client_ip}")
             return jsonify({'error': 'Rate limit exceeded'}), 429
         
-        report_path = request.args.get('path')
-        if not report_path:
-            return jsonify({'error': 'No report path specified'}), 400
+        # Get query parameters
+        hours = request.args.get('hours', 24, type=int)
+        limit = request.args.get('limit', 100, type=int)
+        severity = request.args.get('severity')
+        category = request.args.get('category')
+        protocol = request.args.get('protocol')
+        source_ip = request.args.get('source_ip')
+        destination_ip = request.args.get('destination_ip')
         
-        # Security check: ensure the path is in /tmp and is a valid report file
-        if not report_path.startswith('/tmp/cybershield_scan_report_'):
-            return jsonify({'error': 'Invalid report path'}), 403
+        conn = get_db_connection()
+        if not conn:
+            return jsonify({'error': 'Database connection failed'}), 500
         
-        if not os.path.exists(report_path):
-            return jsonify({'error': 'Report file not found'}), 404
+        try:
+            c = conn.cursor(MySQLdb.cursors.DictCursor)
+            
+            # Build query with filters
+            query = """
+                SELECT id, timestamp, alert_severity, category, protocol, 
+                       source_ip, source_port, destination_ip, destination_port,
+                       alert_signature, action, classification, signature_id,
+                       flow_id, packet_size, payload, nids_engine, raw_log
+                FROM nids_alerts 
+                WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR)
+            """
+            params = [hours]
+            
+            if severity:
+                query += " AND alert_severity = %s"
+                params.append(severity)
+            
+            if category:
+                query += " AND category = %s"
+                params.append(category)
+            
+            if protocol:
+                query += " AND protocol = %s"
+                params.append(protocol)
+            
+            if source_ip:
+                query += " AND source_ip = %s"
+                params.append(source_ip)
+            
+            if destination_ip:
+                query += " AND destination_ip = %s"
+                params.append(destination_ip)
+            
+            query += " ORDER BY timestamp DESC LIMIT %s"
+            params.append(limit)
+            
+            c.execute(query, params)
+            alerts = c.fetchall()
+            
+            return jsonify({
+                'alerts': alerts,
+                'count': len(alerts),
+                'filters': {
+                    'hours': hours,
+                    'severity': severity,
+                    'category': category,
+                    'protocol': protocol,
+                    'source_ip': source_ip,
+                    'destination_ip': destination_ip
+                }
+            })
+            
+        except Exception as e:
+            logger.error(f"Database error in NIDS alerts: {str(e)}")
+            return jsonify({'error': 'Database query failed'}), 500
+        finally:
+            conn.close()
+            
+    except Exception as e:
+        logger.error(f"Error getting NIDS alerts: {str(e)}")
+        return jsonify({'error': 'Failed to get NIDS alerts'}), 500
+
+@app.route('/api/nids-dns', methods=['GET'])
+def get_nids_dns():
+    """Get DNS logs with filtering options"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            logger.warning(f"Rate limited request from {client_ip}")
+            return jsonify({'error': 'Rate limit exceeded'}), 429
         
-        from flask import send_file
-        return send_file(report_path, as_attachment=True)
+        # Get query parameters
+        hours = request.args.get('hours', 24, type=int)
+        limit = request.args.get('limit', 50, type=int)
+        suspicious_only = request.args.get('suspicious_only', 'true').lower() == 'true'
+        threat_type = request.args.get('threat_type')
+        
+        conn = get_db_connection()
+        if not conn:
+            return jsonify({'error': 'Database connection failed'}), 500
+        
+        try:
+            c = conn.cursor(MySQLdb.cursors.DictCursor)
+            
+            # Build query
+            query = """
+                SELECT id, timestamp, query_name, query_type, response_code,
+                       is_suspicious, threat_type, source_ip, destination_ip,
+                       confidence_score, raw_log
+                FROM dns_logs 
+                WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR)
+            """
+            params = [hours]
+            
+            if suspicious_only:
+                query += " AND is_suspicious = 1"
+            
+            if threat_type:
+                query += " AND threat_type = %s"
+                params.append(threat_type)
+            
+            query += " ORDER BY timestamp DESC LIMIT %s"
+            params.append(limit)
+            
+            c.execute(query, params)
+            dns_logs = c.fetchall()
+            
+            return jsonify({
+                'dns_logs': dns_logs,
+                'count': len(dns_logs),
+                'filters': {
+                    'hours': hours,
+                    'suspicious_only': suspicious_only,
+                    'threat_type': threat_type
+                }
+            })
+            
+        except Exception as e:
+            logger.error(f"Database error in NIDS DNS: {str(e)}")
+            return jsonify({'error': 'Database query failed'}), 500
+        finally:
+            conn.close()
+            
+    except Exception as e:
+        logger.error(f"Error getting NIDS DNS logs: {str(e)}")
+        return jsonify({'error': 'Failed to get DNS logs'}), 500
+
+@app.route('/api/nids-geoip/<ip>', methods=['GET'])
+def get_nids_geoip(ip):
+    """Get geographic IP information"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            logger.warning(f"Rate limited request from {client_ip}")
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+        
+        # Validate IP format
+        import ipaddress
+        try:
+            ipaddress.ip_address(ip)
+        except ValueError:
+            return jsonify({'error': 'Invalid IP address format'}), 400
+        
+        conn = get_db_connection()
+        if not conn:
+            return jsonify({'error': 'Database connection failed'}), 500
+        
+        try:
+            c = conn.cursor(MySQLdb.cursors.DictCursor)
+            
+            c.execute("""
+                SELECT ip_address, country, region, city, country_code,
+                       latitude, longitude, timezone, isp, organization, asn
+                FROM geoip_info 
+                WHERE ip_address = %s
+            """, [ip])
+            
+            result = c.fetchone()
+            
+            if result:
+                return jsonify({
+                    'found': True,
+                    'geoip': result
+                })
+            else:
+                return jsonify({
+                    'found': False,
+                    'message': f'No geographic information found for IP {ip}'
+                })
+            
+        except Exception as e:
+            logger.error(f"Database error in NIDS GeoIP: {str(e)}")
+            return jsonify({'error': 'Database query failed'}), 500
+        finally:
+            conn.close()
+            
+    except Exception as e:
+        logger.error(f"Error getting NIDS GeoIP: {str(e)}")
+        return jsonify({'error': 'Failed to get GeoIP information'}), 500
+
+@app.route('/api/nids-status', methods=['GET'])
+def get_nids_status():
+    """Get NIDS system status"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            logger.warning(f"Rate limited request from {client_ip}")
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+        
+        # Check if Suricata is running
+        suricata_running = False
+        try:
+            result = subprocess.run(['pgrep', 'suricata'], capture_output=True, text=True)
+            suricata_running = result.returncode == 0
+        except:
+            pass
+        
+        # Check database connectivity
+        db_connected = False
+        total_alerts = 0
+        total_dns_logs = 0
+        
+        conn = get_db_connection()
+        if conn:
+            try:
+                c = conn.cursor()
+                c.execute("SELECT COUNT(*) FROM nids_alerts")
+                total_alerts = c.fetchone()[0]
+                
+                c.execute("SELECT COUNT(*) FROM dns_logs")
+                total_dns_logs = c.fetchone()[0]
+                
+                db_connected = True
+            except:
+                pass
+            finally:
+                conn.close()
+        
+        return jsonify({
+            'suricata_running': suricata_running,
+            'database_connected': db_connected,
+            'total_alerts': total_alerts,
+            'total_dns_logs': total_dns_logs,
+            'last_updated': datetime.datetime.now().isoformat(),
+            'status': 'operational' if db_connected else 'degraded'
+        })
         
     except Exception as e:
-        logger.error(f"Error downloading report: {str(e)}")
-        return jsonify({'error': 'Failed to download report'}), 500
+        logger.error(f"Error getting NIDS status: {str(e)}")
+        return jsonify({'error': 'Failed to get NIDS status'}), 500
+
+# ============== END NIDS API ENDPOINTS ==============
 
 # Global Kismet process variable
 kismet_process = None

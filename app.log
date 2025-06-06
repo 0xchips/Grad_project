@@ -37253,3 +37253,137 @@ EXITING: Signal service thread complete.
 2025-06-05 17:43:17,855 - werkzeug - INFO -  * Debugger PIN: 173-622-003
 2025-06-05 17:48:18,931 - __main__ - INFO - Server started on port 5053
 2025-06-05 17:48:18,965 - __main__ - INFO - Server started on port 5053
+2025-06-06 12:21:52,447 - __main__ - INFO - Database initialized successfully
+2025-06-06 12:21:52,479 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5053
+ * Running on http://192.168.76.146:5053
+2025-06-06 12:21:52,480 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-06 12:21:52,482 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:21:52,747 - __main__ - INFO - Database initialized successfully
+2025-06-06 12:21:52,763 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:21:52,764 - werkzeug - INFO -  * Debugger PIN: 995-590-348
+2025-06-06 12:21:55,816 - __main__ - INFO - Request from 192.168.76.1: GET /
+2025-06-06 12:21:55,827 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:21:55] "GET / HTTP/1.1" 200 -
+2025-06-06 12:21:55,868 - __main__ - INFO - Request from 192.168.76.1: GET /static/css/styles.css
+2025-06-06 12:21:55,873 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:21:55] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-06-06 12:21:55,921 - __main__ - INFO - Request from 192.168.76.1: GET /static/css/tailwindcss
+2025-06-06 12:21:55,923 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:21:55] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-06-06 12:21:55,952 - __main__ - INFO - Request from 192.168.76.1: GET /js/auth.js
+2025-06-06 12:21:55,953 - __main__ - INFO - Request from 192.168.76.1: GET /static/js/main.js
+2025-06-06 12:21:55,953 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:21:55] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-06-06 12:21:55,955 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:21:55] "GET /static/js/main.js HTTP/1.1" 200 -
+2025-06-06 12:21:57,077 - __main__ - INFO - Request from 192.168.76.1: GET /api/kismet/status
+2025-06-06 12:21:57,093 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:21:57] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-06 12:22:04,949 - __main__ - INFO - Request from 192.168.76.1: GET /nids.html
+2025-06-06 12:22:04,952 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:04] "GET /nids.html HTTP/1.1" 200 -
+2025-06-06 12:22:04,983 - __main__ - INFO - Request from 192.168.76.1: GET /static/css/styles.css
+2025-06-06 12:22:04,984 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:04] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-06 12:22:05,027 - __main__ - INFO - Request from 192.168.76.1: GET /static/css/tailwindcss
+2025-06-06 12:22:05,028 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-06-06 12:22:05,035 - __main__ - INFO - Request from 192.168.76.1: GET /static/js/nids.js
+2025-06-06 12:22:05,036 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "GET /static/js/nids.js HTTP/1.1" 200 -
+2025-06-06 12:22:05,085 - __main__ - INFO - Request from 192.168.76.1: GET /api/nids-alerts
+2025-06-06 12:22:05,086 - __main__ - INFO - Request from 192.168.76.1: GET /api/nids-dns
+2025-06-06 12:22:05,087 - __main__ - INFO - Request from 192.168.76.1: GET /api/nids-status
+2025-06-06 12:22:05,088 - __main__ - INFO - Request from 192.168.76.1: GET /api/nids-stats
+2025-06-06 12:22:05,119 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "GET /api/nids-status HTTP/1.1" 200 -
+2025-06-06 12:22:05,119 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "GET /api/nids-alerts?hours=24&limit=100 HTTP/1.1" 200 -
+2025-06-06 12:22:05,124 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "GET /api/nids-dns?hours=24&suspicious_only=true&limit=50 HTTP/1.1" 200 -
+2025-06-06 12:22:05,128 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "GET /api/nids-stats?hours=24 HTTP/1.1" 200 -
+2025-06-06 12:22:05,166 - __main__ - INFO - Request from 192.168.76.1: GET /api/nids-geoip/104.28.15.67
+2025-06-06 12:22:05,167 - __main__ - INFO - Request from 192.168.76.1: GET /api/nids-geoip/192.0.2.123
+2025-06-06 12:22:05,167 - __main__ - INFO - Request from 192.168.76.1: GET /api/nids-geoip/45.32.15.89
+2025-06-06 12:22:05,167 - __main__ - INFO - Request from 192.168.76.1: GET /api/nids-geoip/10.0.0.50
+2025-06-06 12:22:05,168 - __main__ - INFO - Request from 192.168.76.1: GET /api/nids-geoip/192.168.1.100
+2025-06-06 12:22:05,168 - __main__ - INFO - Request from 192.168.76.1: GET /api/nids-geoip/192.0.2.1
+2025-06-06 12:22:05,172 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "GET /api/nids-geoip/192.0.2.123 HTTP/1.1" 200 -
+2025-06-06 12:22:05,173 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "GET /api/nids-geoip/45.32.15.89 HTTP/1.1" 200 -
+2025-06-06 12:22:05,174 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "GET /api/nids-geoip/104.28.15.67 HTTP/1.1" 200 -
+2025-06-06 12:22:05,175 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "GET /api/nids-geoip/10.0.0.50 HTTP/1.1" 200 -
+2025-06-06 12:22:05,175 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "GET /api/nids-geoip/192.0.2.1 HTTP/1.1" 200 -
+2025-06-06 12:22:05,175 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "GET /api/nids-geoip/192.168.1.100 HTTP/1.1" 200 -
+2025-06-06 12:22:05,190 - __main__ - INFO - Request from 192.168.76.1: GET /api/nids-geoip/203.0.113.1
+2025-06-06 12:22:05,194 - __main__ - INFO - Request from 192.168.76.1: GET /api/nids-geoip/10.0.0.1
+2025-06-06 12:22:05,194 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "GET /api/nids-geoip/203.0.113.1 HTTP/1.1" 200 -
+2025-06-06 12:22:05,195 - __main__ - INFO - Request from 192.168.76.1: GET /api/nids-geoip/172.16.1.1
+2025-06-06 12:22:05,195 - __main__ - INFO - Request from 192.168.76.1: GET /api/nids-geoip/192.168.1.10
+2025-06-06 12:22:05,197 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "GET /api/nids-geoip/10.0.0.1 HTTP/1.1" 200 -
+2025-06-06 12:22:05,197 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "GET /api/nids-geoip/172.16.1.1 HTTP/1.1" 200 -
+2025-06-06 12:22:05,198 - werkzeug - INFO - 192.168.76.1 - - [06/Jun/2025 12:22:05] "GET /api/nids-geoip/192.168.1.10 HTTP/1.1" 200 -
+2025-06-06 12:22:51,509 - __main__ - INFO - Server started on port 5053
+2025-06-06 12:22:51,575 - __main__ - INFO - Server started on port 5053
+2025-06-06 12:22:52,862 - __main__ - INFO - Database initialized successfully
+2025-06-06 12:22:52,901 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5053
+ * Running on http://192.168.76.146:5053
+2025-06-06 12:22:52,901 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-06 12:22:52,903 - werkzeug - INFO -  * Restarting with stat
+2025-06-06 12:22:53,182 - __main__ - INFO - Database initialized successfully
+2025-06-06 12:22:53,200 - werkzeug - WARNING -  * Debugger is active!
+2025-06-06 12:22:53,201 - werkzeug - INFO -  * Debugger PIN: 995-590-348
+2025-06-06 12:22:58,936 - __main__ - INFO - Request from 127.0.0.1: GET /
+2025-06-06 12:22:58,944 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:22:58] "GET / HTTP/1.1" 200 -
+2025-06-06 12:22:59,002 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-06-06 12:22:59,004 - __main__ - INFO - Request from 127.0.0.1: GET /js/auth.js
+2025-06-06 12:22:59,006 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:22:59] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-06-06 12:22:59,007 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-06-06 12:22:59,010 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:22:59] "GET /static/js/main.js HTTP/1.1" 200 -
+2025-06-06 12:22:59,010 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:22:59] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-06-06 12:22:59,132 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-06-06 12:22:59,133 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:22:59] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-06-06 12:22:59,366 - __main__ - INFO - Request from 127.0.0.1: GET /favicon.ico
+2025-06-06 12:22:59,367 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:22:59] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-06-06 12:23:00,266 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-06 12:23:00,280 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:00] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-06 12:23:02,282 - __main__ - INFO - Request from 127.0.0.1: GET /nids.html
+2025-06-06 12:23:02,285 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /nids.html HTTP/1.1" 200 -
+2025-06-06 12:23:02,420 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-06-06 12:23:02,421 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-06 12:23:02,421 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/nids.js
+2025-06-06 12:23:02,424 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /static/js/nids.js HTTP/1.1" 200 -
+2025-06-06 12:23:02,537 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-06-06 12:23:02,537 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-06-06 12:23:02,632 - __main__ - INFO - Request from 127.0.0.1: GET /api/nids-stats
+2025-06-06 12:23:02,634 - __main__ - INFO - Request from 127.0.0.1: GET /api/nids-status
+2025-06-06 12:23:02,641 - __main__ - INFO - Request from 127.0.0.1: GET /api/nids-alerts
+2025-06-06 12:23:02,642 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /api/nids-stats?hours=24 HTTP/1.1" 200 -
+2025-06-06 12:23:02,643 - __main__ - INFO - Request from 127.0.0.1: GET /api/nids-dns
+2025-06-06 12:23:02,646 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /api/nids-alerts?hours=24&limit=100 HTTP/1.1" 200 -
+2025-06-06 12:23:02,647 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /api/nids-dns?hours=24&suspicious_only=true&limit=50 HTTP/1.1" 200 -
+2025-06-06 12:23:02,652 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /api/nids-status HTTP/1.1" 200 -
+2025-06-06 12:23:02,737 - __main__ - INFO - Request from 127.0.0.1: GET /api/nids-geoip/104.28.15.67
+2025-06-06 12:23:02,738 - __main__ - INFO - Request from 127.0.0.1: GET /api/nids-geoip/192.168.1.100
+2025-06-06 12:23:02,739 - __main__ - INFO - Request from 127.0.0.1: GET /api/nids-geoip/10.0.0.50
+2025-06-06 12:23:02,740 - __main__ - INFO - Request from 127.0.0.1: GET /api/nids-geoip/192.0.2.1
+2025-06-06 12:23:02,741 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /api/nids-geoip/104.28.15.67 HTTP/1.1" 200 -
+2025-06-06 12:23:02,741 - __main__ - INFO - Request from 127.0.0.1: GET /api/nids-geoip/192.0.2.123
+2025-06-06 12:23:02,742 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /api/nids-geoip/192.168.1.100 HTTP/1.1" 200 -
+2025-06-06 12:23:02,744 - __main__ - INFO - Request from 127.0.0.1: GET /api/nids-geoip/45.32.15.89
+2025-06-06 12:23:02,745 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /api/nids-geoip/192.0.2.1 HTTP/1.1" 200 -
+2025-06-06 12:23:02,746 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /api/nids-geoip/10.0.0.50 HTTP/1.1" 200 -
+2025-06-06 12:23:02,746 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /api/nids-geoip/192.0.2.123 HTTP/1.1" 200 -
+2025-06-06 12:23:02,747 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /api/nids-geoip/45.32.15.89 HTTP/1.1" 200 -
+2025-06-06 12:23:02,794 - __main__ - INFO - Request from 127.0.0.1: GET /api/nids-geoip/192.168.1.10
+2025-06-06 12:23:02,795 - __main__ - INFO - Request from 127.0.0.1: GET /api/nids-geoip/10.0.0.1
+2025-06-06 12:23:02,796 - __main__ - INFO - Request from 127.0.0.1: GET /api/nids-geoip/172.16.1.1
+2025-06-06 12:23:02,796 - __main__ - INFO - Request from 127.0.0.1: GET /api/nids-geoip/198.51.100.1
+2025-06-06 12:23:02,797 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /api/nids-geoip/10.0.0.1 HTTP/1.1" 200 -
+2025-06-06 12:23:02,798 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /api/nids-geoip/172.16.1.1 HTTP/1.1" 200 -
+2025-06-06 12:23:02,799 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /api/nids-geoip/192.168.1.10 HTTP/1.1" 200 -
+2025-06-06 12:23:02,799 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:02] "GET /api/nids-geoip/198.51.100.1 HTTP/1.1" 200 -
+2025-06-06 12:23:22,383 - __main__ - INFO - Request from 127.0.0.1: GET /index.html
+2025-06-06 12:23:22,384 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:22] "GET /index.html HTTP/1.1" 200 -
+2025-06-06 12:23:22,432 - __main__ - INFO - Request from 127.0.0.1: GET /js/auth.js
+2025-06-06 12:23:22,432 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:22] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-06-06 12:23:22,433 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-06-06 12:23:22,434 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-06-06 12:23:22,435 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:22] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-06-06 12:23:22,435 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:22] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-06 12:23:22,592 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/tailwindcss
+2025-06-06 12:23:22,592 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:22] "[33mGET /static/css/tailwindcss HTTP/1.1[0m" 404 -
+2025-06-06 12:23:23,684 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-06 12:23:23,701 - werkzeug - INFO - 127.0.0.1 - - [06/Jun/2025 12:23:23] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-06 12:23:29,435 - __main__ - INFO - Server started on port 5053
+2025-06-06 12:23:29,470 - __main__ - INFO - Server started on port 5053
