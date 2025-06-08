@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Network Threats | CyberShield</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Network Threats | CyberShield</title>    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 
     <!-- <link rel="stylesheet" href="css/themes.css"> -->
@@ -23,35 +23,36 @@
         }
     </style>
 </head>
-<body>
-    <aside class="sidebar">
+<body>    <div class="sidebar">
+        <div class="sidebar-toggle">
+            <i class="fas fa-chevron-left"></i>
+        </div>
         <div class="logo">
             <i class="fas fa-shield-alt"></i>
             <span>CyberShield</span>
-        </div>
-        <nav>
-            <ul>                <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                <li><a href="deauth.html"><i class="fas fa-wifi"></i> Deauthentication</a></li>
-                <li><a href="bluetooth.html"><i class="fas fa-bluetooth-b"></i> Bluetooth</a></li>
-                <li><a href="gps.html"><i class="fas fa-map-marked-alt"></i> GPS</a></li>
-                <li class="active"><a href="network.html"><i class="fas fa-network-wired"></i> Network</a></li>
-                <li><a href="nids.html"><i class="fas fa-eye"></i> NIDS</a></li>
-                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+        </div>        <nav>
+            <ul>                <li><a href="index.html" data-tooltip="Dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
+                <li><a href="deauth.html" data-tooltip="Deauthentication"><i class="fas fa-wifi"></i> <span>Deauthentication</span></a></li>
+                <li><a href="bluetooth.html" data-tooltip="Bluetooth"><i class="fas fa-bluetooth-b"></i> <span>Bluetooth</span></a></li>
+                <li><a href="gps.html" data-tooltip="GPS"><i class="fas fa-map-marked-alt"></i> <span>GPS</span></a></li>
+                <li class="active"><a href="network.html" data-tooltip="Network"><i class="fas fa-network-wired"></i> <span>Network</span></a></li>
+                <li><a href="nids.html" data-tooltip="NIDS"><i class="fas fa-eye"></i> <span>NIDS</span></a></li>
+                <li><a href="settings.html" data-tooltip="Settings"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
             </ul>
         </nav>
         <div class="user-panel">
-            <div class="user-avatar">AD</div>
             <div class="user-info">
-                <span class="user-name">Admin</span>
-                <button class="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+                <div class="user-avatar">AD</div>
+                <div class="user-name">Admin</div>
             </div>
+            <button class="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
         </div>
-    </aside>
-
-    <main class="main-content">
-        <header class="page-header">
-            <h1><i class="fas fa-network-wired"></i> Network Threat Monitoring</h1>
-            <div class="header-actions">
+    </div>    <div class="main-content">
+        <header>
+            <div class="header-left">
+                <h1><i class="fas fa-network-wired"></i> Network Threat Monitoring</h1>
+            </div>
+            <div class="header-right">
                 <button class="btn btn-primary" onclick="testNetworkData()">
                     <i class="fas fa-plus"></i> Simulate Attack
                 </button>
@@ -63,6 +64,8 @@
                 </button>
             </div>
         </header>
+
+        <div class="content-wrapper">
 
         <div class="status-cards">
             <div class="status-card">
@@ -141,20 +144,19 @@
                 <tbody></tbody>
             </table>
             <div class="table-footer">
-                <span class="table-info">Showing 1-10 of 32 events</span>
-                <div class="pagination">
+                <span class="table-info">Showing 1-10 of 32 events</span>                <div class="pagination">
                     <button class="btn-icon"><i class="fas fa-chevron-left"></i></button>
                     <span>1</span>
                     <button class="btn-icon"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
         </div>
-    </main>
+        </div>
+    </div>
 
-    
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
     <script src="{{ url_for('static', filename='js/network.js') }}"></script>
 </body>
 </html>

@@ -52,6 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize system resources monitoring
     initializeSystemResources();
+    
+    // Initialize sidebar state from localStorage
+    initializeSidebar();
 });
 
 function loadInitialData() {
@@ -789,6 +792,33 @@ function downloadGpsMap() {
     showAlert('GPS Map download functionality would be implemented here', 'info');
 }
 
+// Sidebar Toggle Functionality
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+    
+    if (sidebar && mainContent) {
+        sidebar.classList.toggle('collapsed');
+        mainContent.classList.toggle('sidebar-collapsed');
+        
+        // Save preference to localStorage
+        const isCollapsed = sidebar.classList.contains('collapsed');
+        localStorage.setItem('sidebarCollapsed', isCollapsed);
+    }
+}
+
+// Initialize sidebar state from localStorage
+function initializeSidebar() {
+    const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+    
+    if (isCollapsed && sidebar && mainContent) {
+        sidebar.classList.add('collapsed');
+        mainContent.classList.add('sidebar-collapsed');
+    }
+}
+
 // Export functions for HTML event handlers
 window.generateFakeLogs = generateFakeLogs;
 window.testBluetoothData = testBluetoothData;
@@ -803,3 +833,4 @@ window.closeExpandedChart = closeExpandedChart;
 window.downloadExpandedChart = downloadExpandedChart;
 window.expandGpsMap = expandGpsMap;
 window.downloadGpsMap = downloadGpsMap;
+window.toggleSidebar = toggleSidebar;
