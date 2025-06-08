@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,13 +13,13 @@
             height: 100%;
             min-height: 300px;
         }
-        
+
         .map-container {
             height: 300px;
             width: 100%;
             position: relative;
         }
-        
+
         .gps-status {
             display: inline-block;
             padding: 4px 8px;
@@ -27,17 +28,17 @@
             font-size: 0.8em;
             text-transform: uppercase;
         }
-        
+
         .gps-status.normal {
             background-color: var(--success);
             color: white;
         }
-        
+
         .gps-status.warning {
             background-color: var(--warning);
             color: white;
         }
-        
+
         .gps-status.alert {
             background-color: var(--danger);
             color: white;
@@ -45,7 +46,8 @@
     </style>
 </head>
 
-<body>    <aside class="sidebar">
+<body>
+    <aside class="sidebar">
         <div class="sidebar-toggle">
             <i class="fas fa-chevron-left"></i>
         </div>
@@ -53,22 +55,24 @@
             <i class="fas fa-shield-alt"></i>
             <span>CyberShield</span>
         </div>
-        <nav>            <ul>
+        <nav>
+            <ul>
                 <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
                 <li><a href="deauth.html"><i class="fas fa-wifi"></i> <span>Deauthentication</span></a></li>
                 <li><a href="bluetooth.html"><i class="fas fa-bluetooth-b"></i> <span>Bluetooth</span></a></li>
                 <li class="active"><a href="gps.html"><i class="fas fa-map-marked-alt"></i> <span>GPS</span></a></li>
                 <li><a href="network.html"><i class="fas fa-network-wired"></i> <span>Network</span></a></li>
                 <li><a href="nids.html"><i class="fas fa-eye"></i> <span>NIDS</span></a></li>
-                <li><a href="settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+                <!-- <li><a href="settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a></li> -->
             </ul>
-        </nav>        <div class="user-panel">
+        </nav>
+        <!-- <div class="user-panel">
             <div class="user-avatar">AD</div>
             <div class="user-info">
                 <span class="user-name">Admin</span>
                 <button class="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
             </div>
-        </div>
+        </div> -->
     </aside>
 
     <main class="main-content">
@@ -121,24 +125,28 @@
         </div>
 
         <div class="chart-row">
-            <div class="chart-container">                <div class="chart-header">
+            <div class="chart-container">
+                <div class="chart-header">
                     <h3>GPS Location Map</h3>
                     <div class="chart-actions">
                         <button class="btn-icon" onclick="expandGpsMap()"><i class="fas fa-expand"></i></button>
-                        <button class="btn-icon" onclick="exportChart('gpsMap')"><i class="fas fa-download"></i></button>
+                        <button class="btn-icon" onclick="exportChart('gpsMap')"><i
+                                class="fas fa-download"></i></button>
                     </div>
                 </div>
                 <div class="map-container">
                     <div id="gpsMap"></div>
                 </div>
             </div>
-            
+
             <div class="chart-container">
                 <div class="chart-header">
                     <h3>Accuracy Over Time</h3>
                     <div class="chart-actions">
-                        <button class="btn-icon" onclick="expandChart('gpsAccuracyChart', 'Accuracy Over Time')"><i class="fas fa-expand"></i></button>
-                        <button class="btn-icon" onclick="exportChart('gpsAccuracyChart')"><i class="fas fa-download"></i></button>
+                        <button class="btn-icon" onclick="expandChart('gpsAccuracyChart', 'Accuracy Over Time')"><i
+                                class="fas fa-expand"></i></button>
+                        <button class="btn-icon" onclick="exportChart('gpsAccuracyChart')"><i
+                                class="fas fa-download"></i></button>
                     </div>
                 </div>
                 <canvas id="gpsAccuracyChart"></canvas>
@@ -175,7 +183,8 @@
                     <button class="btn-icon"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
-        </div>    </main>    <!-- Scripts -->
+        </div>
+    </main> <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -183,4 +192,5 @@
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/gps.js') }}"></script>
 </body>
+
 </html>

@@ -216,9 +216,9 @@ body {
 
 /* Sidebar Toggle Button */
 .sidebar-toggle {
-    position: absolute;
+    position: relative;
     top: 20px;
-    right: -15px;
+    left: 15px;
     width: 30px;
     height: 30px;
     background: linear-gradient(45deg, var(--primary), var(--purple));
