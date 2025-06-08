@@ -143,6 +143,13 @@ body {
     overflow: hidden;
 }
 
+/* Disable transitions during initial load to prevent flash */
+.sidebar.no-transition,
+.sidebar.no-transition *,
+.main-content.no-transition {
+    transition: none !important;
+}
+
 /* Collapsed Sidebar Styles */
 .sidebar.collapsed {
     width: var(--sidebar-collapsed);
@@ -252,12 +259,24 @@ body {
 .main-content {
     flex-grow: 1;
     margin-left: var(--sidebar-width);
-    transition: var(--transition);
+    transition: margin-left 0.3s ease;
     min-height: 100vh;
     background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
 }
 
+/* Multiple approaches for browser compatibility */
+/* Approach 1: Using :has() selector (modern browsers) */
+body:has(.sidebar.collapsed) .main-content {
+    margin-left: var(--sidebar-collapsed);
+}
+
+/* Approach 2: Using class on main-content (JavaScript controlled) */
 .main-content.sidebar-collapsed {
+    margin-left: var(--sidebar-collapsed);
+}
+
+/* Approach 3: Using body class (most compatible) */
+body.sidebar-collapsed .main-content {
     margin-left: var(--sidebar-collapsed);
 }
 
@@ -443,7 +462,7 @@ nav ul li a:hover i {
 .main-content {
     flex-grow: 1;
     margin-left: var(--sidebar-width);
-    transition: var(--transition);
+    transition: margin-left 0.3s ease;
     min-height: 100vh;
     background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
 }

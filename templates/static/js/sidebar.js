@@ -9,19 +9,38 @@ document.addEventListener('DOMContentLoaded', function() {
 // Restore sidebar state before page fully loads to prevent flash
 function restoreSidebarState() {
     const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+    const body = document.body;
     const savedState = localStorage.getItem('sidebarCollapsed');
     
     if (sidebar) {
         // Disable transitions during initial load
         sidebar.classList.add('no-transition');
+        if (mainContent) {
+            mainContent.classList.add('no-transition');
+        }
         
         if (savedState === 'true') {
             sidebar.classList.add('collapsed');
+            // Also adjust main content classes immediately
+            body.classList.add('sidebar-collapsed');
+            if (mainContent) {
+                mainContent.classList.add('sidebar-collapsed');
+            }
+        } else {
+            // Ensure classes are removed when expanded
+            body.classList.remove('sidebar-collapsed');
+            if (mainContent) {
+                mainContent.classList.remove('sidebar-collapsed');
+            }
         }
         
         // Re-enable transitions after a short delay
         setTimeout(() => {
             sidebar.classList.remove('no-transition');
+            if (mainContent) {
+                mainContent.classList.remove('no-transition');
+            }
         }, 100);
     }
 }
@@ -29,6 +48,8 @@ function restoreSidebarState() {
 function initializeSidebarToggle() {
     const sidebar = document.querySelector('.sidebar');
     const toggleBtn = document.querySelector('.sidebar-toggle');
+    const mainContent = document.querySelector('.main-content');
+    const body = document.body;
     
     if (toggleBtn && sidebar) {
         // Remove any existing event listeners to prevent duplicates
@@ -41,8 +62,21 @@ function initializeSidebarToggle() {
             
             sidebar.classList.toggle('collapsed');
             
-            // Save state to localStorage
+            // Toggle classes on multiple elements for maximum compatibility
             const isCollapsed = sidebar.classList.contains('collapsed');
+            if (isCollapsed) {
+                body.classList.add('sidebar-collapsed');
+                if (mainContent) {
+                    mainContent.classList.add('sidebar-collapsed');
+                }
+            } else {
+                body.classList.remove('sidebar-collapsed');
+                if (mainContent) {
+                    mainContent.classList.remove('sidebar-collapsed');
+                }
+            }
+            
+            // Save state to localStorage
             localStorage.setItem('sidebarCollapsed', isCollapsed);
         });
     }
@@ -67,11 +101,26 @@ document.addEventListener('keydown', function(e) {
     if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
         e.preventDefault();
         const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const body = document.body;
         if (sidebar) {
             sidebar.classList.toggle('collapsed');
             
-            // Save state to localStorage
+            // Toggle classes on multiple elements for maximum compatibility
             const isCollapsed = sidebar.classList.contains('collapsed');
+            if (isCollapsed) {
+                body.classList.add('sidebar-collapsed');
+                if (mainContent) {
+                    mainContent.classList.add('sidebar-collapsed');
+                }
+            } else {
+                body.classList.remove('sidebar-collapsed');
+                if (mainContent) {
+                    mainContent.classList.remove('sidebar-collapsed');
+                }
+            }
+            
+            // Save state to localStorage
             localStorage.setItem('sidebarCollapsed', isCollapsed);
         }
     }
@@ -82,18 +131,37 @@ document.addEventListener('keydown', function(e) {
     // Wait for sidebar element to be available
     function waitForSidebar() {
         const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const body = document.body;
         if (sidebar) {
             // Disable transitions immediately
             sidebar.classList.add('no-transition');
+            if (mainContent) {
+                mainContent.classList.add('no-transition');
+            }
             
             const savedState = localStorage.getItem('sidebarCollapsed');
             if (savedState === 'true') {
                 sidebar.classList.add('collapsed');
+                // Also adjust main content classes immediately
+                body.classList.add('sidebar-collapsed');
+                if (mainContent) {
+                    mainContent.classList.add('sidebar-collapsed');
+                }
+            } else {
+                // Ensure classes are removed when expanded
+                body.classList.remove('sidebar-collapsed');
+                if (mainContent) {
+                    mainContent.classList.remove('sidebar-collapsed');
+                }
             }
             
             // Re-enable transitions after DOM is ready
             setTimeout(() => {
                 sidebar.classList.remove('no-transition');
+                if (mainContent) {
+                    mainContent.classList.remove('no-transition');
+                }
             }, 150);
         } else {
             // If sidebar not found, try again in next frame
