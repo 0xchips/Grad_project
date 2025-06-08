@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import MySQLdb
+import MySQLdb.cursors
 import datetime
 import uuid
 import threading
@@ -11,6 +12,10 @@ import logging
 import subprocess
 import re
 import signal
+import ipaddress
+import functools
+from contextlib import contextmanager
+from typing import Optional, Dict, Any, List, Tuple
 from dotenv import load_dotenv
 import secrets
 import psutil
@@ -44,37 +49,57 @@ db_config = {
     'user': os.getenv('DB_USER', 'dashboard'),
     'passwd': os.getenv('DB_PASSWORD', 'securepass'),
     'db': os.getenv('DB_NAME', 'security_dashboard'),
+    'charset': 'utf8mb4',
+    'autocommit': True
 }
 
-# Rate limiting storage
-request_counts = {}
-REQUEST_LIMIT = 100  # requests per minute
-BLOCKED_IPS = set()
+# Database connection pool configuration
+class DatabasePool:
+    """Simple database connection pool"""
+    def __init__(self, max_connections=10):
+        self.max_connections = max_connections
+        self.pool = []
+        self.lock = threading.Lock()
+    
+    @contextmanager
+    def get_connection(self):
+        """Context manager for database connections"""
+        conn = None
+        try:
+            with self.lock:
+                if self.pool:
+                    conn = self.pool.pop()
+                else:
+                    conn = MySQLdb.connect(**db_config)
+            yield conn
+        except Exception as e:
+            logger.error(f"Database connection error: {e}")
+            if conn:
+                try:
+                    conn.close()
+                except:
+                    pass
+            conn = None
+            raise
+        finally:
+            if conn:
+                try:
+                    with self.lock:
+                        if len(self.pool) < self.max_connections:
+                            self.pool.append(conn)
+                        else:
+                            conn.close()
+                except:
+                    try:
+                        conn.close()
+                    except:
+                        pass
 
-def rate_limit_check(ip):
-    """Check if IP is rate limited"""
-    if ip in BLOCKED_IPS:
-        return False
-    
-    current_time = time.time()
-    if ip not in request_counts:
-        request_counts[ip] = []
-    
-    # Remove old requests (older than 1 minute)
-    request_counts[ip] = [req_time for req_time in request_counts[ip] 
-                         if current_time - req_time < 60]
-    
-    # Check if limit exceeded
-    if len(request_counts[ip]) >= REQUEST_LIMIT:
-        BLOCKED_IPS.add(ip)
-        logger.warning(f"Rate limit exceeded for IP: {ip}")
-        return False
-    
-    request_counts[ip].append(current_time)
-    return True
+# Global database pool
+db_pool = DatabasePool()
 
 def get_db_connection():
-    """Get database connection with error handling"""
+    """Get database connection with error handling - DEPRECATED: Use db_pool.get_connection() instead"""
     try:
         conn = MySQLdb.connect(**db_config)
         return conn
@@ -82,161 +107,193 @@ def get_db_connection():
         logger.error(f"Database connection failed: {e}")
         return None
 
-def validate_input(data, required_fields):
-    """Validate input data"""
+def validate_input(data: Dict[str, Any], required_fields: List[str]) -> Tuple[bool, str]:
+    """Enhanced input validation with type checking and sanitization"""
     if not isinstance(data, dict):
         return False, "Invalid JSON data"
     
     for field in required_fields:
         if field not in data or data[field] is None:
             return False, f"Missing required field: {field}"
+        
+        # Additional validation based on field type
+        if field.endswith('_id') and not isinstance(data[field], str):
+            return False, f"Field {field} must be a string"
+        
+        if field in ['latitude', 'longitude'] and not isinstance(data[field], (int, float)):
+            return False, f"Field {field} must be a number"
+            
+        if field.endswith('_ip'):
+            try:
+                ipaddress.ip_address(data[field])
+            except ValueError:
+                return False, f"Field {field} must be a valid IP address"
     
     return True, "Valid"
 
+def sanitize_string(value: str, max_length: int = 255) -> str:
+    """Sanitize string input to prevent XSS and limit length"""
+    if not isinstance(value, str):
+        return str(value)[:max_length]
+    
+    # Remove potential script tags and limit length
+    sanitized = re.sub(r'<script[^>]*>.*?</script>', '', value, flags=re.IGNORECASE | re.DOTALL)
+    sanitized = re.sub(r'[<>"\']', '', sanitized)
+    return sanitized[:max_length]
+
+def validate_ip_address(ip: str) -> bool:
+    """Validate IP address format"""
+    try:
+        ipaddress.ip_address(ip)
+        return True
+    except ValueError:
+        return False
+
 # Database setup
 def init_db():
-    conn = get_db_connection()
-    if not conn:
-        logger.error("Failed to initialize database")
-        return
-    
+    """Initialize database with improved error handling and connection pooling"""
     try:
-        c = conn.cursor()
-
-        # Alerts table with improved schema
-        c.execute('''
-        CREATE TABLE IF NOT EXISTS alerts (
-            id VARCHAR(36) PRIMARY KEY,
-            tool_name VARCHAR(100) NOT NULL,
-            alert_type VARCHAR(100) NOT NULL,
-            severity ENUM('low', 'medium', 'high', 'critical') NOT NULL,
-            description TEXT,
-            raw_data TEXT,
-            timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            source_ip VARCHAR(45),
-            INDEX idx_timestamp (timestamp),
-            INDEX idx_severity (severity),
-            INDEX idx_tool_name (tool_name)
-        )
-        ''')
-
-        # GPS data table with enhanced schema
-        c.execute('''
-        CREATE TABLE IF NOT EXISTS gps_data (
-            id VARCHAR(36) PRIMARY KEY,
-            latitude DECIMAL(10,8) NOT NULL,
-            longitude DECIMAL(11,8) NOT NULL,
-            timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            device_id VARCHAR(100),
-            satellites INT DEFAULT 0,
-            hdop DECIMAL(4,2) DEFAULT 99.99,
-            jamming_detected BOOLEAN DEFAULT FALSE,
-            INDEX idx_timestamp (timestamp),
-            INDEX idx_device_id (device_id),
-            INDEX idx_jamming (jamming_detected)
-        )
-        ''')
-
-        # Network attacks table with proper indexing
-        c.execute('''
-        CREATE TABLE IF NOT EXISTS network_attacks (
-            id VARCHAR(36) PRIMARY KEY,
-            timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            alert_type VARCHAR(100) NOT NULL,
-            attacker_bssid VARCHAR(17),
-            attacker_ssid VARCHAR(255),
-            destination_bssid VARCHAR(17),
-            destination_ssid VARCHAR(255),
-            attack_count INT DEFAULT 1,
-            source_ip VARCHAR(45),
-            INDEX idx_timestamp (timestamp),
-            INDEX idx_alert_type (alert_type),
-            INDEX idx_attacker_bssid (attacker_bssid)
-        )
-        ''')
-
-        # NIDS alerts table
-        c.execute('''
-        CREATE TABLE IF NOT EXISTS nids_alerts (
-            id VARCHAR(36) PRIMARY KEY,
-            timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            alert_severity ENUM('low', 'medium', 'high', 'critical') NOT NULL,
-            category VARCHAR(100),
-            protocol VARCHAR(100),
-            source_ip VARCHAR(45),
-            destination_ip VARCHAR(45),
-            alert_data TEXT,
-            INDEX idx_timestamp (timestamp),
-            INDEX idx_severity (alert_severity),
-            INDEX idx_category (category),
-            INDEX idx_protocol (protocol)
-        )
-        ''')
-
-        # DNS logs table
-        c.execute('''
-        CREATE TABLE IF NOT EXISTS dns_logs (
-            id VARCHAR(36) PRIMARY KEY,
-            timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            query_name VARCHAR(255),
-            query_type VARCHAR(10),
-            response_code VARCHAR(10),
-            is_suspicious BOOLEAN DEFAULT FALSE,
-            threat_type VARCHAR(100),
-            source_ip VARCHAR(45),
-            destination_ip VARCHAR(45),
-            INDEX idx_timestamp (timestamp),
-            INDEX idx_query_name (query_name),
-            INDEX idx_response_code (response_code),
-            INDEX idx_threat_type (threat_type)
-        )
-        ''')
-
-        # GeoIP information table
-        c.execute('''
-        CREATE TABLE IF NOT EXISTS geoip_info (
-            id VARCHAR(36) PRIMARY KEY,
-            ip_address VARCHAR(45) NOT NULL,
-            country VARCHAR(100),
-            region VARCHAR(100),
-            city VARCHAR(100),
-            zip_code VARCHAR(20),
-            latitude DECIMAL(10,8),
-            longitude DECIMAL(11,8),
-            timezone VARCHAR(50),
-            isp VARCHAR(100),
-            organization VARCHAR(100),
-            asn VARCHAR(50),
-            INDEX idx_ip_address (ip_address)
-        )
-        ''')
-
-        conn.commit()
-        logger.info("Database initialized successfully")
+        with db_pool.get_connection() as conn:
+            c = conn.cursor()
+            
+            # Create tables with proper schema
+            tables = [
+                # Alerts table with improved schema
+                '''
+                CREATE TABLE IF NOT EXISTS alerts (
+                    id VARCHAR(36) PRIMARY KEY,
+                    tool_name VARCHAR(100) NOT NULL,
+                    alert_type VARCHAR(100) NOT NULL,
+                    severity ENUM('low', 'medium', 'high', 'critical') NOT NULL,
+                    description TEXT,
+                    raw_data TEXT,
+                    timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    source_ip VARCHAR(45),
+                    INDEX idx_timestamp (timestamp),
+                    INDEX idx_severity (severity),
+                    INDEX idx_tool_name (tool_name),
+                    INDEX idx_source_ip (source_ip)
+                )
+                ''',
+                
+                # GPS data table with enhanced schema
+                '''
+                CREATE TABLE IF NOT EXISTS gps_data (
+                    id VARCHAR(36) PRIMARY KEY,
+                    latitude DECIMAL(10,8) NOT NULL,
+                    longitude DECIMAL(11,8) NOT NULL,
+                    timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    device_id VARCHAR(100),
+                    satellites INT DEFAULT 0,
+                    hdop DECIMAL(4,2) DEFAULT 99.99,
+                    jamming_detected BOOLEAN DEFAULT FALSE,
+                    INDEX idx_timestamp (timestamp),
+                    INDEX idx_device_id (device_id),
+                    INDEX idx_jamming (jamming_detected)
+                )
+                ''',
+                
+                # Network attacks table with proper indexing
+                '''
+                CREATE TABLE IF NOT EXISTS network_attacks (
+                    id VARCHAR(36) PRIMARY KEY,
+                    timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    alert_type VARCHAR(100) NOT NULL,
+                    attacker_bssid VARCHAR(17),
+                    attacker_ssid VARCHAR(255),
+                    destination_bssid VARCHAR(17),
+                    destination_ssid VARCHAR(255),
+                    attack_count INT DEFAULT 1,
+                    source_ip VARCHAR(45),
+                    INDEX idx_timestamp (timestamp),
+                    INDEX idx_alert_type (alert_type),
+                    INDEX idx_attacker_bssid (attacker_bssid),
+                    INDEX idx_source_ip (source_ip)
+                )
+                ''',
+                
+                # NIDS alerts table
+                '''
+                CREATE TABLE IF NOT EXISTS nids_alerts (
+                    id VARCHAR(36) PRIMARY KEY,
+                    timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    source_ip VARCHAR(45) NOT NULL,
+                    dest_ip VARCHAR(45) NOT NULL,
+                    source_port INT,
+                    dest_port INT,
+                    protocol VARCHAR(10),
+                    alert_type VARCHAR(100) NOT NULL,
+                    severity ENUM('low', 'medium', 'high', 'critical') NOT NULL DEFAULT 'medium',
+                    description TEXT,
+                    raw_data TEXT,
+                    threat_type VARCHAR(50),
+                    INDEX idx_timestamp (timestamp),
+                    INDEX idx_source_ip (source_ip),
+                    INDEX idx_dest_ip (dest_ip),
+                    INDEX idx_alert_type (alert_type),
+                    INDEX idx_severity (severity),
+                    INDEX idx_threat_type (threat_type)
+                )
+                ''',
+                
+                # GeoIP information table
+                '''
+                CREATE TABLE IF NOT EXISTS geoip_info (
+                    id VARCHAR(36) PRIMARY KEY,
+                    ip_address VARCHAR(45) NOT NULL UNIQUE,
+                    country VARCHAR(100),
+                    region VARCHAR(100),
+                    city VARCHAR(100),
+                    zip_code VARCHAR(20),
+                    latitude DECIMAL(10,8),
+                    longitude DECIMAL(11,8),
+                    timezone VARCHAR(50),
+                    isp VARCHAR(100),
+                    organization VARCHAR(100),
+                    asn VARCHAR(50),
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    INDEX idx_ip_address (ip_address),
+                    INDEX idx_country (country)
+                )
+                '''
+            ]
+            
+            # Execute table creation
+            for table_sql in tables:
+                try:
+                    c.execute(table_sql)
+                    logger.debug(f"Table created/verified successfully")
+                except Exception as table_error:
+                    logger.error(f"Failed to create table: {table_error}")
+                    # Continue with other tables
+                    continue
+            
+            conn.commit()
+            logger.info("Database initialized successfully")
+            
     except Exception as e:
         logger.error(f"Database initialization failed: {e}")
-    finally:
-        conn.close()
+        raise
 
 # Initialize database on startup
 init_db()
 
-# Request middleware for rate limiting and logging
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    return "OK"
+
+# Request middleware for logging
 @app.before_request
 def before_request():
     client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
     
-    # Rate limiting
-    if not rate_limit_check(client_ip):
-        logger.warning(f"Rate limited request from {client_ip}")
-        return jsonify({'error': 'Rate limit exceeded'}), 429
-    
     # Log request
     logger.info(f"Request from {client_ip}: {request.method} {request.path}")
 
-# Endpoint to receive alerts from security tools
 @app.route('/api/alerts', methods=['POST'])
 def receive_alert():
+    """Enhanced alert endpoint with improved validation and error handling"""
     try:
         data = request.json
         if not data:
@@ -256,35 +313,35 @@ def receive_alert():
         alert_id = str(uuid.uuid4())
         client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
         
-        # Store in database
-        conn = get_db_connection()
-        if not conn:
-            return jsonify({'error': 'Database connection failed'}), 500
+        # Sanitize inputs
+        tool_name = sanitize_string(data['tool_name'], 100)
+        alert_type = sanitize_string(data['alert_type'], 100)
+        description = sanitize_string(data.get('description', ''), 1000)
         
+        # Store in database using connection pool
         try:
-            c = conn.cursor()
-            c.execute(
-                """INSERT INTO alerts 
-                   (id, tool_name, alert_type, severity, description, raw_data, source_ip)
-                   VALUES (%s, %s, %s, %s, %s, %s, %s)""",
-                (
-                    alert_id,
-                    data['tool_name'][:100],  # Truncate to fit schema
-                    data['alert_type'][:100],
-                    data['severity'],
-                    data.get('description', '')[:1000],  # Limit description length
-                    json.dumps(data.get('raw_data', {}))[:5000],  # Limit raw data
-                    client_ip
+            with db_pool.get_connection() as conn:
+                c = conn.cursor()
+                c.execute(
+                    """INSERT INTO alerts 
+                       (id, tool_name, alert_type, severity, description, raw_data, source_ip)
+                       VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+                    (
+                        alert_id,
+                        tool_name,
+                        alert_type,
+                        data['severity'],
+                        description,
+                        json.dumps(data.get('raw_data', {}))[:5000],  # Limit raw data
+                        client_ip
+                    )
                 )
-            )
-            conn.commit()
-            logger.info(f"Alert {alert_id} stored successfully")
-            
+                conn.commit()
+                logger.info(f"Alert {alert_id} stored successfully")
+                
         except Exception as e:
             logger.error(f"Database error storing alert: {e}")
             return jsonify({'error': 'Database error'}), 500
-        finally:
-            conn.close()
         
         return jsonify({'id': alert_id, 'status': 'received'}), 201
         
@@ -443,49 +500,72 @@ def get_deauth_logs():
 
 @app.route('/api/deauth_logs', methods=['POST'])
 def add_deauth_log():
-    data = request.json
-    
-    # Generate unique ID
-    attack_id = str(uuid.uuid4())
-    
-    # Always use current server time for timestamp
-    current_timestamp = datetime.datetime.now().isoformat()
-    
-    # Store in database
-    conn = MySQLdb.connect(**db_config)
-    c = conn.cursor()
-    
+    """Enhanced deauth log endpoint with validation and sanitization"""
     try:
-        c.execute(
-            """
-            INSERT INTO network_attacks 
-            (id, timestamp, alert_type, attacker_bssid, attacker_ssid, 
-            destination_bssid, destination_ssid, attack_count)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-            """,
-            (
-                attack_id,
-                current_timestamp,
-                data.get('alert_type', 'Deauth Attack'),
-                data.get('attacker_bssid', data.get('attacker_mac', 'Unknown')),  # Fallback to attacker_mac
-                data.get('attacker_ssid', 'Unknown'),
-                data.get('destination_bssid', data.get('target_bssid', 'Unknown')),  # Fallback to target_bssid
-                data.get('destination_ssid', data.get('target_ssid', 'Unknown')),  # Fallback to target_ssid
-                data.get('attack_count', 1)
-            )
-        )
-        conn.commit()
-        conn.close()
+        data = request.json
+        if not data:
+            return jsonify({'error': 'No JSON data provided'}), 400
+        
+        # Generate unique ID
+        attack_id = str(uuid.uuid4())
+        
+        # Always use current server time for timestamp
+        current_timestamp = datetime.datetime.now().isoformat()
+        
+        # Sanitize and validate inputs
+        alert_type = sanitize_string(data.get('alert_type', 'Deauth Attack'), 100)
+        attacker_bssid = sanitize_string(data.get('attacker_bssid', data.get('attacker_mac', 'Unknown')), 17)
+        attacker_ssid = sanitize_string(data.get('attacker_ssid', 'Unknown'), 255)
+        destination_bssid = sanitize_string(data.get('destination_bssid', data.get('target_bssid', 'Unknown')), 17)
+        destination_ssid = sanitize_string(data.get('destination_ssid', data.get('target_ssid', 'Unknown')), 255)
+        
+        # Validate attack count
+        try:
+            attack_count = int(data.get('attack_count', 1))
+            if attack_count < 0:
+                attack_count = 1
+        except (ValueError, TypeError):
+            attack_count = 1
+        
+        # Store in database using connection pool
+        try:
+            with db_pool.get_connection() as conn:
+                c = conn.cursor()
+                c.execute(
+                    """
+                    INSERT INTO network_attacks 
+                    (id, timestamp, alert_type, attacker_bssid, attacker_ssid, 
+                    destination_bssid, destination_ssid, attack_count)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                    """,
+                    (
+                        attack_id,
+                        current_timestamp,
+                        alert_type,
+                        attacker_bssid,
+                        attacker_ssid,
+                        destination_bssid,
+                        destination_ssid,
+                        attack_count
+                    )
+                )
+                conn.commit()
+                logger.info(f"Deauth attack {attack_id} logged successfully")
+                
+        except Exception as e:
+            logger.error(f"Database error storing deauth log: {e}")
+            return jsonify({'error': 'Database error'}), 500
+        
         return jsonify({
             'status': 'success',
             'id': attack_id, 
             'timestamp': current_timestamp,
             'event': data.get('event', 'unknown')
         }), 201
+        
     except Exception as e:
-        conn.close()
-        print(f"Database error: {str(e)}")  # For debugging
-        return jsonify({'error': str(e)}), 500
+        logger.error(f"Error processing deauth log: {e}")
+        return jsonify({'error': 'Internal server error'}), 500
     
 @app.route('/api/deauth_logs/clear', methods=['DELETE'])
 def clear_deauth_logs():
@@ -760,12 +840,6 @@ def nids_dashboard():
 def get_nids_stats():
     """Get NIDS dashboard statistics"""
     try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
         hours = request.args.get('hours', 24, type=int)
         
         conn = get_db_connection()
@@ -870,12 +944,6 @@ def get_nids_stats():
 def get_nids_alerts():
     """Get NIDS alerts with filtering options"""
     try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
         # Get query parameters
         hours = request.args.get('hours', 24, type=int)
         limit = request.args.get('limit', 100, type=int)
@@ -895,9 +963,7 @@ def get_nids_alerts():
             # Build query with filters
             query = """
                 SELECT id, timestamp, alert_severity, category, protocol, 
-                       source_ip, source_port, destination_ip, destination_port,
-                       alert_signature, action, classification, signature_id,
-                       flow_id, packet_size, payload, nids_engine, raw_log
+                       source_ip, destination_ip
                 FROM nids_alerts 
                 WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR)
             """
@@ -956,12 +1022,6 @@ def get_nids_alerts():
 def get_nids_dns():
     """Get DNS logs with filtering options"""
     try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
         # Get query parameters
         hours = request.args.get('hours', 24, type=int)
         limit = request.args.get('limit', 50, type=int)
@@ -1022,51 +1082,37 @@ def get_nids_dns():
 def get_nids_geoip(ip):
     """Get geographic IP information"""
     try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
         # Validate IP format
-        import ipaddress
-        try:
-            ipaddress.ip_address(ip)
-        except ValueError:
+        if not validate_ip_address(ip):
             return jsonify({'error': 'Invalid IP address format'}), 400
         
-        conn = get_db_connection()
-        if not conn:
-            return jsonify({'error': 'Database connection failed'}), 500
-        
         try:
-            c = conn.cursor(MySQLdb.cursors.DictCursor)
-            
-            c.execute("""
-                SELECT ip_address, country, region, city, country_code,
-                       latitude, longitude, timezone, isp, organization, asn
-                FROM geoip_info 
-                WHERE ip_address = %s
-            """, [ip])
-            
-            result = c.fetchone()
-            
-            if result:
-                return jsonify({
-                    'found': True,
-                    'geoip': result
-                })
-            else:
-                return jsonify({
-                    'found': False,
-                    'message': f'No geographic information found for IP {ip}'
-                })
-            
+            with db_pool.get_connection() as conn:
+                c = conn.cursor(MySQLdb.cursors.DictCursor)
+                
+                c.execute("""
+                    SELECT ip_address, country, region, city, country_code,
+                           latitude, longitude, timezone, isp, organization, asn
+                    FROM geoip_info 
+                    WHERE ip_address = %s
+                """, [ip])
+                
+                result = c.fetchone()
+                
+                if result:
+                    return jsonify({
+                        'found': True,
+                        'geoip': result
+                    })
+                else:
+                    return jsonify({
+                        'found': False,
+                        'message': f'No geographic information found for IP {ip}'
+                    })
+                    
         except Exception as e:
             logger.error(f"Database error in NIDS GeoIP: {str(e)}")
             return jsonify({'error': 'Database query failed'}), 500
-        finally:
-            conn.close()
             
     except Exception as e:
         logger.error(f"Error getting NIDS GeoIP: {str(e)}")
@@ -1076,12 +1122,6 @@ def get_nids_geoip(ip):
 def get_nids_status():
     """Get NIDS system status"""
     try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
         # Check if Suricata is running
         suricata_running = False
         try:
@@ -1138,12 +1178,6 @@ def start_kismet():
     """Start Kismet wireless monitoring"""
     global kismet_process, kismet_config_file
     try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
         # Check if Kismet is already running
         if kismet_process and kismet_process.poll() is None:
             return jsonify({
@@ -1237,12 +1271,6 @@ def stop_kismet():
     """Stop Kismet wireless monitoring"""
     global kismet_process, kismet_config_file
     try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
         if kismet_process and kismet_process.poll() is None:
             try:
                 # Try graceful termination first
@@ -1310,12 +1338,6 @@ def get_kismet_status():
     """Get Kismet status and basic statistics"""
     global kismet_process
     try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
         is_running = kismet_process and kismet_process.poll() is None
         
         # Also check if Kismet is running outside our process control
@@ -1388,12 +1410,6 @@ def get_kismet_status():
 def get_kismet_devices():
     """Get detected devices from Kismet"""
     try:
-        # Rate limiting
-        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
-        if not rate_limit_check(client_ip):
-            logger.warning(f"Rate limited request from {client_ip}")
-            return jsonify({'error': 'Rate limit exceeded'}), 429
-        
         # Check if Kismet is running - simplified check with timeout
         kismet_running = False
         
@@ -1549,6 +1565,130 @@ def get_kismet_devices():
             'success': False,
             'error': f'Failed to get devices: {str(e)}'
         }), 500
+
+# Simple caching system for performance improvement
+class SimpleCache:
+    """Simple in-memory cache with TTL support"""
+    
+    def __init__(self, default_ttl=300):  # 5 minutes default
+        self.cache = {}
+        self.default_ttl = default_ttl
+        self.lock = threading.Lock()
+    
+    def get(self, key):
+        """Get value from cache if not expired"""
+        with self.lock:
+            if key in self.cache:
+                value, expiry = self.cache[key]
+                if time.time() < expiry:
+                    return value
+                else:
+                    del self.cache[key]
+            return None
+    
+    def set(self, key, value, ttl=None):
+        """Set value in cache with TTL"""
+        if ttl is None:
+            ttl = self.default_ttl
+        
+        with self.lock:
+            expiry = time.time() + ttl
+            self.cache[key] = (value, expiry)
+    
+    def clear(self):
+        """Clear all cache entries"""
+        with self.lock:
+            self.cache.clear()
+    
+    def cleanup_expired(self):
+        """Remove expired entries"""
+        current_time = time.time()
+        with self.lock:
+            expired_keys = [
+                key for key, (_, expiry) in self.cache.items() 
+                if current_time >= expiry
+            ]
+            for key in expired_keys:
+                del self.cache[key]
+
+# Global cache instance
+app_cache = SimpleCache()
+
+# Cache cleanup thread
+def cache_cleanup_worker():
+    """Background thread to clean up expired cache entries"""
+    while True:
+        try:
+            app_cache.cleanup_expired()
+            time.sleep(60)  # Clean up every minute
+        except Exception as e:
+            logger.error(f"Cache cleanup error: {e}")
+            time.sleep(60)
+
+# Start cache cleanup thread
+cleanup_thread = threading.Thread(target=cache_cleanup_worker, daemon=True)
+cleanup_thread.start()
+
+# Performance monitoring and error handling decorators
+def monitor_performance(func):
+    """Decorator to monitor endpoint performance"""
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        try:
+            result = func(*args, **kwargs)
+            duration = time.time() - start_time
+            logger.info(f"{func.__name__} completed in {duration:.3f}s")
+            return result
+        except Exception as e:
+            duration = time.time() - start_time
+            logger.error(f"{func.__name__} failed after {duration:.3f}s: {str(e)}")
+            raise
+    return wrapper
+
+def handle_db_errors(func):
+    """Decorator to handle database errors consistently"""
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except MySQLdb.Error as e:
+            logger.error(f"Database error in {func.__name__}: {str(e)}")
+            return jsonify({'error': 'Database operation failed'}), 500
+        except Exception as e:
+            logger.error(f"Unexpected error in {func.__name__}: {str(e)}")
+            return jsonify({'error': 'Internal server error'}), 500
+    return wrapper
+
+# Configuration management
+class Config:
+    """Centralized configuration management"""
+    
+    @staticmethod
+    def validate_db_config():
+        """Validate database configuration"""
+        required_keys = ['host', 'user', 'passwd', 'db']
+        for key in required_keys:
+            if not db_config.get(key):
+                raise ValueError(f"Missing database configuration: {key}")
+    
+    @staticmethod
+    def get_rate_limit():
+        """Get rate limiting configuration"""
+        return int(os.getenv('RATE_LIMIT', 100))
+    
+    @staticmethod
+    def get_max_connections():
+        """Get maximum database connections"""
+        return int(os.getenv('MAX_DB_CONNECTIONS', 10))
+
+# Validate configuration on startup
+try:
+    Config.validate_db_config()
+    logger.info("Configuration validation passed")
+except ValueError as e:
+    logger.error(f"Configuration error: {e}")
+    raise
 
 # Start the Flask application when this file is run directly
 if __name__ == '__main__':
