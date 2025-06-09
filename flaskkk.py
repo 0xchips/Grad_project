@@ -138,12 +138,13 @@ def init_db():
         )
         ''')
 
-        # Network attacks table with proper indexing
+        # Network attacks table with proper indexing and type column
         c.execute('''
         CREATE TABLE IF NOT EXISTS network_attacks (
             id VARCHAR(36) PRIMARY KEY,
             timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             alert_type VARCHAR(100) NOT NULL,
+            type ENUM('deauth', 'evil-twin') NOT NULL DEFAULT 'deauth',
             attacker_bssid VARCHAR(17),
             attacker_ssid VARCHAR(255),
             destination_bssid VARCHAR(17),
@@ -152,8 +153,15 @@ def init_db():
             source_ip VARCHAR(45),
             INDEX idx_timestamp (timestamp),
             INDEX idx_alert_type (alert_type),
+            INDEX idx_type (type),
             INDEX idx_attacker_bssid (attacker_bssid)
         )
+        ''')
+        
+        # Add type column to existing table if it doesn't exist
+        c.execute('''
+        ALTER TABLE network_attacks 
+        ADD COLUMN IF NOT EXISTS type ENUM('deauth', 'evil-twin') NOT NULL DEFAULT 'deauth'
         ''')
 
         # NIDS alerts table
@@ -452,6 +460,11 @@ def add_deauth_log():
     # Always use current server time for timestamp
     current_timestamp = datetime.datetime.now().isoformat()
     
+    # Determine log type (default to 'deauth' for backward compatibility)
+    log_type = data.get('type', 'deauth')
+    if log_type not in ['deauth', 'evil-twin']:
+        log_type = 'deauth'
+    
     # Store in database
     conn = MySQLdb.connect(**db_config)
     c = conn.cursor()
@@ -460,14 +473,15 @@ def add_deauth_log():
         c.execute(
             """
             INSERT INTO network_attacks 
-            (id, timestamp, alert_type, attacker_bssid, attacker_ssid, 
+            (id, timestamp, alert_type, type, attacker_bssid, attacker_ssid, 
             destination_bssid, destination_ssid, attack_count)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             """,
             (
                 attack_id,
                 current_timestamp,
-                data.get('alert_type', 'Deauth Attack'),
+                data.get('alert_type', 'Deauth Attack' if log_type == 'deauth' else 'Evil Twin Detected'),
+                log_type,
                 data.get('attacker_bssid', data.get('attacker_mac', 'Unknown')),  # Fallback to attacker_mac
                 data.get('attacker_ssid', 'Unknown'),
                 data.get('destination_bssid', data.get('target_bssid', 'Unknown')),  # Fallback to target_bssid
@@ -481,6 +495,7 @@ def add_deauth_log():
             'status': 'success',
             'id': attack_id, 
             'timestamp': current_timestamp,
+            'type': log_type,
             'event': data.get('event', 'unknown')
         }), 201
     except Exception as e:
@@ -1550,6 +1565,169 @@ def get_kismet_devices():
             'success': False,
             'error': f'Failed to get devices: {str(e)}'
         }), 500
+
+# Global variable to track monitoring status
+monitoring_active = False
+monitoring_process = None
+
+@app.route('/api/evil_twin_logs', methods=['POST'])
+def add_evil_twin_log():
+    """Add an evil twin detection log entry"""
+    data = request.json
+    
+    # Generate unique ID
+    attack_id = str(uuid.uuid4())
+    current_timestamp = datetime.datetime.now().isoformat()
+    
+    # Store in database
+    conn = MySQLdb.connect(**db_config)
+    c = conn.cursor()
+    
+    try:
+        c.execute(
+            """
+            INSERT INTO network_attacks 
+            (id, timestamp, alert_type, type, attacker_bssid, attacker_ssid, 
+            destination_bssid, destination_ssid, attack_count)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """,
+            (
+                attack_id,
+                current_timestamp,
+                'Evil Twin Detected',
+                'evil-twin',
+                data.get('suspicious_bssid', 'Unknown'),
+                data.get('ssid', 'Unknown'),
+                data.get('legitimate_bssid', 'Unknown'),
+                data.get('ssid', 'Unknown'),
+                1
+            )
+        )
+        conn.commit()
+        conn.close()
+        return jsonify({
+            'status': 'success',
+            'id': attack_id, 
+            'timestamp': current_timestamp,
+            'type': 'evil-twin'
+        }), 201
+    except Exception as e:
+        conn.close()
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/monitoring/start', methods=['POST'])
+def start_monitoring():
+    """Start real-time WiFi monitoring"""
+    global monitoring_active, monitoring_process
+    
+    logger.info("Monitoring start request received")
+    
+    if monitoring_active:
+        logger.info("Monitoring already active")
+        return jsonify({'status': 'already_running', 'message': 'Monitoring already active'}), 200
+    
+    try:
+        # Get the script path relative to the current file
+        script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'real_time_monitor.py')
+        logger.info(f"Starting monitoring script: {script_path}")
+        
+        # Start the monitoring script with sudo for proper permissions
+        # Use None for stdout/stderr to avoid buffer issues
+        monitoring_process = subprocess.Popen(
+            ['sudo', '/usr/bin/python3', script_path, 'wlan0mon'],
+            stdout=None,
+            stderr=None,
+            preexec_fn=os.setsid if hasattr(os, 'setsid') else None
+        )
+        monitoring_active = True
+        
+        # Give the process a moment to start
+        time.sleep(1)
+        
+        # Check if process started successfully
+        if monitoring_process and monitoring_process.poll() is None:
+            logger.info(f"Monitoring started successfully with PID: {monitoring_process.pid}")
+        else:
+            logger.error("Monitoring process failed to start")
+            monitoring_active = False
+            monitoring_process = None
+            return jsonify({'error': 'Monitoring process failed to start'}), 500
+        
+        return jsonify({
+            'status': 'started',
+            'message': 'Real-time WiFi monitoring started',
+            'pid': monitoring_process.pid
+        }), 200
+    except Exception as e:
+        logger.error(f"Failed to start monitoring: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/monitoring/stop', methods=['POST'])
+def stop_monitoring():
+    """Stop real-time WiFi monitoring"""
+    global monitoring_active, monitoring_process
+    
+    logger.info("Monitoring stop request received")
+    
+    if not monitoring_active or not monitoring_process:
+        logger.info("Monitoring not running")
+        return jsonify({'status': 'not_running', 'message': 'Monitoring not active'}), 200
+    
+    try:
+        logger.info(f"Stopping monitoring process PID: {monitoring_process.pid}")
+        # Try graceful termination first
+        monitoring_process.terminate()
+        try:
+            monitoring_process.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            # Force kill if necessary
+            logger.warning("Process did not terminate gracefully, force killing")
+            if hasattr(os, 'killpg'):
+                os.killpg(os.getpgid(monitoring_process.pid), signal.SIGKILL)
+            else:
+                monitoring_process.kill()
+            monitoring_process.wait()
+        
+        monitoring_active = False
+        monitoring_process = None
+        
+        logger.info("Monitoring stopped successfully")
+        return jsonify({
+            'status': 'stopped',
+            'message': 'Real-time monitoring stopped'
+        }), 200
+    except Exception as e:
+        logger.error(f"Failed to stop monitoring: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/monitoring/status', methods=['GET'])
+def monitoring_status():
+    """Get current monitoring status"""
+    global monitoring_active, monitoring_process
+    
+    if monitoring_active and monitoring_process:
+        # Check if process is still running
+        if monitoring_process.poll() is None:
+            logger.info(f"Monitoring active with PID: {monitoring_process.pid}")
+            return jsonify({
+                'status': 'active',
+                'pid': monitoring_process.pid,
+                'message': 'Monitoring is running'
+            })
+        else:
+            # Process died, reset status
+            logger.warning(f"Monitoring process PID {monitoring_process.pid} died unexpectedly")
+            monitoring_active = False
+            monitoring_process = None
+            return jsonify({
+                'status': 'inactive',
+                'message': 'Monitoring process stopped unexpectedly'
+            })
+    
+    return jsonify({
+        'status': 'inactive',
+        'message': 'Monitoring is not running'
+    })
 
 # Start the Flask application when this file is run directly
 if __name__ == '__main__':

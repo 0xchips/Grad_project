@@ -1,4 +1,4 @@
-// Deauthentication Attack Monitoring System
+// Deauthentication Attack and Evil Twin Monitoring System
 let deauthData = [];
 let filteredDeauthData = [];
 let currentPage = 1;
@@ -7,13 +7,33 @@ let frequencyChart, targetsChart, modalChart;
 let attackFrequency = Array(24).fill(0);
 let targetNetworks = {};
 let currentModalType = '';
+let sortColumn = 'timestamp';
+let sortDirection = 'desc';
+
+// Evil Twin Detection Variables (Real monitoring)
+let apList = {};
+let evilTwinAlerts = [];
+let whitelistedBSSIDs = new Set([
+    "dc:8d:8a:b9:13:36",
+    "20:9a:7d:5c:83:a0", 
+    "cc:d4:2e:88:77:b6"
+]);
+let monitoringActive = false;
 
 document.addEventListener('DOMContentLoaded', function() {
     initDeauthCharts();
     loadDeauthData();
+    initEvilTwinDetection();
+    checkMonitoringStatus();
     
     // Check for new data more frequently (every 2 seconds)
     setInterval(loadDeauthData, 2000);
+    
+    // Check monitoring status every 10 seconds
+    setInterval(checkMonitoringStatus, 10000);
+    
+    // Clean up expired alerts every 30 seconds
+    setInterval(cleanupExpiredAlerts, 30000);
     
     // Add event listener for search input
     document.getElementById('deauth-search').addEventListener('input', function() {
@@ -22,6 +42,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Hide chart container initially if no data
     updateChartVisibility();
+    
+    // Initialize whitelist display
+    updateWhitelistDisplay();
 });
 
 function initDeauthCharts() {
@@ -197,6 +220,7 @@ function loadDeauthData() {
                         attackerSsid: attack.attacker_ssid || 'Unknown',
                         targetBssid: attack.destination_bssid || 'Unknown',
                         targetSsid: attack.destination_ssid || 'Unknown',
+                        type: attack.type || 'deauth', // Add type field
                         active: true // Assume active for newly detected attacks
                     };
                     
@@ -273,18 +297,45 @@ function updateDeauthTable() {
     
     // Apply filtering if search term exists
     const searchTerm = document.getElementById('deauth-search').value.toLowerCase();
-    filteredDeauthData = deauthData.filter(attack => 
-        searchTerm === '' || 
-        attack.attackerBssid.toLowerCase().includes(searchTerm) ||
-        attack.targetBssid.toLowerCase().includes(searchTerm) ||
-        attack.targetSsid.toLowerCase().includes(searchTerm)
-    );
+    const typeFilter = document.getElementById('type-filter').value;
+    
+    filteredDeauthData = deauthData.filter(attack => {
+        const matchesSearch = searchTerm === '' || 
+            attack.attackerBssid.toLowerCase().includes(searchTerm) ||
+            attack.targetBssid.toLowerCase().includes(searchTerm) ||
+            attack.targetSsid.toLowerCase().includes(searchTerm) ||
+            attack.type.toLowerCase().includes(searchTerm);
+        
+        const matchesType = typeFilter === '' || attack.type === typeFilter;
+        
+        return matchesSearch && matchesType;
+    });
+    
+    // Apply sorting
+    filteredDeauthData.sort((a, b) => {
+        let aVal = a[sortColumn];
+        let bVal = b[sortColumn];
+        
+        if (sortColumn === 'timestamp') {
+            aVal = aVal.getTime();
+            bVal = bVal.getTime();
+        } else if (typeof aVal === 'string') {
+            aVal = aVal.toLowerCase();
+            bVal = bVal.toLowerCase();
+        }
+        
+        if (sortDirection === 'asc') {
+            return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+        } else {
+            return aVal > bVal ? -1 : aVal < bVal ? 1 : 0;
+        }
+    });
     
     // Pagination
     const startIndex = (currentPage - 1) * itemsPerPage;
     const paginatedData = filteredDeauthData.slice(startIndex, startIndex + itemsPerPage);
     
-    // Populate table with well-organized data
+    // Populate table with well-organized data including type column
     paginatedData.forEach((attack, index) => {
         const row = document.createElement('tr');
         // Add zebra striping for better organization
@@ -297,19 +348,39 @@ function updateDeauthTable() {
             second: '2-digit'
         });
         
-        row.innerHTML = `
-            <td>${formattedTime}</td>
-            <td class="bssid-cell">${attack.attackerBssid}</td>
-            <td class="bssid-cell">${attack.targetBssid}</td>
-            <td>${attack.targetSsid || 'Unknown'}</td>
-            <td>
+        // Create type badge
+        const typeBadge = `<span class="type-badge type-${attack.type}">${attack.type.replace('-', ' ')}</span>`;
+        
+        // Create action buttons based on attack type
+        let actionButtons = '';
+        if (attack.type === 'evil-twin') {
+            actionButtons = `
+                <button class="btn-icon" onclick="addToWhitelistFromTable('${attack.attackerBssid}')" title="Add to Whitelist">
+                    <i class="fas fa-shield-alt"></i>
+                </button>
+                <button class="btn-icon" onclick="jamNetworkFromTable('${attack.attackerBssid}', '${attack.targetSsid}')" title="Jam Network">
+                    <i class="fas fa-ban"></i>
+                </button>
+            `;
+        } else {
+            // Default actions for deauth attacks
+            actionButtons = `
                 <button class="btn-icon" onclick="blockDevice('${attack.attackerBssid}')" title="Block Attacker">
                     <i class="fas fa-ban"></i>
                 </button>
                 <button class="btn-icon" onclick="protectNetwork('${attack.targetBssid}')" title="Protect Network">
                     <i class="fas fa-shield-alt"></i>
                 </button>
-            </td>
+            `;
+        }
+        
+        row.innerHTML = `
+            <td>${formattedTime}</td>
+            <td>${typeBadge}</td>
+            <td class="bssid-cell">${attack.attackerBssid}</td>
+            <td class="bssid-cell">${attack.targetBssid}</td>
+            <td>${attack.targetSsid || 'Unknown'}</td>
+            <td>${actionButtons}</td>
         `;
         
         tableBody.appendChild(row);
@@ -327,12 +398,13 @@ function updateDeauthStats() {
     const activeAttacks = deauthData.filter(a => a.active).length;
     
     document.getElementById('deauth-total-count').textContent = deauthData.length;
-    document.getElementById('deauth-active-count').textContent = activeAttacks;
     
-    // Calculate protected networks (simplified - in real app this would come from your protection system)
-    const protectedCount = Object.keys(targetNetworks).length > 0 ? 
-        Math.floor(Object.keys(targetNetworks).length / 3) : 0;
-    document.getElementById('deauth-protected-count').textContent = protectedCount;
+    // Update evil twin alerts count
+    document.getElementById('evil-twin-count').textContent = evilTwinAlerts.length;
+    
+    // Update whitelist status count
+    document.getElementById('whitelist-status-count').textContent = whitelistedBSSIDs.size;
+    document.getElementById('whitelist-count').textContent = whitelistedBSSIDs.size;
 }
 
 function testDeauthData() {
@@ -915,4 +987,377 @@ function importDeauthLogs() {
     };
     
     reader.readAsText(file);
+}
+
+// ============ EVIL TWIN DETECTION FUNCTIONS ============
+
+function initEvilTwinDetection() {
+    console.log("Evil Twin Detection initialized");
+    
+    // Load whitelist from localStorage if available
+    const savedWhitelist = localStorage.getItem('evilTwinWhitelist');
+    if (savedWhitelist) {
+        try {
+            const whitelistArray = JSON.parse(savedWhitelist);
+            whitelistArray.forEach(bssid => whitelistedBSSIDs.add(bssid));
+        } catch (e) {
+            console.log("Error loading saved whitelist:", e);
+        }
+    }
+    
+    console.log("Whitelisted BSSIDs:", Array.from(whitelistedBSSIDs));
+}
+
+function saveWhitelistToStorage() {
+    try {
+        const whitelistArray = Array.from(whitelistedBSSIDs);
+        localStorage.setItem('evilTwinWhitelist', JSON.stringify(whitelistArray));
+    } catch (e) {
+        console.log("Error saving whitelist:", e);
+    }
+}
+
+function analyzeEvilTwinRisk(ssid, bssidData) {
+    if (bssidData.length < 2) {
+        return false;
+    }
+    
+    // Check if there are any non-whitelisted BSSIDs
+    const hasNonWhitelisted = bssidData.some(entry => 
+        !whitelistedBSSIDs.has(entry.bssid.toLowerCase())
+    );
+    
+    // If there are non-whitelisted BSSIDs mixed with others, it's suspicious
+    if (hasNonWhitelisted && bssidData.length > 1) {
+        return true;
+    }
+    
+    // Check if all BSSIDs are whitelisted
+    const allWhitelisted = bssidData.every(entry => 
+        whitelistedBSSIDs.has(entry.bssid.toLowerCase())
+    );
+    
+    if (allWhitelisted) {
+        return false;
+    }
+    
+    // Check timing - evil twins often appear suddenly
+    const currentTime = Date.now();
+    const recentThreshold = 30000; // 30 seconds
+    
+    const recentBSSIDs = bssidData.filter(entry => 
+        currentTime - entry.timestamp < recentThreshold
+    );
+    
+    return recentBSSIDs.length > 1;
+}
+
+// simulateEvilTwinDetection function removed - using real-time monitoring instead
+
+// generateRandomBSSID function removed - not needed for real monitoring
+
+function createEvilTwinAlert(ssid, legitimateBSSID, suspiciousBSSID) {
+    const alertId = `alert_${Date.now()}`;
+    const alert = {
+        id: alertId,
+        ssid: ssid,
+        legitimateBSSID: legitimateBSSID,
+        suspiciousBSSID: suspiciousBSSID,
+        timestamp: new Date(),
+        severity: 'HIGH'
+    };
+    
+    evilTwinAlerts.push(alert);
+    displayEvilTwinAlert(alert);
+    updateDeauthStats(); // Update status cards
+    
+    console.log(`Evil Twin Detected: ${ssid} - Suspicious BSSID: ${suspiciousBSSID}`);
+}
+
+function displayEvilTwinAlert(alert) {
+    const alertsContainer = document.getElementById('evil-twin-alerts');
+    const alertElement = document.createElement('div');
+    alertElement.className = 'evil-twin-alert';
+    alertElement.id = alert.id;
+    
+    alertElement.innerHTML = `
+        <div class="alert-severity">${alert.severity}</div>
+        <div class="alert-content">
+            <strong>Evil Twin Detected!</strong><br>
+            <span class="ssid-name">${alert.ssid}</span> detected with multiple BSSIDs:<br>
+            <code class="bssid-cell">${alert.legitimateBSSID}</code> (First seen)<br>
+            <code class="bssid-cell">${alert.suspiciousBSSID}</code> (Suspicious - new)
+        </div>
+        <div class="alert-actions">
+            <button class="btn-whitelist" onclick="addToWhitelist('${alert.suspiciousBSSID}', '${alert.id}')">
+                <i class="fas fa-shield-alt"></i> Add to Whitelist
+            </button>
+            <button class="btn-jam" onclick="jamEvilTwin('${alert.suspiciousBSSID}', '${alert.id}')">
+                <i class="fas fa-ban"></i> Report & Jam
+            </button>
+        </div>
+    `;
+    
+    alertsContainer.appendChild(alertElement);
+    
+    // Remove alert after 30 seconds if not acted upon
+    setTimeout(() => {
+        if (document.getElementById(alert.id)) {
+            document.getElementById(alert.id).remove();
+        }
+    }, 30000);
+}
+
+function addToWhitelist(bssid, alertId) {
+    whitelistedBSSIDs.add(bssid.toLowerCase());
+    saveWhitelistToStorage();
+    
+    // Remove the alert
+    const alertElement = document.getElementById(alertId);
+    if (alertElement) {
+        alertElement.style.background = 'rgba(46, 204, 113, 0.2)';
+        alertElement.style.borderColor = 'rgba(46, 204, 113, 0.5)';
+        
+        setTimeout(() => {
+            alertElement.remove();
+        }, 2000);
+    }
+    
+    // Update whitelist display
+    updateWhitelistDisplay();
+    
+    // Remove from alerts array
+    evilTwinAlerts = evilTwinAlerts.filter(alert => alert.id !== alertId);
+    
+    // Update status cards
+    updateDeauthStats();
+    
+    showAlert(`BSSID ${bssid} added to whitelist`, 'success');
+    console.log(`Added ${bssid} to whitelist`);
+}
+
+function jamEvilTwin(bssid, alertId) {
+    // Static jamming implementation (as requested)
+    const alertElement = document.getElementById(alertId);
+    if (alertElement) {
+        alertElement.style.background = 'rgba(231, 76, 60, 0.3)';
+        alertElement.innerHTML = `
+            <div class="alert-severity">JAMMED</div>
+            <div class="alert-content">
+                <strong>Evil Twin Reported & Jammed!</strong><br>
+                BSSID: <code class="bssid-cell">${bssid}</code><br>
+                Status: <span style="color: #e74c3c; font-weight: bold;">BLOCKING TRAFFIC</span>
+            </div>
+        `;
+        
+        setTimeout(() => {
+            alertElement.remove();
+        }, 5000);
+    }
+    
+    // Remove from alerts array
+    evilTwinAlerts = evilTwinAlerts.filter(alert => alert.id !== alertId);
+    
+    // Update status cards
+    updateDeauthStats();
+    
+    showAlert(`Evil Twin ${bssid} reported and jammed`, 'success');
+    console.log(`Jamming evil twin BSSID: ${bssid}`);
+    
+    // In a real implementation, this would send commands to the backend
+    // to actually jam or block the malicious BSSID
+}
+
+function updateWhitelistDisplay() {
+    const container = document.getElementById('whitelist-container');
+    const countElement = document.getElementById('whitelist-count');
+    
+    container.innerHTML = '';
+    countElement.textContent = whitelistedBSSIDs.size;
+    
+    Array.from(whitelistedBSSIDs).forEach(bssid => {
+        const item = document.createElement('div');
+        item.className = 'whitelisted-item';
+        item.innerHTML = `
+            <code class="bssid-cell">${bssid.toUpperCase()}</code>
+            <button class="remove-whitelist" onclick="removeFromWhitelist('${bssid}')">
+                <i class="fas fa-times"></i> Remove
+            </button>
+        `;
+        container.appendChild(item);
+    });
+}
+
+function removeFromWhitelist(bssid) {
+    whitelistedBSSIDs.delete(bssid.toLowerCase());
+    saveWhitelistToStorage();
+    updateWhitelistDisplay();
+    updateDeauthStats();
+    showAlert(`BSSID ${bssid} removed from whitelist`, 'info');
+    console.log(`Removed ${bssid} from whitelist`);
+}
+
+// testEvilTwinDetection function removed - using real monitoring instead
+
+// Action functions for evil twin table entries
+function addToWhitelistFromTable(bssid) {
+    whitelistedBSSIDs.add(bssid.toLowerCase());
+    saveWhitelistToStorage();
+    updateWhitelistDisplay();
+    updateDeauthStats();
+    
+    // Mark the attack as inactive in the data
+    deauthData.forEach(attack => {
+        if (attack.attackerBssid === bssid && attack.type === 'evil-twin') {
+            attack.active = false;
+        }
+    });
+    
+    updateDeauthTable();
+    showAlert(`Evil Twin BSSID ${bssid} added to whitelist`, 'success');
+    console.log(`Added evil twin BSSID ${bssid} to whitelist from table`);
+}
+
+function jamNetworkFromTable(bssid, ssid) {
+    // Mark the attack as inactive in the data
+    deauthData.forEach(attack => {
+        if (attack.attackerBssid === bssid && attack.type === 'evil-twin') {
+            attack.active = false;
+        }
+    });
+    
+    updateDeauthTable();
+    showAlert(`Evil Twin network ${ssid} (${bssid}) has been jammed`, 'success');
+    console.log(`Jamming evil twin network: ${ssid} - BSSID: ${bssid}`);
+    
+    // In a real implementation, this would send commands to the backend
+    // to actually jam or block the malicious BSSID
+}
+
+function cleanupExpiredAlerts() {
+    const currentTime = Date.now();
+    const alertTimeout = 60000; // 1 minute
+    
+    evilTwinAlerts = evilTwinAlerts.filter(alert => {
+        const isExpired = currentTime - alert.timestamp.getTime() > alertTimeout;
+        if (isExpired) {
+            const alertElement = document.getElementById(alert.id);
+            if (alertElement) {
+                alertElement.remove();
+            }
+        }
+        return !isExpired;
+    });
+    
+    // Update status if alerts were cleaned up
+    updateDeauthStats();
+}
+
+// Sorting function for table columns
+function sortTable(column) {
+    if (sortColumn === column) {
+        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+        sortColumn = column;
+        sortDirection = 'desc'; // Default to descending for new columns
+    }
+    
+    // Update sort indicators
+    document.querySelectorAll('#deauth-table th .fas').forEach(icon => {
+        icon.className = 'fas fa-sort';
+    });
+    
+    const currentHeader = document.querySelector(`#deauth-table th[onclick="sortTable('${column}')"] .fas`);
+    if (currentHeader) {
+        currentHeader.className = `fas fa-sort-${sortDirection === 'asc' ? 'up' : 'down'}`;
+    }
+    
+    updateDeauthTable();
+}
+
+// Real-time monitoring control functions
+function startRealTimeMonitoring() {
+    fetch('/api/monitoring/start', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'started' || data.status === 'already_running') {
+            monitoringActive = true;
+            updateMonitoringUI();
+            showAlert('Real-time monitoring started', 'success');
+            console.log('WiFi monitoring started');
+        } else {
+            showAlert('Failed to start monitoring: ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error starting monitoring:', error);
+        showAlert('Error starting monitoring', 'error');
+    });
+}
+
+function stopRealTimeMonitoring() {
+    fetch('/api/monitoring/stop', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        monitoringActive = false;
+        updateMonitoringUI();
+        showAlert('Real-time monitoring stopped', 'info');
+        console.log('WiFi monitoring stopped');
+    })
+    .catch(error => {
+        console.error('Error stopping monitoring:', error);
+        showAlert('Error stopping monitoring', 'error');
+    });
+}
+
+function checkMonitoringStatus() {
+    fetch('/api/monitoring/status')
+        .then(response => response.json())
+        .then(data => {
+            monitoringActive = data.status === 'active';
+            updateMonitoringUI();
+        })
+        .catch(error => {
+            console.error('Error checking monitoring status:', error);
+            monitoringActive = false;
+            updateMonitoringUI();
+        });
+}
+
+function updateMonitoringUI() {
+    const startBtn = document.getElementById('start-monitoring-btn');
+    const stopBtn = document.getElementById('stop-monitoring-btn');
+    
+    if (monitoringActive) {
+        startBtn.style.display = 'none';
+        stopBtn.style.display = 'inline-block';
+        
+        // Add monitoring indicator to page title
+        const title = document.querySelector('h1');
+        if (title && !title.querySelector('.monitoring-status')) {
+            const indicator = document.createElement('span');
+            indicator.className = 'monitoring-status monitoring-active';
+            indicator.title = 'Real-time monitoring active';
+            title.appendChild(indicator);
+        }
+    } else {
+        startBtn.style.display = 'inline-block';
+        stopBtn.style.display = 'none';
+        
+        // Remove monitoring indicator
+        const indicator = document.querySelector('.monitoring-status');
+        if (indicator) {
+            indicator.remove();
+        }
+    }
 }
