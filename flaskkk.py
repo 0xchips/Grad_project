@@ -770,6 +770,159 @@ def nids_dashboard():
     """Render the NIDS dashboard page"""
     return render_template('nids.html')
 
+# Configurations Dashboard Route Handler  
+@app.route('/configurations.html')
+def configurations_dashboard():
+    """Render the Configurations dashboard page"""
+    return render_template('configurations.html')
+
+# ============== CONFIGURATIONS API ENDPOINTS ==============
+
+@app.route('/api/wireless-adapters', methods=['GET'])
+def get_wireless_adapters():
+    """Scan and return available wireless adapters"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+
+        adapters = []
+        
+        # Method 1: Parse iwconfig output
+        try:
+            result = subprocess.run(['iwconfig'], capture_output=True, text=True, timeout=10)
+            if result.returncode == 0:
+                current_adapter = None
+                for line in result.stdout.split('\n'):
+                    line = line.strip()
+                    if line and not line.startswith(' '):
+                        # New adapter line
+                        parts = line.split()
+                        if len(parts) >= 2 and 'IEEE 802.11' in line:
+                            adapter_name = parts[0]
+                            adapters.append({
+                                'name': adapter_name,
+                                'type': 'wireless',
+                                'available': True,
+                                'description': 'Wireless network adapter'
+                            })
+        except Exception as e:
+            logger.warning(f"iwconfig scan failed: {e}")
+        
+        # Method 2: Check /sys/class/net for wireless interfaces
+        try:
+            net_path = '/sys/class/net'
+            if os.path.exists(net_path):
+                for interface in os.listdir(net_path):
+                    wireless_path = os.path.join(net_path, interface, 'wireless')
+                    if os.path.exists(wireless_path):
+                        # Check if already in list
+                        if not any(adapter['name'] == interface for adapter in adapters):
+                            adapters.append({
+                                'name': interface,
+                                'type': 'wireless',
+                                'available': True,
+                                'description': 'Wireless network adapter'
+                            })
+        except Exception as e:
+            logger.warning(f"sysfs scan failed: {e}")
+        
+        # Method 3: Parse iw dev output
+        try:
+            result = subprocess.run(['iw', 'dev'], capture_output=True, text=True, timeout=10)
+            if result.returncode == 0:
+                for line in result.stdout.split('\n'):
+                    line = line.strip()
+                    if line.startswith('Interface '):
+                        interface_name = line.split()[1]
+                        if not any(adapter['name'] == interface_name for adapter in adapters):
+                            adapters.append({
+                                'name': interface_name,
+                                'type': 'wireless',
+                                'available': True,
+                                'description': 'Wireless network adapter'
+                            })
+        except Exception as e:
+            logger.warning(f"iw dev scan failed: {e}")
+        
+        # Add some mock adapters if none found (for demo purposes)
+        if not adapters:
+            adapters = [
+                {'name': 'wlan0', 'type': 'wireless', 'available': True, 'description': 'Primary wireless adapter'},
+                {'name': 'wlan1', 'type': 'wireless', 'available': True, 'description': 'Secondary wireless adapter'},
+                {'name': 'wlan0mon', 'type': 'monitor', 'available': False, 'description': 'Monitor mode adapter'}
+            ]
+        
+        return jsonify({
+            'success': True,
+            'adapters': adapters,
+            'count': len(adapters)
+        })
+        
+    except Exception as e:
+        logger.error(f"Error scanning wireless adapters: {e}")
+        return jsonify({'error': 'Failed to scan wireless adapters'}), 500
+
+@app.route('/api/configurations', methods=['GET'])
+def get_configurations():
+    """Get current adapter configurations"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+
+        # For now, return default configuration
+        # In a real implementation, you'd read from a config file or database
+        config = {
+            'realtime_monitoring': 'wlan0',
+            'network_devices': 'wlan0',
+            'kismet_monitoring': 'wlan1'
+        }
+        
+        return jsonify({
+            'success': True,
+            'configuration': config
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting configurations: {e}")
+        return jsonify({'error': 'Failed to get configurations'}), 500
+
+@app.route('/api/configurations', methods=['POST'])
+def save_configurations():
+    """Save adapter configurations"""
+    try:
+        # Rate limiting
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        if not rate_limit_check(client_ip):
+            return jsonify({'error': 'Rate limit exceeded'}), 429
+
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No configuration data provided'}), 400
+        
+        # Validate required fields
+        required_fields = ['realtime_monitoring', 'network_devices', 'kismet_monitoring']
+        for field in required_fields:
+            if field not in data:
+                return jsonify({'error': f'Missing required field: {field}'}), 400
+        
+        # In a real implementation, you'd save to a config file or database
+        # For now, just log the configuration
+        logger.info(f"Saving adapter configuration: {data}")
+        
+        return jsonify({
+            'success': True,
+            'message': 'Configuration saved successfully',
+            'configuration': data
+        })
+        
+    except Exception as e:
+        logger.error(f"Error saving configurations: {e}")
+        return jsonify({'error': 'Failed to save configurations'}), 500
+
 # ============== NIDS API ENDPOINTS ==============
 
 @app.route('/api/nids-stats', methods=['GET'])

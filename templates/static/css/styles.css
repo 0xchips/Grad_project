@@ -75,10 +75,18 @@
     --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.2);
     --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.3);
     --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.4);
-    
-    /* Typography */
+      /* Typography */
     --font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
     --font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Consolas', monospace;
+    
+    /* Form Elements */
+    --input-background: var(--bg-card);
+    --border-color: var(--border-secondary);
+    --primary-color: var(--primary);
+    --card-background: var(--bg-card);
+    --background-secondary: var(--bg-secondary);
+    --text-primary: #ffffff;
+    --text-secondary: var(--gray);
 }
 
 * {
