@@ -13,11 +13,7 @@ let sortDirection = 'desc';
 // Evil Twin Detection Variables (Real monitoring)
 let apList = {};
 let evilTwinAlerts = [];
-let whitelistedBSSIDs = new Set([
-    "dc:8d:8a:b9:13:36",
-    "20:9a:7d:5c:83:a0", 
-    "cc:d4:2e:88:77:b6"
-]);
+let whitelistedBSSIDs = new Set(); // Initialize empty, will be loaded from localStorage or defaults
 let monitoringActive = false;
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -1022,12 +1018,30 @@ function initEvilTwinDetection() {
         try {
             const whitelistArray = JSON.parse(savedWhitelist);
             whitelistArray.forEach(bssid => whitelistedBSSIDs.add(bssid));
+            console.log("Loaded whitelist from localStorage:", whitelistArray);
         } catch (e) {
             console.log("Error loading saved whitelist:", e);
+            loadDefaultWhitelist();
         }
+    } else {
+        // No saved whitelist, load defaults
+        loadDefaultWhitelist();
+        console.log("No saved whitelist found, loading defaults");
     }
     
     console.log("Whitelisted BSSIDs:", Array.from(whitelistedBSSIDs));
+}
+
+function loadDefaultWhitelist() {
+    // Default whitelisted BSSIDs - only loaded if no saved whitelist exists
+    const defaultBSSIDs = [
+        "dc:8d:8a:b9:13:36",
+        "20:9a:7d:5c:83:a0", 
+        "cc:d4:2e:88:77:b6"
+    ];
+    
+    defaultBSSIDs.forEach(bssid => whitelistedBSSIDs.add(bssid));
+    saveWhitelistToStorage(); // Save the defaults to localStorage
 }
 
 function saveWhitelistToStorage() {
@@ -1211,12 +1225,21 @@ function updateWhitelistDisplay() {
 }
 
 function removeFromWhitelist(bssid) {
+    // Show confirmation dialog
+    const isConfirmed = confirm(`Are you sure you want to remove BSSID "${bssid.toUpperCase()}" from the whitelist?\n\nThis action will permanently remove it from your trusted devices list.`);
+    
+    if (!isConfirmed) {
+        console.log(`User cancelled removal of ${bssid} from whitelist`);
+        return; // User cancelled, don't remove
+    }
+    
+    // User confirmed, proceed with removal
     whitelistedBSSIDs.delete(bssid.toLowerCase());
     saveWhitelistToStorage();
     updateWhitelistDisplay();
     updateDeauthStats();
-    showAlert(`BSSID ${bssid} removed from whitelist`, 'info');
-    console.log(`Removed ${bssid} from whitelist`);
+    showAlert(`BSSID ${bssid} permanently removed from whitelist`, 'info');
+    console.log(`Permanently removed ${bssid} from whitelist`);
 }
 
 // testEvilTwinDetection function removed - using real monitoring instead
