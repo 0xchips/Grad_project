@@ -8,6 +8,110 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    <style>
+        /* Real-time Device Monitoring Styles */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        .device-notification {
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .device-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(30, 30, 30, 0.3);
+            border-radius: 8px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-label {
+            color: #bdc3c7;
+            font-size: 14px;
+        }
+
+        .stat-value {
+            color: #ecf0f1;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .devices-preview {
+            margin-top: 20px;
+        }
+
+        .devices-preview h4 {
+            margin-bottom: 15px;
+            color: #ecf0f1;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-card.devices:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .summary-card.devices {
+            transition: all 0.3s ease;
+        }
+
+        /* Pulse animation for device count when updating */
+        .devices-count-updating {
+            animation: pulse 1s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
 </head>
 
 <body>
@@ -29,8 +133,8 @@
                         <span>Bluetooth</span></a></li>
                 <li><a href="gps.html" data-tooltip="GPS"><i class="fas fa-map-marked-alt"></i> <span>GPS</span></a>
                 </li>
-                <li><a href="network.html" data-tooltip="Network"><i class="fas fa-network-wired"></i>
-                        <span>Network</span></a></li>
+                <!-- <li><a href="network.html" data-tooltip="Network"><i class="fas fa-network-wired"></i>
+                        <span>Network</span></a></li> -->
                 <li><a href="nids.html" data-tooltip="NIDS"><i class="fas fa-eye"></i> <span>NIDS</span></a></li>
                 <!-- <li><a href="settings.html" data-tooltip="Settings"><i class="fas fa-cog"></i> <span>Settings</span></a>
                 </li> -->
@@ -208,30 +312,30 @@
                             <i class="fas fa-file-export"></i>
                             <span>Export Full Report</span>
                         </button>
-                        <button class="action-btn" onclick="scanBluetooth()">
+                        <!-- <button class="action-btn" onclick="scanBluetooth()">
                             <i class="fas fa-bluetooth-b"></i>
                             <span>Scan Bluetooth</span>
-                        </button>
-                        <button class="action-btn" onclick="scanGPS()">
+                        </button> -->
+                        <!-- <button class="action-btn" onclick="scanGPS()">
                             <i class="fas fa-map-marked-alt"></i>
                             <span>Scan GPS</span>
-                        </button>
-                        <button class="action-btn" onclick="scanNetwork()">
+                        </button> -->
+                        <!-- <button class="action-btn" onclick="scanNetwork()">
                             <i class="fas fa-network-wired"></i>
                             <span>Scan Network</span>
-                        </button>
-                        <button class="action-btn" onclick="deauthscan()">
+                        </button> -->
+                        <!-- <button class="action-btn" onclick="deauthscan()">
                             <i class="fas fa-network-wired"></i>
-                            <span>Deauth scan</span>
+                            <span>Deauth scan</span> -->
                         </button> <button class="action-btn" onclick="networkDevicesList()">
                             <i class="fas fa-network-wired"></i>
                             <span>Network Devices</span>
                         </button>
 
-                        <button class="action-btn" onclick="startKismet()">
+                        <!-- <button class="action-btn" onclick="startKismet()">
                             <i class="fas fa-wifi"></i>
                             <span>Start Kismet</span>
-                        </button>
+                        </button> -->
 
                     </div>
                 </div>
@@ -459,6 +563,9 @@
 
             // Load recent alerts
             loadRecentAlerts();
+            
+            // Start real-time device monitoring
+            initRealtimeDeviceMonitoring();
         });
 
         function showNetworkDevicesModal() {
@@ -1688,6 +1795,242 @@
         window.startKismet = startKismet;
         window.stopKismet = stopKismet;
         window.refreshKismetData = refreshKismetData;
+
+        // Real-time Device Monitoring Functions
+        let deviceMonitoringInterval;
+        let lastDeviceCount = 0;
+        let deviceHistory = [];
+
+        function initRealtimeDeviceMonitoring() {
+            console.log('Starting real-time device monitoring...');
+            
+            // Initial load
+            updateDeviceCount();
+            
+            // Set up periodic updates every 30 seconds
+            deviceMonitoringInterval = setInterval(updateDeviceCount, 30000);
+            
+            // Add click handler for device count card to show details
+            const deviceCard = document.querySelector('.summary-card.devices');
+            if (deviceCard) {
+                deviceCard.style.cursor = 'pointer';
+                deviceCard.addEventListener('click', showDeviceDetailsModal);
+            }
+        }
+
+        function updateDeviceCount() {
+            fetch('/api/network-devices-count')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const currentCount = data.device_count;
+                        const deviceCountElement = document.getElementById('devices-count');
+                        const changeElement = deviceCountElement.parentElement.querySelector('.change');
+                        
+                        // Update the count
+                        deviceCountElement.textContent = currentCount;
+                        
+                        // Calculate and display change
+                        if (lastDeviceCount > 0) {
+                            const change = currentCount - lastDeviceCount;
+                            if (change > 0) {
+                                changeElement.textContent = `+${change} new device${change > 1 ? 's' : ''}`;
+                                changeElement.className = 'change up';
+                                
+                                // Show notification for new devices
+                                if (change > 0 && deviceHistory.length > 0) {
+                                    showNewDeviceNotification(change);
+                                }
+                            } else if (change < 0) {
+                                changeElement.textContent = `${change} device${Math.abs(change) > 1 ? 's' : ''} left`;
+                                changeElement.className = 'change down';
+                            } else {
+                                changeElement.textContent = 'No change';
+                                changeElement.className = 'change neutral';
+                            }
+                        } else {
+                            changeElement.textContent = 'Real-time monitoring';
+                            changeElement.className = 'change neutral';
+                        }
+                        
+                        // Store history
+                        deviceHistory.push({
+                            count: currentCount,
+                            timestamp: new Date(),
+                            devices: data.devices || []
+                        });
+                        
+                        // Keep only last 10 entries
+                        if (deviceHistory.length > 10) {
+                            deviceHistory.shift();
+                        }
+                        
+                        lastDeviceCount = currentCount;
+                        
+                        console.log(`Device count updated: ${currentCount} devices found`);
+                    } else {
+                        console.warn('Failed to get device count:', data.error);
+                        // Set fallback display
+                        const changeElement = document.getElementById('devices-count').parentElement.querySelector('.change');
+                        changeElement.textContent = 'Scan failed - retrying...';
+                        changeElement.className = 'change down';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching device count:', error);
+                    const changeElement = document.getElementById('devices-count').parentElement.querySelector('.change');
+                    changeElement.textContent = 'Connection error';
+                    changeElement.className = 'change down';
+                });
+        }
+
+        function showNewDeviceNotification(count) {
+            // Create a temporary notification
+            const notification = document.createElement('div');
+            notification.className = 'device-notification';
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i class="fas fa-laptop" style="color: #2ecc71;"></i>
+                    <span>${count} new device${count > 1 ? 's' : ''} detected on network</span>
+                </div>
+            `;
+            
+            // Add styles
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #2ecc71, #27ae60);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+                z-index: 1000;
+                animation: slideInRight 0.3s ease-out;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 4 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease-out';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+
+        function showDeviceDetailsModal() {
+            const latestData = deviceHistory[deviceHistory.length - 1];
+            if (!latestData) {
+                alert('No device data available. Please wait for the next scan.');
+                return;
+            }
+            
+            // Remove existing modal if any
+            const existingModal = document.getElementById('deviceDetailsModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            // Create modal
+            const modal = document.createElement('div');
+            modal.id = 'deviceDetailsModal';
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 800px;">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-laptop"></i> Network Devices (${latestData.count} found)</h3>
+                        <span class="close" onclick="closeDeviceDetailsModal()">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="device-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Total Devices:</span>
+                                <span class="stat-value">${latestData.count}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Last Updated:</span>
+                                <span class="stat-value">${latestData.timestamp.toLocaleTimeString()}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Scan Method:</span>
+                                <span class="stat-value">Network Discovery</span>
+                            </div>
+                        </div>
+                        
+                        ${latestData.devices && latestData.devices.length > 0 ? `
+                        <div class="devices-preview">
+                            <h4>Recent Devices Preview</h4>
+                            <div class="devices-table-container">
+                                <table class="devices-table">
+                                    <thead>
+                                        <tr>
+                                            <th>IP Address</th>
+                                            <th>MAC Address</th>
+                                            <th>Hostname</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${latestData.devices.map(device => `
+                                            <tr>
+                                                <td>${device.ip || 'Unknown'}</td>
+                                                <td>${device.mac || 'N/A'}</td>
+                                                <td>${device.hostname || 'Unknown'}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        ` : '<p>No device details available in preview.</p>'}
+                        
+                        <div class="modal-actions">
+                            <button class="btn btn-primary" onclick="runFullDeviceScan()">
+                                <i class="fas fa-search"></i> Full Device Scan
+                            </button>
+                            <button class="btn btn-secondary" onclick="updateDeviceCount()">
+                                <i class="fas fa-refresh"></i> Refresh Count
+                            </button>
+                            <button class="btn btn-secondary" onclick="closeDeviceDetailsModal()">
+                                <i class="fas fa-times"></i> Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+            
+            // Close modal when clicking outside
+            modal.onclick = function(event) {
+                if (event.target === modal) {
+                    closeDeviceDetailsModal();
+                }
+            };
+        }
+
+        function closeDeviceDetailsModal() {
+            const modal = document.getElementById('deviceDetailsModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function runFullDeviceScan() {
+            closeDeviceDetailsModal();
+            networkDevicesList(); // Use existing full scan function
+        }
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function() {
+            if (deviceMonitoringInterval) {
+                clearInterval(deviceMonitoringInterval);
+            }
+        });
 
         // ...existing code...
     </script>

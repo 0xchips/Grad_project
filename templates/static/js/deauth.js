@@ -520,68 +520,90 @@ function protectNetwork(bssid) {
 }
 
 // New function to expand chart into modal
-function expandChart(type) {
+function expandChart(chartIdOrType, chartTitle) {
     const modal = document.getElementById('chartModal');
     const modalTitle = document.getElementById('modal-title');
     
+    // Map chart IDs to types for compatibility
+    let type = chartIdOrType;
+    if (chartIdOrType === 'deauthFrequencyChart') {
+        type = 'frequency';
+    } else if (chartIdOrType === 'deauthTargetsChart') {
+        type = 'targets';
+    }
+    
     // Configure modal based on chart type
     if (type === 'frequency') {
-        modalTitle.textContent = 'Attack Frequency by Hour';
-        modalChart.config.type = 'bar';
-        modalChart.data = {
-            labels: Array(24).fill('').map((_, i) => `${i}:00`),
-            datasets: [{
-                label: 'Attacks per hour',
-                data: attackFrequency,
-                backgroundColor: 'rgba(231, 76, 60, 0.7)',
-                borderColor: 'rgba(231, 76, 60, 1)',
-                borderWidth: 1
-            }]
-        };
+        modalTitle.textContent = chartTitle || 'Attack Frequency by Hour';
         
-        modalChart.options = {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true
+        // Destroy existing chart and create new one
+        if (modalChart) {
+            modalChart.destroy();
+        }
+        
+        const modalCtx = document.getElementById('modalChart').getContext('2d');
+        modalChart = new Chart(modalCtx, {
+            type: 'bar',
+            data: {
+                labels: Array(24).fill('').map((_, i) => `${i}:00`),
+                datasets: [{
+                    label: 'Attacks per hour',
+                    data: attackFrequency,
+                    backgroundColor: 'rgba(231, 76, 60, 0.7)',
+                    borderColor: 'rgba(231, 76, 60, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        };
+        });
     } else if (type === 'targets') {
-        modalTitle.textContent = 'Target Networks';
-        modalChart.config.type = 'doughnut';
+        modalTitle.textContent = chartTitle || 'Target Networks';
+        
+        // Destroy existing chart and create new one
+        if (modalChart) {
+            modalChart.destroy();
+        }
         
         // Sort networks by attack count
         const sortedNetworks = Object.entries(targetNetworks)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 10);
         
-        modalChart.data = {
-            labels: sortedNetworks.map(n => n[0]),
-            datasets: [{
-                data: sortedNetworks.map(n => n[1]),
-                backgroundColor: [
-                    '#e74c3c', '#f39c12', '#3498db', '#9b59b6', '#2ecc71',
-                    '#e84393', '#00cec9', '#fd79a8', '#0984e3', '#6c5ce7'
-                ],
-                borderWidth: 1
-            }]
-        };
-        
-        modalChart.options = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'right'
+        const modalCtx = document.getElementById('modalChart').getContext('2d');
+        modalChart = new Chart(modalCtx, {
+            type: 'doughnut',
+            data: {
+                labels: sortedNetworks.map(n => n[0]),
+                datasets: [{
+                    data: sortedNetworks.map(n => n[1]),
+                    backgroundColor: [
+                        '#e74c3c', '#f39c12', '#3498db', '#9b59b6', '#2ecc71',
+                        '#e84393', '#00cec9', '#fd79a8', '#0984e3', '#6c5ce7'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
                 }
             }
-        };
+        });
     }
     
     currentModalType = type;
-    modalChart.update();
     
     // Show modal
     modal.classList.add('active');

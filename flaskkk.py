@@ -1729,6 +1729,101 @@ def monitoring_status():
         'message': 'Monitoring is not running'
     })
 
+@app.route('/api/network-devices-count', methods=['GET'])
+def get_network_devices_count():
+    """Get current network device count for real-time monitoring"""
+    try:
+        import subprocess
+        import os
+        import json
+        import re
+        
+        # Path to the netdiscover.py script
+        script_path = os.path.join(os.path.dirname(__file__), 'netdiscover.py')
+        
+        # Check if script exists
+        if not os.path.exists(script_path):
+            return jsonify({
+                'success': False,
+                'device_count': 0,
+                'error': 'netdiscover.py script not found'
+            }), 404
+        
+        # Execute the netdiscover.py script with shorter timeout for faster updates
+        result = subprocess.run(
+            ['python3', script_path],
+            capture_output=True,
+            text=True,
+            timeout=30,  # Shorter timeout for real-time updates
+            cwd=os.path.dirname(__file__)
+        )
+        
+        if result.returncode == 0:
+            output = result.stdout.strip()
+            devices = []
+            device_count = 0
+            
+            # Parse the output to extract device count
+            lines = output.split('\n')
+            
+            # Look for JSON output from the script
+            json_start = None
+            json_end = None
+            for i, line in enumerate(lines):
+                if '[JSON_START]' in line:
+                    json_start = i
+                elif '[JSON_END]' in line:
+                    json_end = i
+                    break
+            
+            if json_start is not None and json_end is not None:
+                # Extract JSON data
+                try:
+                    json_line = lines[json_start]
+                    json_data = json_line.replace('[JSON_START]', '').replace('[JSON_END]', '')
+                    devices = json.loads(json_data)
+                    device_count = len(devices)
+                except json.JSONDecodeError:
+                    pass
+            
+            # If no JSON found, try to parse text output for device count
+            if device_count == 0:
+                for line in lines:
+                    if line.startswith('[+] Found') and 'devices:' in line:
+                        # Extract device count from line like "[+] Found 5 devices:"
+                        count_match = re.search(r'Found (\d+) devices', line)
+                        if count_match:
+                            device_count = int(count_match.group(1))
+                            break
+            
+            return jsonify({
+                'success': True,
+                'device_count': device_count,
+                'devices': devices[:5],  # Return first 5 devices for preview
+                'last_updated': int(time.time())
+            })
+        else:
+            # Script failed, return 0 count
+            return jsonify({
+                'success': False,
+                'device_count': 0,
+                'error': f'Network scan failed: {result.stderr.strip() or "Unknown error"}'
+            })
+            
+    except subprocess.TimeoutExpired:
+        return jsonify({
+            'success': False,
+            'device_count': 0,
+            'error': 'Network scan timed out'
+        }), 408
+    except Exception as e:
+        logger.error(f"Device count error: {str(e)}")
+        return jsonify({
+            'success': False,
+            'device_count': 0,
+            'error': f'Error getting device count: {str(e)}'
+        }), 500
+
 # Start the Flask application when this file is run directly
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5053))  # Changed to 5053
