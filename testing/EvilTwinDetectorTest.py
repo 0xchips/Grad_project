@@ -3,13 +3,12 @@ from termcolor import colored
 import time
 
 ap_list = {}
-# Whitelist for known legitimate BSSIDs (your repeaters)
 WHITELIST_BSSIDS = {
-    "dc:8d:8a:b9:13:36",  # Your repeater BSSID 1
+    "dc:8d:8a:b9:13:36", 
     "20:9a:7d:5c:83:a0",
     "cc:d4:2e:88:77:b6"
-    # Your repeater BSSID 2
-    # Add more BSSIDs as needed
+    
+    
 }
 
 def analyze_evil_twin_risk(ssid, bssid_data):

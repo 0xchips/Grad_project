@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Network Threats | CyberShield</title>
+    <title>Network Threats | WiGuard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
 
-    <!-- <link rel="stylesheet" href="css/themes.css"> -->    <style>
+    <!-- <link rel="stylesheet" href="css/themes.css"> -->
+    <style>
         /* Additional CSS for better chart visibility */
         .chart-card {
             height: 500px;
@@ -31,11 +32,11 @@
             .chart-container {
                 grid-template-columns: 1fr;
             }
-            
+
             .chart-card {
                 height: 400px;
             }
-            
+
             .chart-container canvas {
                 max-height: 300px !important;
                 height: 300px !important;
@@ -51,14 +52,14 @@
         </div>
         <div class="logo">
             <i class="fas fa-shield-alt"></i>
-            <span>CyberShield</span>
+            <span>WiGuard</span>
         </div>
         <nav>
             <ul>
                 <li><a href="index.html" data-tooltip="Dashboard"><i class="fas fa-tachometer-alt"></i>
                         <span>Dashboard</span></a></li>
                 <li><a href="deauth.html" data-tooltip="Deauthentication"><i class="fas fa-wifi"></i>
-                        <span>Deauthentication</span></a></li>
+                        <span>Deauth & Evil Twin</span></a></li>
                 <li><a href="bluetooth.html" data-tooltip="Bluetooth"><i class="fas fa-bluetooth-b"></i>
                         <span>Bluetooth</span></a></li>
                 <li><a href="gps.html" data-tooltip="GPS"><i class="fas fa-map-marked-alt"></i> <span>GPS</span></a>

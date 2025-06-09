@@ -639,7 +639,7 @@ function generatePdfReport(type) {
     // Report title
     doc.setFontSize(20);
     doc.setTextColor(40);
-    doc.text('CyberShield Deauthentication Attack Report', 105, 20, { align: 'center' });
+    doc.text('WiGuard Deauthentication Attack Report', 105, 20, { align: 'center' });
     
     // Report metadata
     doc.setFontSize(12);
@@ -748,7 +748,7 @@ function generatePdfReport(type) {
     });
     
     // Save the PDF
-    doc.save(`CyberShield-Deauth-Report-${new Date().toISOString().slice(0,10)}.pdf`);
+    doc.save(`WiGuard-Deauth-Report-${new Date().toISOString().slice(0,10)}.pdf`);
 }
 
 // Export logs to JSON file

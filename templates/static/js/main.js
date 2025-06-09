@@ -220,7 +220,7 @@ function formatThreatDetails(threatType, data) {
         details += `Severity: ${data.severity}\n`;
     }
     
-    details += `\nACTION REQUIRED: Please check your Cyber Threat Dashboard immediately.`;
+    details += `\nACTION REQUIRED: Please check your WiGuard Dashboard immediately.`;
     return details;
 }
 
@@ -234,7 +234,7 @@ async function sendEmailNotification(threatType, threatData) {
             emailConfig.templateId, 
             {
                 to_email: emailConfig.recipientEmail,
-                from_name: 'Cyber Threat Dashboard',
+                from_name: 'WiGuard Dashboard',
                 threat_type: threatType.toUpperCase(),
                 threat_details: threatDetails,
                 timestamp: new Date().toLocaleString()
@@ -269,7 +269,7 @@ function generatePdfReport(type) {
         doc.setProperties({
             title: `${type.toUpperCase()} Threat Report`,
             subject: 'Cybersecurity Threat Analysis',
-            author: 'Cyber Threat Dashboard'
+            author: 'WiGuard Dashboard'
         });
 
         // Add title

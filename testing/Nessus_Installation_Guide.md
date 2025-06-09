@@ -1,14 +1,14 @@
 # Nessus Installation and Configuration Guide
 
 ## Overview
-This guide provides comprehensive instructions for installing and configuring Tenable Nessus vulnerability scanner for integration with the CyberShield security dashboard.
+This guide provides comprehensive instructions for installing and configuring Tenable Nessus vulnerability scanner for integration with the WiGuard security dashboard.
 
 ## Table of Contents
 1. [Prerequisites](#prerequisites)
 2. [Automatic Installation](#automatic-installation)
 3. [Manual Installation](#manual-installation)
 4. [Configuration](#configuration)
-5. [Integration with CyberShield](#integration-with-cybershield)
+5. [Integration with WiGuard](#integration-with-wiguard)
 6. [Troubleshooting](#troubleshooting)
 7. [Security Considerations](#security-considerations)
 
@@ -32,10 +32,10 @@ sudo apt install -y curl wget python3 python3-pip
 
 ## Automatic Installation
 
-The CyberShield dashboard includes an automated Nessus installation script that handles the entire setup process.
+The WiGuard dashboard includes an automated Nessus installation script that handles the entire setup process.
 
 ### Using the Integrated Scanner
-1. **Access Dashboard**: Navigate to the CyberShield dashboard
+1. **Access Dashboard**: Navigate to the WiGuard dashboard
 2. **Click "Run Full Scan"**: The system will automatically detect if Nessus is installed
 3. **Automatic Setup**: If not found, the system will:
    - Download Nessus installer
@@ -131,7 +131,7 @@ nessus_config = {
 }
 ```
 
-## Integration with CyberShield
+## Integration with WiGuard
 
 ### Backend Integration
 
@@ -159,7 +159,7 @@ The dashboard's "Run Full Scan" button now triggers comprehensive vulnerability 
 
 ```json
 {
-  "scan_name": "CyberShield_Full_Scan",
+  "scan_name": "WiGuard_Full_Scan",
   "targets": "192.168.1.0/24",
   "template": "basic_network_scan",
   "enabled": true,

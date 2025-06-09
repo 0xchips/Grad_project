@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CyberShield Fallback Scanner
+WiGuard Fallback Scanner
 Alternative vulnerability scanning when Nessus is not available
 Uses built-in Kali Linux security tools
 """
@@ -611,14 +611,14 @@ class FallbackScanner:
             timestamp = time.strftime("%Y%m%d_%H%M%S")
             
             if format_type.lower() == 'html':
-                report_path = f"/tmp/cybershield_scan_report_{timestamp}.html"
+                report_path = f"/tmp/wiguard_scan_report_{timestamp}.html"
                 return self._generate_html_report(report_path)
             elif format_type.lower() == 'json':
-                report_path = f"/tmp/cybershield_scan_report_{timestamp}.json"
+                report_path = f"/tmp/wiguard_scan_report_{timestamp}.json"
                 return self._generate_json_report(report_path)
             else:
                 # Default to text format
-                report_path = f"/tmp/cybershield_scan_report_{timestamp}.txt"
+                report_path = f"/tmp/wiguard_scan_report_{timestamp}.txt"
                 return self._generate_text_report(report_path)
                 
         except Exception as e:
@@ -635,7 +635,7 @@ class FallbackScanner:
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CyberShield Security Scan Report</title>
+    <title>WiGuard Security Scan Report</title>
     <style>
         body {{ font-family: Arial, sans-serif; margin: 20px; }}
         .header {{ background: #2c3e50; color: white; padding: 20px; text-align: center; }}
@@ -650,7 +650,7 @@ class FallbackScanner:
 </head>
 <body>
     <div class="header">
-        <h1>CyberShield Security Scan Report</h1>
+        <h1>WiGuard Security Scan Report</h1>
         <p>Generated on: {time.strftime("%Y-%m-%d %H:%M:%S")}</p>
         <p>Scan ID: {self.scan_id or 'N/A'}</p>
     </div>
@@ -727,7 +727,7 @@ class FallbackScanner:
                 'scan_info': {
                     'scan_id': self.scan_id,
                     'timestamp': time.strftime("%Y-%m-%d %H:%M:%S"),
-                    'scanner': 'CyberShield Fallback Scanner'
+                    'scanner': 'WiGuard Fallback Scanner'
                 },
                 'results': self.scan_results
             }
@@ -749,7 +749,7 @@ class FallbackScanner:
             total_vulns = results.get('critical', 0) + results.get('high', 0) + results.get('medium', 0) + results.get('low', 0)
             
             report_content = f"""
-CyberShield Security Scan Report
+WiGuard Security Scan Report
 ===============================
 
 Generated on: {time.strftime("%Y-%m-%d %H:%M:%S")}

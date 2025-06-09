@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Threat Dashboard</title>
+    <title>WiGuard Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -17,14 +17,14 @@
         </div>
         <div class="logo">
             <i class="fas fa-shield-alt"></i>
-            <span>CyberShield</span>
+            <span>WiGuard</span>
         </div>
         <nav>
             <ul>
                 <li class="active"><a href="index.html" data-tooltip="Dashboard"><i class="fas fa-tachometer-alt"></i>
                         <span>Dashboard</span></a></li>
                 <li><a href="deauth.html" data-tooltip="Deauthentication"><i class="fas fa-wifi"></i>
-                        <span>Deauthentication</span></a></li>
+                        <span>Deauth & Evil Twin</span></a></li>
                 <li><a href="bluetooth.html" data-tooltip="Bluetooth"><i class="fas fa-bluetooth-b"></i>
                         <span>Bluetooth</span></a></li>
                 <li><a href="gps.html" data-tooltip="GPS"><i class="fas fa-map-marked-alt"></i> <span>GPS</span></a>
@@ -690,7 +690,7 @@
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    scan_name: `CyberShield_Full_Discovery_Scan_${new Date().toISOString().split('T')[0]}`
+                    scan_name: `WiGuard_Full_Discovery_Scan_${new Date().toISOString().split('T')[0]}`
                 })
             })
                 .then(response => response.json())
@@ -763,7 +763,7 @@
             modal.innerHTML = `
                 <div class="modal-content nessus-progress-modal">
                     <div class="modal-header">
-                        <h3><i class="fas fa-shield-alt"></i> CyberShield Full Security Scan</h3>
+                        <h3><i class="fas fa-shield-alt"></i> WiGuard Full Security Scan</h3>
                         <span class="close" onclick="closeNessusProgressModal()">&times;</span>
                     </div>
                     <div class="modal-body">
@@ -794,7 +794,7 @@
                             <div class="scan-log" id="nessus-scan-log">
                                 <h5>Scan Progress Log:</h5>
                                 <div class="log-content" id="nessus-log-content">
-                                    <div class="log-entry">Initiating CyberShield security scan...</div>
+                                    <div class="log-entry">Initiating WiGuard security scan...</div>
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-GPS API Adapter for CyberShield Security Dashboard
+GPS API Adapter for WiGuard Security Dashboard
 
 This script provides a bridge between the ESP32 GPS Jamming Detector
 and the MySQL database used by the main application.

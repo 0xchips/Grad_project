@@ -17,7 +17,7 @@ import urllib3
 
 # Import fallback scanner
 try:
-    from fallback_scanner import FallbackScanner
+    from testing.fallback_scanner import FallbackScanner
 except ImportError:
     FallbackScanner = None
 
@@ -408,7 +408,7 @@ class NessusScanner:
                     return self._run_fallback_scan(targets)
                 
                 # Create and launch scan
-                scan_name = f"CyberShield_Full_Scan_{int(time.time())}"
+                scan_name = f"WiGuard_Full_Scan_{int(time.time())}"
                 scan_id = self.create_scan(scan_name, targets)
                 
                 if not scan_id:
@@ -440,7 +440,7 @@ class NessusScanner:
             if not self.fallback_scanner:
                 return {'error': 'Neither Nessus nor fallback scanner is available'}
             
-            scan_name = f"CyberShield_Security_Scan_{int(time.time())}"
+            scan_name = f"WiGuard_Security_Scan_{int(time.time())}"
             result = self.fallback_scanner.start_scan(targets, scan_name)
             
             if result.get('success'):
