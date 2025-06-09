@@ -134,21 +134,50 @@ def handle_deauth_packet(pkt):
     """Handle deauthentication packets"""
     try:
         if pkt.haslayer(Dot11Deauth):
-            # Extract information from deauth packet
-            src_mac = pkt[Dot11].addr2  # Source (AP)
-            dst_mac = pkt[Dot11].addr1  # Destination (victim)
-            bssid = pkt[Dot11].addr3   # BSSID
+            # Extract addresses from deauth frame correctly
+            # addr1: receiver (target being deauth'd)  
+            # addr2: transmitter (source sending deauth)
+            # addr3: BSSID (access point)
+            receiver_mac = pkt[Dot11].addr1  # Target/victim
+            transmitter_mac = pkt[Dot11].addr2  # Attacker
+            bssid_mac = pkt[Dot11].addr3  # Access Point BSSID
             reason = pkt[Dot11Deauth].reason
             
-            # Try to find the SSID for this BSSID
-            ssid = "Unknown"
-            for network_ssid, bssid_list in ap_list.items():
-                if any(entry[0] == bssid for entry in bssid_list):
-                    ssid = network_ssid
-                    break
+            # Try to find SSID using improved logic
+            # Priority: BSSID > receiver > transmitter
+            network_ssid = "Unknown"
+            network_bssid = bssid_mac
             
-            print(colored(f"[!] DEAUTH DETECTED: {ssid} ({bssid}) -> {dst_mac} (Reason: {reason})", "red"))
-            send_deauth_log(ssid, bssid, dst_mac, f"Deauth reason: {reason}")
+            # First try to find SSID using BSSID (most reliable)
+            if bssid_mac:
+                for ssid, bssid_list in ap_list.items():
+                    if any(entry[0] == bssid_mac for entry in bssid_list):
+                        network_ssid = ssid
+                        network_bssid = bssid_mac
+                        break
+            
+            # If BSSID lookup failed, try receiver address
+            if network_ssid == "Unknown":
+                for ssid, bssid_list in ap_list.items():
+                    if any(entry[0] == receiver_mac for entry in bssid_list):
+                        network_ssid = ssid
+                        network_bssid = receiver_mac
+                        break
+            
+            # If still unknown, try transmitter address
+            if network_ssid == "Unknown":
+                for ssid, bssid_list in ap_list.items():
+                    if any(entry[0] == transmitter_mac for entry in bssid_list):
+                        network_ssid = ssid
+                        network_bssid = transmitter_mac
+                        break
+            
+            # If still unknown, use BSSID as fallback
+            if network_ssid == "Unknown":
+                network_bssid = bssid_mac if bssid_mac else receiver_mac
+            
+            print(colored(f"[!] DEAUTH DETECTED: {network_ssid} ({network_bssid}) | Transmitter: {transmitter_mac} -> Receiver: {receiver_mac} (Reason: {reason})", "red"))
+            send_deauth_log(network_ssid, network_bssid, receiver_mac, f"Deauth reason: {reason}")
             
     except Exception as e:
         print(colored(f"[ERROR] Failed to process deauth packet: {e}", "red"))

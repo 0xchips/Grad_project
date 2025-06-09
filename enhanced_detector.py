@@ -20,6 +20,7 @@ INTERFACE = "wlan1"
 DEAUTH_THRESHOLD = 5
 TIME_WINDOW = 5
 DASHBOARD_URL = "http://localhost:5053"
+DEBUG_MODE = True  # Set to True for detailed packet analysis output
 
 # API Endpoints
 DEAUTH_API_ENDPOINT = f"{DASHBOARD_URL}/api/deauth_logs"
@@ -244,18 +245,41 @@ def process_deauth(pkt):
         # Clean up old timestamps outside time window
         deauth_times = [t for t in deauth_times if now - t < timedelta(seconds=TIME_WINDOW)]
         
-        # Extract MAC addresses
-        src_mac = pkt[Dot11].addr1  # Attacker BSSID  
-        dst_mac = pkt[Dot11].addr2  # Target BSSID
+        # Extract addresses from deauth frame correctly
+        # addr1: receiver (target being deauth'd)  
+        # addr2: transmitter (source sending deauth)
+        # addr3: BSSID (access point)
+        receiver_mac = pkt[Dot11].addr1  # Target/victim
+        transmitter_mac = pkt[Dot11].addr2  # Attacker
+        bssid_mac = pkt[Dot11].addr3  # Access Point BSSID
         
-        if not src_mac or not dst_mac:
+        if not receiver_mac or not transmitter_mac:
             return
         
-        # Get SSID information
-        attacker_ssid = ssid_map.get(src_mac, "Unknown")
-        dest_ssid = ssid_map.get(dst_mac, "Unknown")
+        # Try to get SSIDs - prioritize BSSID for network identification
+        receiver_ssid = ssid_map.get(receiver_mac, "Unknown")
+        transmitter_ssid = ssid_map.get(transmitter_mac, "Unknown")
+        bssid_ssid = ssid_map.get(bssid_mac, "Unknown") if bssid_mac else "Unknown"
         
-        print(colored(f"[!] Deauth: {src_mac} ({attacker_ssid}) -> {dst_mac} ({dest_ssid}) [Window: {len(deauth_times)}]", "yellow"))
+        # Use BSSID SSID if available, fallback to other addresses
+        if bssid_ssid != "Unknown":
+            network_ssid = bssid_ssid
+            network_bssid = bssid_mac
+        elif receiver_ssid != "Unknown":
+            network_ssid = receiver_ssid
+            network_bssid = receiver_mac
+        elif transmitter_ssid != "Unknown":
+            network_ssid = transmitter_ssid
+            network_bssid = transmitter_mac
+        else:
+            network_ssid = "Unknown"
+            network_bssid = bssid_mac if bssid_mac else receiver_mac
+        
+        # Debug output for troubleshooting SSID mapping issues
+        if DEBUG_MODE:
+            print(colored(f"[DEBUG] SSID Mapping - R:{receiver_ssid} T:{transmitter_ssid} B:{bssid_ssid} | Total SSIDs: {len(ssid_map)}", "blue"))
+        
+        print(colored(f"[!] Deauth: {transmitter_mac} ({transmitter_ssid}) -> {receiver_mac} ({receiver_ssid}) | Network: {network_bssid} ({network_ssid}) [Window: {len(deauth_times)}]", "yellow"))
         
         # Check if threshold reached for attack classification
         if len(deauth_times) >= DEAUTH_THRESHOLD:
@@ -266,10 +290,10 @@ def process_deauth(pkt):
                 "timestamp": now.strftime('%Y-%m-%d %H:%M:%S'),
                 "alert_type": "Deauth Attack",
                 "count": len(deauth_times),
-                "attacker_bssid": src_mac,
-                "attacker_ssid": attacker_ssid,
-                "destination_bssid": dst_mac,
-                "destination_ssid": dest_ssid
+                "attacker_bssid": transmitter_mac,
+                "attacker_ssid": transmitter_ssid,
+                "destination_bssid": network_bssid,
+                "destination_ssid": network_ssid
             }
             
             # Check for duplicates and send
@@ -283,10 +307,10 @@ def process_deauth(pkt):
                 "timestamp": now.strftime('%Y-%m-%d %H:%M:%S'),
                 "alert_type": "Deauth Packet",
                 "count": len(deauth_times),
-                "attacker_bssid": src_mac,
-                "attacker_ssid": attacker_ssid,
-                "destination_bssid": dst_mac,
-                "destination_ssid": dest_ssid
+                "attacker_bssid": transmitter_mac,
+                "attacker_ssid": transmitter_ssid,
+                "destination_bssid": network_bssid,
+                "destination_ssid": network_ssid
             }
             
             if not is_duplicate_attack(attack_data):

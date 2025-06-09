@@ -94,15 +94,37 @@ def packet_handler(pkt):
         # Clean up old timestamps
         deauth_times = [t for t in deauth_times if now - t < timedelta(seconds=time_window)]
 
-        src_mac = pkt[Dot11].addr1  # Attacker BSSID
-        dst_mac = pkt[Dot11].addr2  # Victim/Target BSSID
-
-        attacker_ssid = ssid_map.get(src_mac, "Unknown")
-        dest_ssid = ssid_map.get(dst_mac, "Unknown")
+        # Extract addresses from deauth frame
+        # addr1: receiver (target being deauth'd)  
+        # addr2: transmitter (source sending deauth)
+        # addr3: BSSID (access point)
+        receiver_mac = pkt[Dot11].addr1  # Target/victim
+        transmitter_mac = pkt[Dot11].addr2  # Attacker
+        bssid_mac = pkt[Dot11].addr3  # Access Point BSSID
+        
+        # Try to get SSIDs - prioritize BSSID for network identification
+        receiver_ssid = ssid_map.get(receiver_mac, "Unknown")
+        transmitter_ssid = ssid_map.get(transmitter_mac, "Unknown")
+        bssid_ssid = ssid_map.get(bssid_mac, "Unknown")
+        
+        # Use BSSID SSID if available, fallback to other addresses
+        if bssid_ssid != "Unknown":
+            network_ssid = bssid_ssid
+            network_bssid = bssid_mac
+        elif receiver_ssid != "Unknown":
+            network_ssid = receiver_ssid
+            network_bssid = receiver_mac
+        elif transmitter_ssid != "Unknown":
+            network_ssid = transmitter_ssid
+            network_bssid = transmitter_mac
+        else:
+            network_ssid = "Unknown"
+            network_bssid = bssid_mac if bssid_mac else receiver_mac
 
         print(f"[!] Deauth detected at {now.strftime('%H:%M:%S')}")
-        print(f"    → Attacker: {src_mac} ({attacker_ssid})")
-        print(f"    → Target:   {dst_mac} ({dest_ssid})")
+        print(f"    → Transmitter: {transmitter_mac} ({transmitter_ssid})")
+        print(f"    → Receiver:    {receiver_mac} ({receiver_ssid})")
+        print(f"    → Network:     {network_bssid} ({network_ssid})")
         print(f"    → Total in window: {len(deauth_times)}\n")
 
         # Always log every deauth packet (if above threshold)
@@ -114,10 +136,10 @@ def packet_handler(pkt):
                 "timestamp": now.strftime('%Y-%m-%d %H:%M:%S'),
                 "alert_type": "Deauth Attack",
                 "count": len(deauth_times),
-                "attacker_bssid": src_mac,
-                "attacker_ssid": attacker_ssid,
-                "destination_bssid": dst_mac,
-                "destination_ssid": dest_ssid
+                "attacker_bssid": transmitter_mac,
+                "attacker_ssid": transmitter_ssid,
+                "destination_bssid": network_bssid,
+                "destination_ssid": network_ssid
             }
 
             # Save attack data to MySQL database
@@ -131,10 +153,10 @@ def packet_handler(pkt):
                 "timestamp": now.strftime('%Y-%m-%d %H:%M:%S'),
                 "alert_type": "Deauth Packet",  # Different name to distinguish from attack
                 "count": len(deauth_times),
-                "attacker_bssid": src_mac,
-                "attacker_ssid": attacker_ssid,
-                "destination_bssid": dst_mac,
-                "destination_ssid": dest_ssid
+                "attacker_bssid": transmitter_mac,
+                "attacker_ssid": transmitter_ssid,
+                "destination_bssid": network_bssid,
+                "destination_ssid": network_ssid
             }
             save_to_database(log_entry)
 
