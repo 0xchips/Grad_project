@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    
+
     <style>
         /* Real-time Device Monitoring Styles */
         @keyframes slideInRight {
@@ -16,6 +16,7 @@
                 transform: translateX(100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
@@ -27,6 +28,7 @@
                 transform: translateX(0);
                 opacity: 1;
             }
+
             to {
                 transform: translateX(100%);
                 opacity: 0;
@@ -107,9 +109,17 @@
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
     </style>
 </head>
@@ -136,6 +146,8 @@
                 <!-- <li><a href="network.html" data-tooltip="Network"><i class="fas fa-network-wired"></i>
                         <span>Network</span></a></li> -->
                 <li><a href="nids.html" data-tooltip="NIDS"><i class="fas fa-eye"></i> <span>NIDS</span></a></li>
+                <li><a href="configurations.html"><i class="fas fa-cog"></i> <span>Configurations</span></a></li>
+
                 <!-- <li><a href="settings.html" data-tooltip="Settings"><i class="fas fa-cog"></i> <span>Settings</span></a>
                 </li> -->
             </ul>
@@ -232,7 +244,7 @@
                         </div>
                         <div class="card-info">
                             <h3>Protected Devices</h3>
-                            <span class="value" id="devices-count">42</span>
+                            <span class="value" id="devices-count">-</span>
                             <span class="change up">+5 this week</span>
                         </div>
                     </div>
@@ -563,7 +575,7 @@
 
             // Load recent alerts
             loadRecentAlerts();
-            
+
             // Start real-time device monitoring
             initRealtimeDeviceMonitoring();
         });
@@ -1803,13 +1815,13 @@
 
         function initRealtimeDeviceMonitoring() {
             console.log('Starting real-time device monitoring...');
-            
+
             // Initial load
             updateDeviceCount();
-            
+
             // Set up periodic updates every 30 seconds
             deviceMonitoringInterval = setInterval(updateDeviceCount, 30000);
-            
+
             // Add click handler for device count card to show details
             const deviceCard = document.querySelector('.summary-card.devices');
             if (deviceCard) {
@@ -1826,17 +1838,17 @@
                         const currentCount = data.device_count;
                         const deviceCountElement = document.getElementById('devices-count');
                         const changeElement = deviceCountElement.parentElement.querySelector('.change');
-                        
+
                         // Update the count
                         deviceCountElement.textContent = currentCount;
-                        
+
                         // Calculate and display change
                         if (lastDeviceCount > 0) {
                             const change = currentCount - lastDeviceCount;
                             if (change > 0) {
                                 changeElement.textContent = `+${change} new device${change > 1 ? 's' : ''}`;
                                 changeElement.className = 'change up';
-                                
+
                                 // Show notification for new devices
                                 if (change > 0 && deviceHistory.length > 0) {
                                     showNewDeviceNotification(change);
@@ -1852,21 +1864,21 @@
                             changeElement.textContent = 'Real-time monitoring';
                             changeElement.className = 'change neutral';
                         }
-                        
+
                         // Store history
                         deviceHistory.push({
                             count: currentCount,
                             timestamp: new Date(),
                             devices: data.devices || []
                         });
-                        
+
                         // Keep only last 10 entries
                         if (deviceHistory.length > 10) {
                             deviceHistory.shift();
                         }
-                        
+
                         lastDeviceCount = currentCount;
-                        
+
                         console.log(`Device count updated: ${currentCount} devices found`);
                     } else {
                         console.warn('Failed to get device count:', data.error);
@@ -1894,7 +1906,7 @@
                     <span>${count} new device${count > 1 ? 's' : ''} detected on network</span>
                 </div>
             `;
-            
+
             // Add styles
             notification.style.cssText = `
                 position: fixed;
@@ -1908,9 +1920,9 @@
                 z-index: 1000;
                 animation: slideInRight 0.3s ease-out;
             `;
-            
+
             document.body.appendChild(notification);
-            
+
             // Remove after 4 seconds
             setTimeout(() => {
                 notification.style.animation = 'slideOutRight 0.3s ease-out';
@@ -1928,13 +1940,13 @@
                 alert('No device data available. Please wait for the next scan.');
                 return;
             }
-            
+
             // Remove existing modal if any
             const existingModal = document.getElementById('deviceDetailsModal');
             if (existingModal) {
                 existingModal.remove();
             }
-            
+
             // Create modal
             const modal = document.createElement('div');
             modal.id = 'deviceDetailsModal';
@@ -2001,12 +2013,12 @@
                     </div>
                 </div>
             `;
-            
+
             document.body.appendChild(modal);
             modal.style.display = 'block';
-            
+
             // Close modal when clicking outside
-            modal.onclick = function(event) {
+            modal.onclick = function (event) {
                 if (event.target === modal) {
                     closeDeviceDetailsModal();
                 }
@@ -2026,7 +2038,7 @@
         }
 
         // Clean up on page unload
-        window.addEventListener('beforeunload', function() {
+        window.addEventListener('beforeunload', function () {
             if (deviceMonitoringInterval) {
                 clearInterval(deviceMonitoringInterval);
             }

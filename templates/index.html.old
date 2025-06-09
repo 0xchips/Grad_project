@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WiGuard Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    <style>
+        /* Real-time Device Monitoring Styles */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        .device-notification {
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .device-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(30, 30, 30, 0.3);
+            border-radius: 8px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-label {
+            color: #bdc3c7;
+            font-size: 14px;
+        }
+
+        .stat-value {
+            color: #ecf0f1;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .devices-preview {
+            margin-top: 20px;
+        }
+
+        .devices-preview h4 {
+            margin-bottom: 15px;
+            color: #ecf0f1;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-card.devices:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .summary-card.devices {
+            transition: all 0.3s ease;
+        }
+
+        /* Pulse animation for device count when updating */
+        .devices-count-updating {
+            animation: pulse 1s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="sidebar-toggle">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>WiGuard</span>
+        </div>
+        <nav>
+            <ul>
+                <li class="active"><a href="index.html" data-tooltip="Dashboard"><i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a></li>
+                <li><a href="deauth.html" data-tooltip="Deauthentication"><i class="fas fa-wifi"></i>
+                        <span>Deauth & Evil Twin</span></a></li>
+                <li><a href="bluetooth.html" data-tooltip="Bluetooth"><i class="fas fa-bluetooth-b"></i>
+                        <span>Bluetooth</span></a></li>
+                <li><a href="gps.html" data-tooltip="GPS"><i class="fas fa-map-marked-alt"></i> <span>GPS</span></a>
+                </li>
+                <!-- <li><a href="network.html" data-tooltip="Network"><i class="fas fa-network-wired"></i>
+                        <span>Network</span></a></li> -->
+                <li><a href="nids.html" data-tooltip="NIDS"><i class="fas fa-eye"></i> <span>NIDS</span></a></li>
+                <!-- <li><a href="settings.html" data-tooltip="Settings"><i class="fas fa-cog"></i> <span>Settings</span></a>
+                </li> -->
+            </ul>
+        </nav>
+        <!-- <div class="user-panel">
+            <div class="user-info">
+                <div class="user-avatar">AD</div>
+                <div class="user-name">Admin</div>
+            </div>
+            <button class="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div> -->
+    </div>
+
+    <div class="main-content">
+        <header>
+            <div class="header-left">
+                <h1>Dashboard Overview</h1>
+                <div class="date-range">
+                    <i class="fas fa-calendar-alt"></i>
+                    <input type="text" id="dateRangePicker" placeholder="Select date range">
+                </div>
+            </div>
+            <div class="header-right">
+                <!-- Compact System Resources -->
+                <div class="system-resources-header">
+                    <div class="resource-compact cpu">
+                        <span class="resource-emoji">🟢</span>
+                        <span class="resource-label">CPU</span>
+                        <span class="resource-value" id="cpu-percentage-header">0%</span>
+                    </div>
+                    <div class="resource-compact memory">
+                        <span class="resource-emoji">🟡</span>
+                        <span class="resource-label">RAM</span>
+                        <span class="resource-value" id="memory-percentage-header">0%</span>
+                    </div>
+                    <div class="resource-compact network">
+                        <span class="resource-emoji">🔵</span>
+                        <span class="resource-label">Net</span>
+                        <span class="resource-speed" id="network-speed-header">
+                            <i class="fas fa-arrow-up" style="color: #00ff88;"></i>
+                            <span id="network-up-header">0</span>
+                            <i class="fas fa-arrow-down" style="color: #00aaff;"></i>
+                            <span id="network-down-header">0</span>
+                        </span>
+                    </div>
+                    <div class="resource-compact disk">
+                        <span class="resource-emoji">🟠</span>
+                        <span class="resource-label">Disk</span>
+                        <span class="resource-value" id="disk-percentage-header">0%</span>
+                    </div>
+                </div>
+                <!-- <div class="alert-bell">
+                    <i class="fas fa-bell"></i>
+                    <span class="alert-count">3</span>
+                </div> -->
+                <div class="connection-status">
+                    <span>Connected</span>
+                </div>
+            </div>
+        </header>
+        <div class="content-wrapper">
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card critical">
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Critical Threats</h3>
+                            <span class="value" id="critical-count">12</span>
+                            <span class="change up">+2 from yesterday</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-card warning">
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Warnings</h3>
+                            <span class="value" id="warning-count">24</span>
+                            <span class="change down">-3 from yesterday</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-card devices">
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Protected Devices</h3>
+                            <span class="value" id="devices-count">42</span>
+                            <span class="change up">+5 this week</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-card uptime">
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>System Uptime</h3>
+                            <span class="value">99.98%</span>
+                            <span class="change neutral">Last incident: 14d ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Charts -->
+            <div class="chart-row">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Threat Activity Timeline</h3>
+                        <div class="chart-actions">
+                            <button class="btn-chart-action"
+                                onclick="expandChart('threatTimelineChart', 'Threat Activity Timeline')"><i
+                                    class="fas fa-expand"></i></button>
+                            <button class="btn-chart-action" onclick="exportChart('threatTimelineChart')"><i
+                                    class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                    <canvas id="threatTimelineChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>Threat Distribution</h3>
+                        <div class="chart-actions">
+                            <button class="btn-chart-action"
+                                onclick="expandChart('threatDistributionChart', 'Threat Distribution')"><i
+                                    class="fas fa-expand"></i></button>
+                            <button class="btn-chart-action" onclick="exportChart('threatDistributionChart')"><i
+                                    class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                    <canvas id="threatDistributionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Alerts and Quick Actions -->
+            <div class="bottom-row">
+                <div class="recent-alerts">
+                    <div class="section-header">
+                        <h3>Recent Alerts</h3>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+                    <div class="alerts-list" id="alerts-list">
+                        <!-- Alerts will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <div class="section-header">
+                        <h3>Quick Actions</h3>
+                    </div>
+                    <div class="actions-grid">
+                        <button class="action-btn" onclick="runFullScan()">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Run Full Scan</span>
+                        </button>
+                        <button class="action-btn" onclick="muteAlerts()">
+                            <i class="fas fa-bell-slash"></i>
+                            <span>Mute Alerts</span>
+                        </button>
+                        <button class="action-btn" onclick="generateFullReport()">
+                            <i class="fas fa-file-export"></i>
+                            <span>Export Full Report</span>
+                        </button>
+                        <!-- <button class="action-btn" onclick="scanBluetooth()">
+                            <i class="fas fa-bluetooth-b"></i>
+                            <span>Scan Bluetooth</span>
+                        </button> -->
+                        <!-- <button class="action-btn" onclick="scanGPS()">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span>Scan GPS</span>
+                        </button> -->
+                        <!-- <button class="action-btn" onclick="scanNetwork()">
+                            <i class="fas fa-network-wired"></i>
+                            <span>Scan Network</span>
+                        </button> -->
+                        <!-- <button class="action-btn" onclick="deauthscan()">
+                            <i class="fas fa-network-wired"></i>
+                            <span>Deauth scan</span> -->
+                        </button> <button class="action-btn" onclick="networkDevicesList()">
+                            <i class="fas fa-network-wired"></i>
+                            <span>Network Devices</span>
+                        </button>
+
+                        <!-- <button class="action-btn" onclick="startKismet()">
+                            <i class="fas fa-wifi"></i>
+                            <span>Start Kismet</span>
+                        </button> -->
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kismet Wireless Monitoring Section -->
+            <div class="kismet-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-wifi"></i> Kismet Wireless Monitoring</h3>
+                    <div class="kismet-controls">
+                        <button id="kismet-start-btn" class="btn btn-success" onclick="startKismet()">
+                            <i class="fas fa-play"></i> Start Monitoring
+                        </button>
+                        <button id="kismet-stop-btn" class="btn btn-danger" onclick="stopKismet()"
+                            style="display: none;">
+                            <i class="fas fa-stop"></i> Stop Monitoring
+                        </button>
+                        <button id="kismet-refresh-btn" class="btn btn-info" onclick="refreshKismetData()">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <div class="kismet-content">
+                    <div class="kismet-status">
+                        <div class="status-item">
+                            <span class="label">Status:</span>
+                            <span id="kismet-status" class="status-value stopped">Stopped</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="label">Interface:</span>
+                            <span id="kismet-interface" class="status-value">wlan0</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="label">Devices Found:</span>
+                            <span id="kismet-device-count" class="status-value">0</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="label">Uptime:</span>
+                            <span id="kismet-uptime" class="status-value">0s</span>
+                        </div>
+                    </div>
+                    <div class="kismet-devices">
+                        <div class="devices-header">
+                            <h4>Detected Wireless Devices</h4>
+                            <span class="device-count" id="device-count-badge">0 devices</span>
+                        </div>
+                        <div class="devices-table-container">
+                            <div class="devices-table-wrapper">
+                                <table id="kismet-devices-table" class="devices-table">
+                                    <thead>
+                                        <tr>
+                                            <th>MAC Address</th>
+                                            <th>Device Name</th>
+                                            <th>Type</th>
+                                            <th>Manufacturer</th>
+                                            <th>Signal (dBm)</th>
+                                            <th>Packets</th>
+                                            <th>Connected AP</th>
+                                            <th>Last Seen</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="kismet-devices-body">
+                                        <tr>
+                                            <td colspan="8" class="no-data">Start Kismet monitoring to detect wireless
+                                                devices</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kismet-logs">
+                        <h4>Monitoring Logs</h4>
+                        <div id="kismet-log-container" class="log-container">
+                            <div class="log-entry">Kismet monitoring not started</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <!-- <script src="js/auth.js"></script> -->
+    <script>
+        // Initialize date range picker
+        flatpickr("#dateRangePicker", {
+            mode: "range",
+            dateFormat: "Y-m-d",
+            defaultDate: [new Date().setDate(new Date().getDate() - 7), new Date()]
+        });
+
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function () {
+            // Threat Timeline Chart
+            const timelineCtx = document.getElementById('threatTimelineChart').getContext('2d');
+            new Chart(timelineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [
+                        {
+                            label: 'Critical',
+                            data: [2, 4, 3, 5, 7, 6, 4],
+                            borderColor: '#e74c3c',
+                            backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'Warnings',
+                            data: [8, 5, 7, 9, 6, 10, 8],
+                            borderColor: '#f39c12',
+                            backgroundColor: 'rgba(243, 156, 18, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'Normal',
+                            data: [15, 18, 20, 16, 19, 14, 17],
+                            borderColor: '#2ecc71',
+                            backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: '#ecf0f1',
+                                boxWidth: 12,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#ecf0f1'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#ecf0f1',
+                                stepSize: 5
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Threat Distribution Chart
+            const distributionCtx = document.getElementById('threatDistributionChart').getContext('2d');
+            new Chart(distributionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Bluetooth', 'GPS', 'Network', 'deauth'],
+                    datasets: [{
+                        data: [15, 22, 45, 8],
+                        backgroundColor: [
+                            '#3498db',
+                            '#9b59b6',
+                            '#e74c3c',
+                            '#f39c12'
+                        ],
+                        borderColor: [
+                            '#2980b9',
+                            '#8e44ad',
+                            '#c0392b',
+                            '#d35400'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#ecf0f1',
+                                boxWidth: 12,
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+
+            // Load recent alerts
+            loadRecentAlerts();
+            
+            // Start real-time device monitoring
+            initRealtimeDeviceMonitoring();
+        });
+
+        function showNetworkDevicesModal() {
+            // Remove existing modal if any
+            const existingModal = document.getElementById('networkDevicesModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            // Create modal
+            const modal = document.createElement('div');
+            modal.id = 'networkDevicesModal';
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-network-wired"></i> Network Devices Discovery</h3>
+                        <span class="close" onclick="closeNetworkDevicesModal()">&times;</span>
+                    </div>
+                    <div class="modal-body" id="networkDevicesContent">
+                        <!-- Content will be inserted here -->
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+
+            // Close modal when clicking outside
+            modal.onclick = function (event) {
+                if (event.target === modal) {
+                    closeNetworkDevicesModal();
+                }
+            };
+        }
+
+        function closeNetworkDevicesModal() {
+            const modal = document.getElementById('networkDevicesModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function updateNetworkDevicesContent(content) {
+            const contentDiv = document.getElementById('networkDevicesContent');
+            if (contentDiv) {
+                contentDiv.innerHTML = content;
+            }
+        }
+
+        function displayNetworkDevicesResults(data) {
+            let content = `
+                <div class="network-devices-results">
+                    <div class="results-header">
+                        <h4><i class="fas fa-check-circle" style="color: #2ecc71;"></i> Discovery Complete</h4>
+                        <p>Found ${data.device_count || 0} network devices</p>
+                    </div>
+            `;
+
+            if (data.data && data.data.length > 0) {
+                content += `
+                    <div class="devices-table-container">
+                        <table class="devices-table">                            <thead>
+                                <tr>
+                                    <th>IP Address</th>
+                                    <th>MAC Address</th>
+                                    <th>Hostname</th>
+                                    <th>Device Info</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                data.data.forEach(device => {
+                    content += `
+                        <tr>
+                            <td>${device.ip || 'N/A'}</td>
+                            <td>${device.mac || 'N/A'}</td>
+                            <td>${device.hostname || 'Unknown'}</td>
+                            <td>${device.info || device.hostname || 'Active Device'}</td>
+                        </tr>
+                    `;
+                });
+
+                content += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+
+            if (data.raw_output) {
+                content += `
+                    <div class="raw-output-section">
+                        <h5>Raw Output:</h5>
+                        <pre class="output-display">${escapeHtml(data.raw_output)}</pre>
+                    </div>
+                `;
+            }
+
+            content += `
+                    <div class="results-actions">
+                        <button class="btn btn-primary" onclick="exportNetworkDevices('${escapeHtml(data.raw_output || '')}')">
+                            <i class="fas fa-download"></i> Export Results
+                        </button>
+                        <button class="btn btn-secondary" onclick="networkDevicesList()">
+                            <i class="fas fa-refresh"></i> Refresh
+                        </button>
+                        <button class="btn btn-secondary" onclick="closeNetworkDevicesModal()">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            updateNetworkDevicesContent(content);
+        }
+
+        function displayNetworkDevicesError(message) {
+            const content = `
+                <div class="network-devices-error">
+                    <div class="error-header">
+                        <h4><i class="fas fa-exclamation-triangle" style="color: #e74c3c;"></i> Discovery Failed</h4>
+                    </div>
+                    <div class="error-content">
+                        <p>${escapeHtml(message)}</p>
+                    </div>
+                    <div class="error-actions">
+                        <button class="btn btn-primary" onclick="networkDevicesList()">
+                            <i class="fas fa-redo"></i> Try Again
+                        </button>
+                        <button class="btn btn-secondary" onclick="closeNetworkDevicesModal()">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                    </div>
+                </div>
+            `;
+            updateNetworkDevicesContent(content);
+        }
+
+        function exportNetworkDevices(data) {
+            if (!data) {
+                alert('No data to export');
+                return;
+            }
+
+            const blob = new Blob([data], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `network_devices_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function exportChart(chartId) {
+            const canvas = document.getElementById(chartId);
+            const link = document.createElement('a');
+            link.download = `${chartId}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        function loadRecentAlerts() {
+            const alerts = [
+                {
+                    type: 'critical',
+                    title: 'Bluetooth Spoofing Attempt',
+                    message: 'Unknown device attempting to pair with admin credentials',
+                    time: '2 minutes ago'
+                },
+                {
+                    type: 'warning',
+                    title: 'GPS Anomaly Detected',
+                    message: 'Location jump detected (San Francisco to London in 2s)',
+                    time: '15 minutes ago'
+                },
+                {
+                    type: 'warning',
+                    title: 'Port Scanning Detected',
+                    message: 'Multiple connection attempts on restricted ports',
+                    time: '1 hour ago'
+                }
+            ];
+
+            const alertsList = document.getElementById('alerts-list');
+            alertsList.innerHTML = '';
+
+            alerts.forEach(alert => {
+                const alertItem = document.createElement('div');
+                alertItem.className = `alert-item ${alert.type}`;
+                alertItem.innerHTML = `
+                    <div class="alert-icon">
+                        <i class="fas fa-exclamation-${alert.type === 'critical' ? 'triangle' : 'circle'}"></i>
+                    </div>
+                    <div class="alert-content">
+                        <h4>${alert.title}</h4>
+                        <p>${alert.message}</p>
+                        <span class="alert-time">${alert.time}</span>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn-alert-action"><i class="fas fa-eye"></i></button>
+                        <button class="btn-alert-action"><i class="fas fa-ban"></i></button>
+                    </div>
+                `; alertsList.appendChild(alertItem);
+            });
+        }
+
+        function runFullScan() {
+            // Show progress modal
+            showNessusProgressModal();
+
+            // Update modal to show network discovery phase
+            updateNessusProgress('Starting network discovery...', 5);
+            addNessusLogEntry('Phase 1: Discovering network devices using netdiscover.py');
+
+            // Start full scan with network discovery
+            fetch('/api/nessus/full-scan-with-discovery', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    scan_name: `WiGuard_Full_Discovery_Scan_${new Date().toISOString().split('T')[0]}`
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Check which scanner is being used
+                    const scannerType = data.scanner_type || 'unknown';
+                    const scannerName = scannerType === 'fallback' ? 'Built-in Security Tools' : 'Nessus Professional Scanner';
+
+                    // Update modal with proper scanner information
+                    document.querySelector('.progress-header h4').textContent =
+                        `Network Discovery + Vulnerability Scanning with ${scannerName}`;
+
+                    if (data.success) {
+                        // Log discovery results
+                        if (data.discovered_devices > 0) {
+                            addNessusLogEntry(`Phase 1 Complete: Discovered ${data.discovered_devices} network devices`);
+                            if (data.discovered_ips && data.discovered_ips.length > 0) {
+                                addNessusLogEntry(`Sample discovered IPs: ${data.discovered_ips.slice(0, 5).join(', ')}`);
+                            }
+                            addNessusLogEntry(`Phase 2: Starting vulnerability scan on discovered targets`);
+                        } else {
+                            addNessusLogEntry('Phase 1: No devices discovered, scanning default network range');
+                            addNessusLogEntry('Phase 2: Starting vulnerability scan on default range');
+                        }
+
+                        addNessusLogEntry(data.message || 'Vulnerability scan initiated...');
+
+                        if (data.tools_available) {
+                            const tools = Object.keys(data.tools_available)
+                                .filter(tool => data.tools_available[tool])
+                                .join(', ');
+                            if (tools) {
+                                addNessusLogEntry(`Available security tools: ${tools}`);
+                            }
+                        }
+
+                        updateNessusProgress('Network discovery complete, vulnerability scan initiated...', 15);
+
+                        // Also run existing scans for dashboard
+                        testBluetoothData();
+                        testGpsData();
+                        testNetworkData();
+                        updateDashboardStats();
+
+                        // Monitor scan progress
+                        monitorNessusScan();
+                    } else {
+                        updateNessusProgress(`Error: ${data.message || data.error || 'Unknown error'}`, 0, true);
+                        document.getElementById('nessus-stop-btn').style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error starting full scan:', error);
+                    updateNessusProgress('Failed to start network discovery and vulnerability scan', 0, true);
+                    document.getElementById('nessus-stop-btn').style.display = 'none';
+                });
+        }
+
+        function showNessusProgressModal() {
+            // Remove existing modal if any
+            const existingModal = document.getElementById('nessusProgressModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            // Create progress modal
+            const modal = document.createElement('div');
+            modal.id = 'nessusProgressModal';
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content nessus-progress-modal">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-shield-alt"></i> WiGuard Full Security Scan</h3>
+                        <span class="close" onclick="closeNessusProgressModal()">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="scan-progress-container">
+                            <div class="progress-header">
+                                <h4>Deep Vulnerability Scanning with Nessus</h4>
+                                <p id="nessus-status-text">Initializing scan...</p>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="nessus-progress-fill" style="width: 0%"></div>
+                                </div>
+                                <span class="progress-percentage" id="nessus-progress-percent">0%</span>
+                            </div>                            <div class="scan-details" id="nessus-scan-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Scan Type:</span>
+                                    <span class="detail-value">Network Discovery + Vulnerability Assessment</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Target Range:</span>
+                                    <span class="detail-value">Auto-discovered devices</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Status:</span>
+                                    <span class="detail-value" id="nessus-scan-status">Starting...</span>
+                                </div>
+                            </div>
+                            <div class="scan-log" id="nessus-scan-log">
+                                <h5>Scan Progress Log:</h5>
+                                <div class="log-content" id="nessus-log-content">
+                                    <div class="log-entry">Initiating WiGuard security scan...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeNessusProgressModal()">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                        <button class="btn btn-danger" id="nessus-stop-btn" onclick="stopNessusScan()">
+                            <i class="fas fa-stop-circle"></i> Stop Scan
+                        </button>
+                        <button class="btn btn-primary" id="nessus-results-btn" onclick="showNessusResults()" style="display: none;">
+                            <i class="fas fa-chart-bar"></i> View Results
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+
+            // Close modal when clicking outside
+            modal.onclick = function (event) {
+                if (event.target === modal) {
+                    closeNessusProgressModal();
+                }
+            };
+        }
+
+        function updateNessusProgress(message, percentage, isError = false) {
+            const statusText = document.getElementById('nessus-status-text');
+            const progressFill = document.getElementById('nessus-progress-fill');
+            const progressPercent = document.getElementById('nessus-progress-percent');
+            const scanStatus = document.getElementById('nessus-scan-status');
+            const logContent = document.getElementById('nessus-log-content');
+
+            if (statusText) statusText.textContent = message;
+            if (progressFill) {
+                progressFill.style.width = percentage + '%';
+                progressFill.style.backgroundColor = isError ? '#e74c3c' : '#2ecc71';
+            }
+            if (progressPercent) progressPercent.textContent = percentage + '%';
+            if (scanStatus) {
+                scanStatus.textContent = isError ? 'Error' : 'Running';
+                scanStatus.style.color = isError ? '#e74c3c' : '#2ecc71';
+            }
+            if (logContent) {
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log-entry';
+                logEntry.innerHTML = `<span class="log-timestamp">${new Date().toLocaleTimeString()}</span> ${message}`;
+                logContent.appendChild(logEntry);
+                logContent.scrollTop = logContent.scrollHeight;
+            }
+
+            // Show results button when scan is complete
+            if (percentage === 100 && !isError) {
+                const resultsBtn = document.getElementById('nessus-results-btn'); if (resultsBtn) resultsBtn.style.display = 'inline-block';
+            }
+        }
+
+        function monitorNessusScan() {
+            let retryCount = 0;
+            const maxRetries = 3;
+
+            const checkStatus = () => {
+                fetch('/api/nessus/scan/status')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Reset retry counter on successful response
+                        retryCount = 0;
+
+                        // Log any messages from the server
+                        if (data.message) {
+                            addNessusLogEntry(data.message);
+                        }
+
+                        if (data.status) {
+                            const status = data.status;
+                            const progress = data.progress || 0;
+                            const details = data.details || '';
+
+                            // Update scan details if available
+                            if (details) {
+                                addNessusLogEntry(details);
+                            }
+
+                            document.getElementById('nessus-scan-status').textContent =
+                                status.charAt(0).toUpperCase() + status.slice(1);
+
+                            switch (status) {
+                                case 'running':
+                                    updateNessusProgress(`Scanning in progress... (${progress}% complete)`, progress);
+                                    setTimeout(checkStatus, 5000); // Check again in 5 seconds
+                                    break;
+                                case 'completed':
+                                    updateNessusProgress('Vulnerability scan completed successfully!', 100);
+                                    document.getElementById('nessus-stop-btn').style.display = 'none';
+                                    document.getElementById('nessus-results-btn').style.display = 'inline-block';
+                                    break;
+                                case 'aborted':
+                                case 'canceled':
+                                case 'stopped':
+                                    updateNessusProgress('Scan was cancelled', progress, true);
+                                    document.getElementById('nessus-stop-btn').style.display = 'none';
+                                    break;
+                                case 'error':
+                                    updateNessusProgress('Scan encountered an error', progress, true);
+                                    document.getElementById('nessus-stop-btn').style.display = 'none';
+                                    break;
+                                default:
+                                    updateNessusProgress(`Scan status: ${status}`, progress);
+                                    setTimeout(checkStatus, 5000);
+                                    break;
+                            }
+                        } else if (data.message) {
+                            updateNessusProgress(data.message, 0, true);
+                            document.getElementById('nessus-stop-btn').style.display = 'none';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking scan status:', error);
+                        retryCount++;
+
+                        if (retryCount <= maxRetries) {
+                            // Add log entry about retry
+                            addNessusLogEntry(`Connection error, retrying (${retryCount}/${maxRetries})...`);
+
+                            // Try again after a longer delay
+                            setTimeout(checkStatus, 8000);
+                        } else {
+                            // After max retries, show error
+                            updateNessusProgress('Failed to check scan status after multiple attempts', 0, true);
+                            document.getElementById('nessus-stop-btn').style.display = 'none';
+                        }
+                    });
+            };
+
+            // Start monitoring after a short delay
+            setTimeout(checkStatus, 3000);
+        }
+
+        function addNessusLogEntry(message) {
+            const logContent = document.getElementById('nessus-log-content');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+
+            // Format with timestamp
+            const time = new Date().toLocaleTimeString();
+            entry.textContent = `[${time}] ${message}`;
+
+            // Add entry and scroll to bottom            logContent.appendChild(entry);
+            logContent.scrollTop = logContent.scrollHeight;
+        }
+
+        function showNessusResults() {
+            // Show loading indicator
+            const resultsBtn = document.getElementById('nessus-results-btn');
+            const originalBtnText = resultsBtn.innerHTML;
+            resultsBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            resultsBtn.disabled = true;
+            fetch('/api/nessus/scan/results')
+                .then(response => response.json())
+                .then(data => {
+                    // Reset button state
+                    resultsBtn.innerHTML = originalBtnText;
+                    resultsBtn.disabled = false;
+
+                    if (data.error) {
+                        addNessusLogEntry(`Error getting results: ${data.error}`);
+                        alert(`Error getting results: ${data.error}`);
+                        return;
+                    }
+
+                    // Check if we're using Nessus or fallback scanner
+                    const scannerType = data.scanner_type || 'unknown';
+
+                    // Create results modal
+                    showNessusResultsModal(data, scannerType);
+
+                    // Log summary
+                    const criticalCount = data.critical || 0;
+                    const highCount = data.high || 0;
+                    const mediumCount = data.medium || 0;
+                    const lowCount = data.low || 0;
+
+                    addNessusLogEntry(`Scan results: ${criticalCount} critical, ${highCount} high, ${mediumCount} medium, ${lowCount} low vulnerabilities`);
+                })
+                .catch(error => {
+                    console.error('Error getting scan results:', error);
+                    resultsBtn.innerHTML = originalBtnText;
+                    resultsBtn.disabled = false;
+                    addNessusLogEntry('Failed to retrieve scan results');
+                    alert('Failed to retrieve scan results');
+                });
+        }
+
+        function showNessusResultsModal(results) {
+            // Close progress modal
+            closeNessusProgressModal();
+
+            // Create results modal
+            const modal = document.createElement('div');
+            modal.id = 'nessusResultsModal';
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content nessus-results-modal">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-chart-bar"></i> Vulnerability Scan Results</h3>
+                        <span class="close" onclick="closeNessusResultsModal()">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="results-summary">
+                            <div class="summary-cards">
+                                <div class="summary-card critical">
+                                    <div class="card-content">
+                                        <div class="card-number">${results.critical || 0}</div>
+                                        <div class="card-label">Critical</div>
+                                    </div>
+                                </div>
+                                <div class="summary-card high">
+                                    <div class="card-content">
+                                        <div class="card-number">${results.high || 0}</div>
+                                        <div class="card-label">High</div>
+                                    </div>
+                                </div>
+                                <div class="summary-card medium">
+                                    <div class="card-content">
+                                        <div class="card-number">${results.medium || 0}</div>
+                                        <div class="card-label">Medium</div>
+                                    </div>
+                                </div>
+                                <div class="summary-card low">
+                                    <div class="card-content">
+                                        <div class="card-number">${results.low || 0}</div>
+                                        <div class="card-label">Low</div>
+                                    </div>
+                                </div>
+                                <div class="summary-card info">
+                                    <div class="card-content">
+                                        <div class="card-number">${results.info || 0}</div>
+                                        <div class="card-label">Info</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="scan-summary">
+                                <p><strong>Total Hosts Scanned:</strong> ${results.total_hosts || 0}</p>
+                                <p><strong>Total Vulnerabilities:</strong> ${results.total_vulnerabilities || 0}</p>
+                                <p><strong>Scan Status:</strong> ${results.scan_status || 'Unknown'}</p>
+                            </div>
+                        </div>
+                        ${results.vulnerabilities && results.vulnerabilities.length > 0 ? `
+                            <div class="vulnerabilities-table">
+                                <h4>Top Vulnerabilities</h4>
+                                <table class="results-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Severity</th>
+                                            <th>Plugin Name</th>
+                                            <th>Count</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${results.vulnerabilities.slice(0, 10).map(vuln => `
+                                            <tr>
+                                                <td><span class="severity severity-${vuln.severity || 0}">${getSeverityText(vuln.severity)}</span></td>
+                                                <td>${vuln.plugin_name || 'Unknown'}</td>
+                                                <td>${vuln.count || 1}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ` : '<p>No vulnerabilities found in this scan.</p>'}
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="exportNessusReport()">
+                            <i class="fas fa-download"></i> Export Report
+                        </button>
+                        <button class="btn btn-secondary" onclick="closeNessusResultsModal()">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+
+            // Close modal when clicking outside
+            modal.onclick = function (event) {
+                if (event.target === modal) {
+                    closeNessusResultsModal();
+                }
+            };
+        }
+
+        function getSeverityText(severity) {
+            switch (severity) {
+                case 4: return 'Critical';
+                case 3: return 'High';
+                case 2: return 'Medium';
+                case 1: return 'Low';
+                case 0: return 'Info'; default: return 'Unknown';
+            }
+        }
+
+        function exportNessusReport() {
+            // Show format selection
+            const format = prompt('Select report format (html, json, txt):', 'html');
+            if (!format) return;
+
+            // Show loading state
+            const exportBtn = document.querySelector('.btn.btn-primary');
+            const originalText = exportBtn.innerHTML;
+            exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            exportBtn.disabled = true;
+
+            fetch(`/api/nessus/scan/report?format=${format}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Reset button state
+                    exportBtn.innerHTML = originalText;
+                    exportBtn.disabled = false;
+
+                    if (data.success) {
+                        // Create download link
+                        const filename = data.report_path.split('/').pop();
+                        const link = document.createElement('a');
+                        link.href = data.report_path;
+                        link.download = filename;
+                        link.target = '_blank';
+
+                        // For web access, create a proper download URL
+                        const downloadUrl = `/download-report?path=${encodeURIComponent(data.report_path)}`;
+                        link.href = downloadUrl;
+
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+
+                        alert(`Report generated successfully! Download should start automatically.`);
+                    } else {
+                        alert(`Failed to export report: ${data.error || 'Unknown error'}`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error exporting report:', error);
+                    exportBtn.innerHTML = originalText;
+                    exportBtn.disabled = false;
+                    alert('Failed to export report');
+                });
+        }
+
+        function closeNessusProgressModal() {
+            const modal = document.getElementById('nessusProgressModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function closeNessusResultsModal() {
+            const modal = document.getElementById('nessusResultsModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function muteAlerts() {
+            const bell = document.querySelector('.alert-bell');
+            if (bell.classList.contains('muted')) {
+                bell.classList.remove('muted');
+                alert('Alerts unmuted');
+            } else {
+                bell.classList.add('muted');
+                alert('Alerts muted');
+            }
+        }
+
+        function generateFullReport() {
+            // This will be handled by the main.js file
+            alert('Generating full system report...');
+            generateCombinedPdfReport();
+        }
+
+        function scanBluetooth() {
+            alert('Scanning Bluetooth devices...');
+            testBluetoothData();
+        }
+
+        function scanGPS() {
+            alert('Scanning GPS for anomalies...');
+            testGpsData();
+        }
+
+        function scanNetwork() {
+            alert('Scanning network for threats...');
+            testNetworkData();
+        }
+        function deauthscan() {
+            alert('Scanning network for threats...');
+            testNetworkData();
+        }
+
+        // Chart Expand Functionality
+        function expandChart(chartId, chartTitle) {
+            const originalCanvas = document.getElementById(chartId);
+            if (!originalCanvas) {
+                console.error('Chart not found:', chartId);
+                return;
+            }
+
+            // Create modal
+            const modal = document.createElement('div');
+            modal.className = 'chart-expand-modal';
+            modal.innerHTML = `
+                <div class="chart-expand-content">
+                    <div class="chart-expand-header">
+                        <h2>${chartTitle}</h2>
+                        <div class="chart-expand-actions">
+                            <button class="btn-chart-action" onclick="exportExpandedChart('${chartId}-expanded')" title="Export Chart">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn-chart-action" onclick="closeExpandedChart()" title="Close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-expand-body">
+                        <canvas id="${chartId}-expanded"></canvas>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Show modal with animation
+            requestAnimationFrame(() => {
+                modal.classList.add('show');
+            });
+
+            // Clone and recreate chart in expanded view
+            recreateExpandedChart(chartId, `${chartId}-expanded`);
+
+            // Close on escape key or background click
+            const handleKeyDown = (e) => {
+                if (e.key === 'Escape') {
+                    closeExpandedChart();
+                }
+            };
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeExpandedChart();
+                }
+            });
+
+            document.addEventListener('keydown', handleKeyDown);
+            modal.setAttribute('data-keydown-handler', 'true');
+        }
+
+        function recreateExpandedChart(originalChartId, expandedChartId) {
+            const expandedCanvas = document.getElementById(expandedChartId);
+            if (!expandedCanvas) return;
+
+            const ctx = expandedCanvas.getContext('2d');
+
+            // Get the original chart configuration and recreate it
+            let chartConfig;
+
+            if (originalChartId === 'threatTimelineChart') {
+                chartConfig = {
+                    type: 'line',
+                    data: {
+                        labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                        datasets: [{
+                            label: 'Threat Level',
+                            data: [2, 5, 3, 8, 6, 4],
+                            borderColor: '#ff6b6b',
+                            backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#ff6b6b',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: {
+                                    color: '#ffffff',
+                                    font: { size: 14 }
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#ffffff',
+                                bodyColor: '#ffffff'
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { color: '#ffffff' },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                            },
+                            y: {
+                                ticks: { color: '#ffffff' },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                            }
+                        }
+                    }
+                };
+            } else if (originalChartId === 'threatDistributionChart') {
+                chartConfig = {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Bluetooth', 'Network', 'GPS', 'System'],
+                        datasets: [{
+                            data: [25, 35, 20, 20],
+                            backgroundColor: ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4'],
+                            borderColor: 'rgba(255, 255, 255, 0.1)',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                                labels: {
+                                    color: '#ffffff',
+                                    font: { size: 14 },
+                                    padding: 20
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#ffffff',
+                                bodyColor: '#ffffff'
+                            }
+                        }
+                    }
+                };
+            }
+
+            if (chartConfig && typeof Chart !== 'undefined') {
+                new Chart(ctx, chartConfig);
+            }
+        }
+
+        function exportExpandedChart(chartId) {
+            const canvas = document.getElementById(chartId);
+            if (canvas) {
+                const link = document.createElement('a');
+                link.download = `${chartId}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }
+        }
+
+        function closeExpandedChart() {
+            const modal = document.querySelector('.chart-expand-modal');
+            if (modal) {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.remove();
+                    // Remove event listener
+                    const handlers = document.querySelectorAll('[data-keydown-handler]');
+                    handlers.forEach(handler => {
+                        document.removeEventListener('keydown', handler);
+                    });
+                }, 300);
+            }
+        } function networkDevicesList() {
+            // Show loading modal
+            showNetworkDevicesModal();
+            updateNetworkDevicesContent('<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Scanning network devices...</div>');
+
+            // Make async request to backend
+            fetch('/api/network-discovery', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayNetworkDevicesResults(data);
+                    } else {
+                        displayNetworkDevicesError(data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    displayNetworkDevicesError('Failed to connect to server. Please try again.');
+                });
+        }
+
+        function stopNessusScan() {
+            fetch('/api/nessus/scan/stop', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        addNessusLogEntry('Scan stop requested successfully');
+                        updateNessusProgress('Scan stopped by user', 0, true);
+                        document.getElementById('nessus-stop-btn').style.display = 'none';
+                    } else {
+                        addNessusLogEntry(`Error stopping scan: ${data.error || 'Unknown error'}`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error stopping scan:', error);
+                    addNessusLogEntry('Failed to stop scan');
+                });
+        }
+
+        function deauthscan() {
+            alert('Starting deauth scan...');
+            // Add deauth scan functionality here
+        }
+
+        // Missing update dashboard stats functions
+        function testBluetoothData() {
+            // Placeholder for bluetooth test
+            console.log('Testing Bluetooth data...');
+        }
+
+        function testGpsData() {
+            // Placeholder for GPS test
+            console.log('Testing GPS data...');
+        }
+
+        function testNetworkData() {
+            // Placeholder for network test
+            console.log('Testing network data...');
+        }
+
+        function updateDashboardStats() {
+            // Placeholder for dashboard stats update
+            console.log('Updating dashboard stats...');
+        }
+
+        function generateCombinedPdfReport() {
+            // Placeholder for PDF report generation
+            alert('Generating combined PDF report...');
+        }
+
+        // Kismet Wireless Monitoring Functions
+        let kismetUpdateInterval = null; function startKismet() {
+            addKismetLogEntry('Starting Kismet wireless monitoring...');
+
+            fetch('/api/kismet/start', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ interface: 'wlan0' })
+            })
+                .then(response => response.json()).then(data => {
+                    if (data.success) {
+                        addKismetLogEntry(data.message, 1000);
+                        setKismetStatusDisplay('running');
+                        document.getElementById('kismet-start-btn').style.display = 'none';
+                        document.getElementById('kismet-stop-btn').style.display = 'inline-block';
+                        document.getElementById('kismet-interface').textContent = data.interface || 'wlan0';
+
+                        // Start periodic updates
+                        startKismetUpdates();
+                    } else {
+                        addKismetLogEntry(`Error: ${data.message || data.error}`, 500);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error starting Kismet:', error);
+                    addKismetLogEntry('Failed to start Kismet monitoring', 500);
+                });
+        }
+
+        function stopKismet() {
+            addKismetLogEntry('Stopping Kismet wireless monitoring...');
+
+            fetch('/api/kismet/stop', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(response => response.json()).then(data => {
+                if (data.success) {
+                    addKismetLogEntry(data.message, 1000);
+                    setKismetStatusDisplay('stopped');
+                    document.getElementById('kismet-start-btn').style.display = 'inline-block';
+                    document.getElementById('kismet-stop-btn').style.display = 'none';
+
+                    // Stop periodic updates
+                    stopKismetUpdates();
+
+                    // Clear device table
+                    clearKismetDevices();
+                } else {
+                    addKismetLogEntry(`Error: ${data.message || data.error}`, 500);
+                }
+            })
+                .catch(error => {
+                    console.error('Error stopping Kismet:', error);
+                    addKismetLogEntry('Failed to stop Kismet monitoring', 500);
+                });
+        }
+
+        function refreshKismetData() {
+            updateKismetStatus();
+            updateKismetDevices();
+        }
+
+        function updateKismetStatus() {
+            fetch('/api/kismet/status')
+                .then(response => response.json()).then(data => {
+                    if (data.running) {
+                        setKismetStatusDisplay('running');
+                        document.getElementById('kismet-start-btn').style.display = 'none';
+                        document.getElementById('kismet-stop-btn').style.display = 'inline-block';
+
+                        // Update additional status info
+                        if (data.uptime) {
+                            document.getElementById('kismet-uptime').textContent = formatUptime(data.uptime);
+                        }
+                    } else {
+                        setKismetStatusDisplay('stopped');
+                        document.getElementById('kismet-start-btn').style.display = 'inline-block';
+                        document.getElementById('kismet-stop-btn').style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error getting Kismet status:', error);
+                    setKismetStatusDisplay('error');
+                });
+        }
+
+        function updateKismetDevices() {
+            fetch('/api/kismet/devices')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayKismetDevices(data.devices);
+                        document.getElementById('kismet-device-count').textContent = data.count || 0;
+                    } else {
+                        addKismetLogEntry(`Error getting devices: ${data.error}`, Math.random() * 500);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error getting Kismet devices:', error);
+                    addKismetLogEntry('Failed to get device list', Math.random() * 500);
+                });
+        } function displayKismetDevices(devices) {
+            const tbody = document.getElementById('kismet-devices-body');
+            const deviceCountBadge = document.getElementById('device-count-badge');
+
+            // Update device count badge
+            if (deviceCountBadge) {
+                const count = devices ? devices.length : 0;
+                deviceCountBadge.textContent = `${count} device${count !== 1 ? 's' : ''}`;
+            }
+
+            if (!devices || devices.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="no-data">No wireless devices detected yet</td></tr>';
+                return;
+            }
+
+            // Helper function to get signal strength class
+            function getSignalClass(signal) {
+                if (signal > -50) return 'signal-strong';
+                if (signal > -70) return 'signal-medium';
+                return 'signal-weak';
+            }
+
+            // Helper function to get device type class
+            function getTypeClass(type) {
+                if (type.toLowerCase().includes('access point') || type.toLowerCase().includes('ap')) {
+                    return 'type-ap';
+                } else if (type.toLowerCase().includes('client')) {
+                    return 'type-client';
+                }
+                return '';
+            }
+
+            tbody.innerHTML = devices.map(device => `
+                <tr>
+                    <td class="mac-column">${device.mac}</td>
+                    <td>${device.name || 'Unknown'}</td>
+                    <td class="type-column ${getTypeClass(device.type || '')}">${device.type || 'Unknown'}</td>
+                    <td>${device.manufacturer || 'Unknown'}</td>
+                    <td class="signal-column ${getSignalClass(device.signal || -100)}">${device.signal || 'N/A'}</td>
+                    <td class="packets-column">${(device.packets || 0).toLocaleString()}</td>
+                    <td class="connected-ap-column">${device.connected_ap || 'N/A'}</td>
+                    <td>${device.last_seen ? new Date(device.last_seen * 1000).toLocaleTimeString() : 'N/A'}</td>
+                </tr>
+            `).join('');
+        } function clearKismetDevices() {
+            document.getElementById('kismet-devices-body').innerHTML =
+                '<tr><td colspan="8" class="no-data">Start Kismet monitoring to detect wireless devices</td></tr>';
+            document.getElementById('kismet-device-count').textContent = '0';
+        } function setKismetStatusDisplay(status) {
+            const statusElement = document.getElementById('kismet-status');
+            statusElement.className = `status-value ${status}`;
+
+            switch (status) {
+                case 'running':
+                    statusElement.textContent = 'Running';
+                    break;
+                case 'stopped':
+                    statusElement.textContent = 'Stopped';
+                    break;
+                case 'error':
+                    statusElement.textContent = 'Error';
+                    break;
+                default:
+                    statusElement.textContent = 'Unknown';
+            }
+        } function addKismetLogEntry(message, delayMs = 0) {
+            setTimeout(() => {
+                const logContainer = document.getElementById('kismet-log-container');
+                const timestamp = new Date().toLocaleTimeString();
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log-entry';
+                logEntry.innerHTML = `<span class="timestamp">[${timestamp}]</span> ${message}`;
+
+                logContainer.insertBefore(logEntry, logContainer.firstChild);
+
+                // Keep only last 50 log entries
+                while (logContainer.children.length > 50) {
+                    logContainer.removeChild(logContainer.lastChild);
+                }
+            }, delayMs);
+        }
+
+        function startKismetUpdates() {
+            if (kismetUpdateInterval) {
+                clearInterval(kismetUpdateInterval);
+            }
+
+            kismetUpdateInterval = setInterval(() => {
+                updateKismetStatus();
+                updateKismetDevices();
+            }, 5000); // Update every 5 seconds
+        }
+
+        function stopKismetUpdates() {
+            if (kismetUpdateInterval) {
+                clearInterval(kismetUpdateInterval);
+                kismetUpdateInterval = null;
+            }
+        }
+
+        function formatUptime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+
+            if (hours > 0) {
+                return `${hours}h ${minutes}m ${secs}s`;
+            } else if (minutes > 0) {
+                return `${minutes}m ${secs}s`;
+            } else {
+                return `${secs}s`;
+            }
+        }
+
+        // Initialize Kismet status on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            // ...existing code...
+
+            // Initialize Kismet status
+            setTimeout(() => {
+                updateKismetStatus();
+            }, 1000);
+        });
+
+        // Make Kismet functions available globally
+        window.startKismet = startKismet;
+        window.stopKismet = stopKismet;
+        window.refreshKismetData = refreshKismetData;
+
+        // Real-time Device Monitoring Functions
+        let deviceMonitoringInterval;
+        let lastDeviceCount = 0;
+        let deviceHistory = [];
+
+        function initRealtimeDeviceMonitoring() {
+            console.log('Starting real-time device monitoring...');
+            
+            // Initial load
+            updateDeviceCount();
+            
+            // Set up periodic updates every 30 seconds
+            deviceMonitoringInterval = setInterval(updateDeviceCount, 30000);
+            
+            // Add click handler for device count card to show details
+            const deviceCard = document.querySelector('.summary-card.devices');
+            if (deviceCard) {
+                deviceCard.style.cursor = 'pointer';
+                deviceCard.addEventListener('click', showDeviceDetailsModal);
+            }
+        }
+
+        function updateDeviceCount() {
+            fetch('/api/network-devices-count')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const currentCount = data.device_count;
+                        const deviceCountElement = document.getElementById('devices-count');
+                        const changeElement = deviceCountElement.parentElement.querySelector('.change');
+                        
+                        // Update the count
+                        deviceCountElement.textContent = currentCount;
+                        
+                        // Calculate and display change
+                        if (lastDeviceCount > 0) {
+                            const change = currentCount - lastDeviceCount;
+                            if (change > 0) {
+                                changeElement.textContent = `+${change} new device${change > 1 ? 's' : ''}`;
+                                changeElement.className = 'change up';
+                                
+                                // Show notification for new devices
+                                if (change > 0 && deviceHistory.length > 0) {
+                                    showNewDeviceNotification(change);
+                                }
+                            } else if (change < 0) {
+                                changeElement.textContent = `${change} device${Math.abs(change) > 1 ? 's' : ''} left`;
+                                changeElement.className = 'change down';
+                            } else {
+                                changeElement.textContent = 'No change';
+                                changeElement.className = 'change neutral';
+                            }
+                        } else {
+                            changeElement.textContent = 'Real-time monitoring';
+                            changeElement.className = 'change neutral';
+                        }
+                        
+                        // Store history
+                        deviceHistory.push({
+                            count: currentCount,
+                            timestamp: new Date(),
+                            devices: data.devices || []
+                        });
+                        
+                        // Keep only last 10 entries
+                        if (deviceHistory.length > 10) {
+                            deviceHistory.shift();
+                        }
+                        
+                        lastDeviceCount = currentCount;
+                        
+                        console.log(`Device count updated: ${currentCount} devices found`);
+                    } else {
+                        console.warn('Failed to get device count:', data.error);
+                        // Set fallback display
+                        const changeElement = document.getElementById('devices-count').parentElement.querySelector('.change');
+                        changeElement.textContent = 'Scan failed - retrying...';
+                        changeElement.className = 'change down';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching device count:', error);
+                    const changeElement = document.getElementById('devices-count').parentElement.querySelector('.change');
+                    changeElement.textContent = 'Connection error';
+                    changeElement.className = 'change down';
+                });
+        }
+
+        function showNewDeviceNotification(count) {
+            // Create a temporary notification
+            const notification = document.createElement('div');
+            notification.className = 'device-notification';
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i class="fas fa-laptop" style="color: #2ecc71;"></i>
+                    <span>${count} new device${count > 1 ? 's' : ''} detected on network</span>
+                </div>
+            `;
+            
+            // Add styles
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #2ecc71, #27ae60);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+                z-index: 1000;
+                animation: slideInRight 0.3s ease-out;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 4 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease-out';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+
+        function showDeviceDetailsModal() {
+            const latestData = deviceHistory[deviceHistory.length - 1];
+            if (!latestData) {
+                alert('No device data available. Please wait for the next scan.');
+                return;
+            }
+            
+            // Remove existing modal if any
+            const existingModal = document.getElementById('deviceDetailsModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            // Create modal
+            const modal = document.createElement('div');
+            modal.id = 'deviceDetailsModal';
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 800px;">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-laptop"></i> Network Devices (${latestData.count} found)</h3>
+                        <span class="close" onclick="closeDeviceDetailsModal()">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="device-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Total Devices:</span>
+                                <span class="stat-value">${latestData.count}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Last Updated:</span>
+                                <span class="stat-value">${latestData.timestamp.toLocaleTimeString()}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Scan Method:</span>
+                                <span class="stat-value">Network Discovery</span>
+                            </div>
+                        </div>
+                        
+                        ${latestData.devices && latestData.devices.length > 0 ? `
+                        <div class="devices-preview">
+                            <h4>Recent Devices Preview</h4>
+                            <div class="devices-table-container">
+                                <table class="devices-table">
+                                    <thead>
+                                        <tr>
+                                            <th>IP Address</th>
+                                            <th>MAC Address</th>
+                                            <th>Hostname</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${latestData.devices.map(device => `
+                                            <tr>
+                                                <td>${device.ip || 'Unknown'}</td>
+                                                <td>${device.mac || 'N/A'}</td>
+                                                <td>${device.hostname || 'Unknown'}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        ` : '<p>No device details available in preview.</p>'}
+                        
+                        <div class="modal-actions">
+                            <button class="btn btn-primary" onclick="runFullDeviceScan()">
+                                <i class="fas fa-search"></i> Full Device Scan
+                            </button>
+                            <button class="btn btn-secondary" onclick="updateDeviceCount()">
+                                <i class="fas fa-refresh"></i> Refresh Count
+                            </button>
+                            <button class="btn btn-secondary" onclick="closeDeviceDetailsModal()">
+                                <i class="fas fa-times"></i> Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+            
+            // Close modal when clicking outside
+            modal.onclick = function(event) {
+                if (event.target === modal) {
+                    closeDeviceDetailsModal();
+                }
+            };
+        }
+
+        function closeDeviceDetailsModal() {
+            const modal = document.getElementById('deviceDetailsModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function runFullDeviceScan() {
+            closeDeviceDetailsModal();
+            networkDevicesList(); // Use existing full scan function
+        }
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function() {
+            if (deviceMonitoringInterval) {
+                clearInterval(deviceMonitoringInterval);
+            }
+        });
+
+        // ...existing code...
+    </script>
+</body>
+
+</html>
