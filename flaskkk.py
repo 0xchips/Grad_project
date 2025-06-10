@@ -164,6 +164,27 @@ def init_db():
         ADD COLUMN IF NOT EXISTS type ENUM('deauth', 'evil-twin') NOT NULL DEFAULT 'deauth'
         ''')
 
+        c.execute('''
+        CREATE TABLE IF NOT EXISTS bluetooth_detections (
+            id VARCHAR(36) PRIMARY KEY,
+            timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            device_id VARCHAR(100) NOT NULL,
+            device_name VARCHAR(255),
+            signal_strength INT,
+            channel INT,
+            rssi_value INT,
+            threat_level ENUM('low', 'medium', 'high', 'critical') DEFAULT 'low',
+            detection_type ENUM('bluetooth', 'spectrum', 'deauth', 'jamming') DEFAULT 'bluetooth',
+            raw_data TEXT,
+            max_signal INT DEFAULT 0,
+            spectrum_data TEXT,
+            INDEX idx_timestamp (timestamp),
+            INDEX idx_device_id (device_id),
+            INDEX idx_threat_level (threat_level),
+            INDEX idx_detection_type (detection_type)
+        )
+        ''')
+
         # NIDS alerts table
         c.execute('''
         CREATE TABLE IF NOT EXISTS nids_alerts (
