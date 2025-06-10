@@ -2172,6 +2172,6 @@ def clear_bluetooth_detections():
 
 # Start the Flask application when this file is run directly
 if __name__ == '__main__':
-    port = int(os.getenv('PORT', 5054))  # Changed to 5053
+    port = int(os.getenv('PORT', 5053))  # Changed to 5053
     app.run(host='0.0.0.0', port=port, debug=True)
     logger.info(f"Server started on port {port}")

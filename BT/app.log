@@ -1,0 +1,366 @@
+2025-06-09 15:57:48,612 - __main__ - INFO - Database initialized successfully
+2025-06-09 15:59:39,633 - __main__ - INFO - Database initialized successfully
+2025-06-09 16:00:15,932 - __main__ - INFO - Database initialized successfully
+2025-06-09 16:00:15,961 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5053
+ * Running on http://192.168.100.39:5053
+2025-06-09 16:00:15,961 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-09 16:00:15,961 - werkzeug - INFO -  * Restarting with stat
+2025-06-09 16:00:16,165 - __main__ - INFO - Database initialized successfully
+2025-06-09 16:00:16,190 - werkzeug - WARNING -  * Debugger is active!
+2025-06-09 16:00:16,190 - werkzeug - INFO -  * Debugger PIN: 112-829-093
+2025-06-09 16:00:18,149 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:00:18,154 - __main__ - INFO - Bluetooth detection 3940d5a6-4827-4cfc-9bc9-1e3305e8c585 stored successfully
+2025-06-09 16:00:18,156 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:18] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:00:18,194 - __main__ - INFO - Request from 127.0.0.1: GET /
+2025-06-09 16:00:18,264 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:18] "GET / HTTP/1.1" 200 -
+2025-06-09 16:00:18,305 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-06-09 16:00:18,316 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:18] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-06-09 16:00:18,468 - __main__ - INFO - Request from 127.0.0.1: GET /js/auth.js
+2025-06-09 16:00:18,471 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:18] "[33mGET /js/auth.js HTTP/1.1[0m" 404 -
+2025-06-09 16:00:18,495 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/sidebar.js
+2025-06-09 16:00:18,498 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:18] "GET /static/js/sidebar.js HTTP/1.1" 200 -
+2025-06-09 16:00:18,497 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-06-09 16:00:18,504 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:18] "GET /static/js/main.js HTTP/1.1" 200 -
+2025-06-09 16:00:18,788 - __main__ - INFO - Request from 127.0.0.1: GET /api/system-resources
+2025-06-09 16:00:19,414 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:00:19,417 - __main__ - INFO - Bluetooth detection aa521454-5c7b-43bf-a83d-fe7d3d9ff0ef stored successfully
+2025-06-09 16:00:19,417 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:19] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:00:19,790 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:19] "GET /api/system-resources HTTP/1.1" 200 -
+2025-06-09 16:00:19,893 - __main__ - INFO - Request from 127.0.0.1: GET /api/kismet/status
+2025-06-09 16:00:19,934 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:19] "GET /api/kismet/status HTTP/1.1" 200 -
+2025-06-09 16:00:20,760 - __main__ - INFO - Request from 127.0.0.1: GET /api/system-resources
+2025-06-09 16:00:21,762 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:21] "GET /api/system-resources HTTP/1.1" 200 -
+2025-06-09 16:00:22,121 - __main__ - INFO - Request from 127.0.0.1: GET /bluetooth.html
+2025-06-09 16:00:22,129 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:22] "GET /bluetooth.html HTTP/1.1" 200 -
+2025-06-09 16:00:22,193 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/bluetooth-simple.js
+2025-06-09 16:00:22,197 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:22] "GET /static/js/bluetooth-simple.js?v=1.0 HTTP/1.1" 200 -
+2025-06-09 16:00:22,261 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/bluetooth-debug.js
+2025-06-09 16:00:22,262 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:22] "GET /static/js/bluetooth-debug.js?v=1.1 HTTP/1.1" 200 -
+2025-06-09 16:00:22,269 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/sidebar.js
+2025-06-09 16:00:22,270 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:22] "[36mGET /static/js/sidebar.js HTTP/1.1[0m" 304 -
+2025-06-09 16:00:22,275 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-06-09 16:00:22,280 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:22] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-09 16:00:22,284 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-06-09 16:00:22,292 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:22] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-06-09 16:00:22,443 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:00:22,451 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:22] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:00:25,681 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:00:25,684 - __main__ - INFO - Bluetooth detection ea53de63-4053-4cb0-b482-fb92e78afa1d stored successfully
+2025-06-09 16:00:25,684 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:25] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:00:27,421 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:00:27,426 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:27] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:00:31,960 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:00:31,964 - __main__ - INFO - Bluetooth detection e89a920b-032b-4331-9afd-fd5528604542 stored successfully
+2025-06-09 16:00:31,965 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:31] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:00:32,421 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:00:32,425 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:32] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:00:37,391 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:00:37,393 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:37] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:00:38,222 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:00:38,227 - __main__ - INFO - Bluetooth detection 238bd635-f878-446a-bb12-79fefa031ee9 stored successfully
+2025-06-09 16:00:38,228 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:38] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:00:39,335 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:00:39,338 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:39] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:00:42,399 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:00:42,411 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:42] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:00:47,409 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:00:47,414 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:47] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:00:50,769 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:00:50,772 - __main__ - INFO - Bluetooth detection 42108238-4f79-4007-ab42-69d2ffbc362f stored successfully
+2025-06-09 16:00:50,772 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:50] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:00:52,431 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:00:52,434 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:52] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:00:57,145 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:00:57,150 - __main__ - INFO - Bluetooth detection 08841b29-804f-486a-84aa-3627dfdf41ed stored successfully
+2025-06-09 16:00:57,151 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:57] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:00:57,430 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:00:57,434 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:57] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:00:59,883 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:00:59,886 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:00:59] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:01:00,598 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:01:00,603 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:00] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:01:02,425 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:01:02,429 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:02] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:01:03,312 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:01:03,315 - __main__ - INFO - Bluetooth detection f8e54012-10cf-47e6-987a-fb2a2c24788b stored successfully
+2025-06-09 16:01:03,316 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:03] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:01:04,325 - __main__ - INFO - Request from 127.0.0.1: GET /deauth.html
+2025-06-09 16:01:04,334 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:04] "GET /deauth.html HTTP/1.1" 200 -
+2025-06-09 16:01:04,385 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/deauth.js
+2025-06-09 16:01:04,386 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:04] "GET /static/js/deauth.js HTTP/1.1" 200 -
+2025-06-09 16:01:04,426 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-06-09 16:01:04,430 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/sidebar.js
+2025-06-09 16:01:04,434 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:04] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-06-09 16:01:04,435 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:04] "[36mGET /static/js/sidebar.js HTTP/1.1[0m" 304 -
+2025-06-09 16:01:04,436 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-06-09 16:01:04,440 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:04] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-09 16:01:04,589 - __main__ - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-06-09 16:01:04,592 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:04] "GET /api/deauth_logs HTTP/1.1" 200 -
+2025-06-09 16:01:04,935 - __main__ - INFO - Request from 127.0.0.1: GET /gps.html
+2025-06-09 16:01:04,941 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:04] "GET /gps.html HTTP/1.1" 200 -
+2025-06-09 16:01:04,984 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/gps.js
+2025-06-09 16:01:04,985 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:04] "GET /static/js/gps.js HTTP/1.1" 200 -
+2025-06-09 16:01:05,009 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-06-09 16:01:05,010 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:05] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-06-09 16:01:05,015 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/sidebar.js
+2025-06-09 16:01:05,016 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:05] "[36mGET /static/js/sidebar.js HTTP/1.1[0m" 304 -
+2025-06-09 16:01:05,025 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-06-09 16:01:05,026 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:05] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-09 16:01:05,174 - __main__ - INFO - Request from 127.0.0.1: GET /api/gps
+2025-06-09 16:01:05,177 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:05] "GET /api/gps?hours=24 HTTP/1.1" 200 -
+2025-06-09 16:01:06,624 - __main__ - INFO - Request from 127.0.0.1: GET /bluetooth.html
+2025-06-09 16:01:06,626 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:06] "GET /bluetooth.html HTTP/1.1" 200 -
+2025-06-09 16:01:06,670 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-06-09 16:01:06,671 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:06] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-09 16:01:06,718 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/sidebar.js
+2025-06-09 16:01:06,723 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:06] "[36mGET /static/js/sidebar.js HTTP/1.1[0m" 304 -
+2025-06-09 16:01:06,730 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/bluetooth-simple.js
+2025-06-09 16:01:06,733 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:06] "[36mGET /static/js/bluetooth-simple.js?v=1.0 HTTP/1.1[0m" 304 -
+2025-06-09 16:01:06,748 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-06-09 16:01:06,749 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:06] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-06-09 16:01:06,750 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/bluetooth-debug.js
+2025-06-09 16:01:06,753 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:06] "[36mGET /static/js/bluetooth-debug.js?v=1.1 HTTP/1.1[0m" 304 -
+2025-06-09 16:01:06,882 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:01:06,887 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:06] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:01:09,636 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:01:09,639 - __main__ - INFO - Bluetooth detection 854bebe2-b502-4b7d-9b36-a08ae9ddcba1 stored successfully
+2025-06-09 16:01:09,639 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:09] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:01:11,818 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:01:11,821 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:11] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:01:15,902 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:01:15,907 - __main__ - INFO - Bluetooth detection d399ddaf-7ff5-4a39-ac22-5b17c451c5ad stored successfully
+2025-06-09 16:01:15,907 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:15] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:01:16,834 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:01:16,837 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:16] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:01:21,863 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:01:21,865 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:21] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:01:22,190 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:01:22,194 - __main__ - INFO - Bluetooth detection c9b2319b-1233-4cc4-8d9b-397476a552c8 stored successfully
+2025-06-09 16:01:22,195 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:22] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:01:26,869 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:01:26,872 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:26] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:01:28,483 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:01:28,486 - __main__ - INFO - Bluetooth detection a178deb8-33da-4adc-b934-6d3c1a647f1b stored successfully
+2025-06-09 16:01:28,486 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:28] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:01:31,881 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:01:31,884 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:31] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:01:34,749 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:01:34,752 - __main__ - INFO - Bluetooth detection 0391a729-9141-42f7-927a-5ea2a43a38b3 stored successfully
+2025-06-09 16:01:34,753 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:34] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:01:36,876 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:01:36,879 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:36] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:01:41,004 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:01:41,006 - __main__ - INFO - Bluetooth detection 45f7cf9b-b7e2-4dfa-9214-d04a7ef8f687 stored successfully
+2025-06-09 16:01:41,006 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:41] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:01:41,844 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:01:41,846 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:41] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:01:46,822 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:01:46,825 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:46] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:01:47,268 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:01:47,270 - __main__ - INFO - Bluetooth detection 30680667-1735-46f9-8838-83cedaba7ce5 stored successfully
+2025-06-09 16:01:47,271 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:47] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:01:51,837 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:01:51,840 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:51] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:01:53,544 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:01:53,546 - __main__ - INFO - Bluetooth detection 5efbff81-9685-42b1-859e-11cf0c26694f stored successfully
+2025-06-09 16:01:53,546 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:53] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:01:56,862 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:01:56,865 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:56] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:01:59,837 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:01:59,841 - __main__ - INFO - Bluetooth detection cb3a0f5b-18e1-497b-88a3-344b12d5be61 stored successfully
+2025-06-09 16:01:59,842 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:01:59] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:02:01,863 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:02:01,866 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:01] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:02:06,145 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:02:06,149 - __main__ - INFO - Bluetooth detection 6eb944e4-8529-4e5e-bb6c-eb10c978d45c stored successfully
+2025-06-09 16:02:06,151 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:06] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:02:08,783 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:02:08,787 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:08] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:02:11,840 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:02:11,843 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:11] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:02:12,466 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:02:12,469 - __main__ - INFO - Bluetooth detection 960a2e73-6bf6-46db-90a0-61c88718fe8a stored successfully
+2025-06-09 16:02:12,470 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:12] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:02:16,822 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:02:16,826 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:16] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:02:18,635 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:02:18,637 - __main__ - INFO - Bluetooth detection d1b5e3c1-0029-4456-8764-8642658f153e stored successfully
+2025-06-09 16:02:18,637 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:18] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:02:21,809 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:02:21,811 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:21] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:02:25,000 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:02:25,001 - __main__ - INFO - Bluetooth detection 3d92f921-828a-4a3a-861b-7750664d7840 stored successfully
+2025-06-09 16:02:25,002 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:25] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:02:26,853 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:02:26,857 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:26] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:02:31,289 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:02:31,291 - __main__ - INFO - Bluetooth detection dc85bb26-409f-4faa-9d06-c3a3738a8035 stored successfully
+2025-06-09 16:02:31,291 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:31] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:02:31,876 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:02:31,879 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:31] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:02:36,859 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:02:36,862 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:36] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:02:37,555 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:02:37,556 - __main__ - INFO - Bluetooth detection 929a4822-2a84-4964-8088-ab37c31fea82 stored successfully
+2025-06-09 16:02:37,557 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:37] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:02:41,853 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:02:41,857 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:41] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:02:43,768 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:02:43,770 - __main__ - INFO - Bluetooth detection 82dc05e5-73b0-4d53-ad18-d4293eb1f9bc stored successfully
+2025-06-09 16:02:43,771 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:43] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:02:46,843 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:02:46,847 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:46] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:02:50,048 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:02:50,051 - __main__ - INFO - Bluetooth detection 717b4b56-2462-4fc1-892c-e1563119c434 stored successfully
+2025-06-09 16:02:50,052 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:50] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:02:51,809 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:02:51,812 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:51] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:02:56,325 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:02:56,329 - __main__ - INFO - Bluetooth detection 66e3f566-41a1-47aa-9a08-4367f3288e10 stored successfully
+2025-06-09 16:02:56,330 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:56] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:02:56,844 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:02:56,848 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:02:56] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:03:01,693 - __main__ - INFO - Request from 127.0.0.1: GET /deauth.html
+2025-06-09 16:03:01,697 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:01] "GET /deauth.html HTTP/1.1" 200 -
+2025-06-09 16:03:01,810 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-06-09 16:03:01,817 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:01] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-09 16:03:01,814 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/sidebar.js
+2025-06-09 16:03:01,822 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:01] "[36mGET /static/js/sidebar.js HTTP/1.1[0m" 304 -
+2025-06-09 16:03:01,831 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/deauth.js
+2025-06-09 16:03:01,835 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:01] "[36mGET /static/js/deauth.js HTTP/1.1[0m" 304 -
+2025-06-09 16:03:01,841 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-06-09 16:03:01,848 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:01] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-06-09 16:03:02,210 - __main__ - INFO - Request from 127.0.0.1: GET /api/deauth_logs
+2025-06-09 16:03:02,213 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:02] "GET /api/deauth_logs HTTP/1.1" 200 -
+2025-06-09 16:03:02,642 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:03:02,647 - __main__ - INFO - Bluetooth detection 61ec3b23-86b7-444e-bbc4-04b5be07d39b stored successfully
+2025-06-09 16:03:02,647 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:02] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:03:03,720 - __main__ - INFO - Request from 127.0.0.1: GET /bluetooth.html
+2025-06-09 16:03:03,723 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:03] "GET /bluetooth.html HTTP/1.1" 200 -
+2025-06-09 16:03:03,781 - __main__ - INFO - Request from 127.0.0.1: GET /static/css/styles.css
+2025-06-09 16:03:03,785 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:03] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-06-09 16:03:03,821 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/sidebar.js
+2025-06-09 16:03:03,822 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:03] "[36mGET /static/js/sidebar.js HTTP/1.1[0m" 304 -
+2025-06-09 16:03:03,828 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/main.js
+2025-06-09 16:03:03,830 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:03] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-06-09 16:03:03,848 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/bluetooth-simple.js
+2025-06-09 16:03:03,852 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:03] "[36mGET /static/js/bluetooth-simple.js?v=1.0 HTTP/1.1[0m" 304 -
+2025-06-09 16:03:03,862 - __main__ - INFO - Request from 127.0.0.1: GET /static/js/bluetooth-debug.js
+2025-06-09 16:03:03,869 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:03] "[36mGET /static/js/bluetooth-debug.js?v=1.1 HTTP/1.1[0m" 304 -
+2025-06-09 16:03:04,031 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:03:04,034 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:04] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:03:08,876 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:03:08,907 - __main__ - INFO - Bluetooth detection 3eacb3f2-3920-46f1-b5f0-9b6a75337bc6 stored successfully
+2025-06-09 16:03:08,908 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:08] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:03:09,029 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:03:09,032 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:09] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:03:14,962 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:03:14,974 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:14] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:03:15,219 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:03:15,230 - __main__ - INFO - Bluetooth detection 92142d60-d5d4-40a4-a89c-7e222264f73b stored successfully
+2025-06-09 16:03:15,233 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:15] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:03:18,939 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:03:18,945 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:18] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:03:21,369 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:03:21,372 - __main__ - INFO - Bluetooth detection e0e50f97-b860-4667-8d2b-96c87ad061c5 stored successfully
+2025-06-09 16:03:21,373 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:21] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:03:24,887 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:03:24,889 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:24] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:03:27,676 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:03:27,678 - __main__ - INFO - Bluetooth detection 341848a2-a727-48c2-b583-365b4d2039dd stored successfully
+2025-06-09 16:03:27,680 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:27] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:03:29,918 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:03:29,921 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:29] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:03:34,047 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:03:34,049 - __main__ - INFO - Bluetooth detection f54067b6-824d-46a4-b7ab-f9bd56ce58e3 stored successfully
+2025-06-09 16:03:34,050 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:34] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:03:34,982 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:03:34,986 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:34] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:03:39,951 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:03:39,954 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:39] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:03:44,934 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:03:44,937 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:44] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:03:46,543 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:03:46,546 - __main__ - INFO - Bluetooth detection 4bdd2ea7-5c04-4b51-8a3e-245b72e3beee stored successfully
+2025-06-09 16:03:46,546 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:46] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:03:49,924 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:03:49,929 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:49] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:03:52,826 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:03:52,828 - __main__ - INFO - Bluetooth detection 7d04dac3-e388-493a-b66d-67f3ac7b2076 stored successfully
+2025-06-09 16:03:52,829 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:52] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:03:54,881 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:03:54,883 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:54] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:03:59,081 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:03:59,084 - __main__ - INFO - Bluetooth detection 21e38b69-a4c0-44bc-a0c1-45bce0ad2100 stored successfully
+2025-06-09 16:03:59,084 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:59] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:03:59,946 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:03:59,949 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:03:59] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:04:04,931 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:04:04,935 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:04:04] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:04:05,369 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:04:05,372 - __main__ - INFO - Bluetooth detection 76ba2e7d-00a7-4999-b4cc-807d8da448b3 stored successfully
+2025-06-09 16:04:05,373 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:04:05] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:04:09,944 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:04:09,948 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:04:09] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:04:11,636 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:04:11,638 - __main__ - INFO - Bluetooth detection 71a86904-5695-46fc-a58e-861730edcf68 stored successfully
+2025-06-09 16:04:11,639 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:04:11] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:04:24,212 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:04:24,215 - __main__ - INFO - Bluetooth detection cf6c5edb-a0e5-4bf7-a047-1478b63ee8e6 stored successfully
+2025-06-09 16:04:24,216 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:04:24] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:04:30,487 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:04:30,491 - __main__ - INFO - Bluetooth detection 6a1625e3-3f40-4e6e-85b4-28312f40c0a7 stored successfully
+2025-06-09 16:04:30,491 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:04:30] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:04:36,798 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:04:36,802 - __main__ - INFO - Bluetooth detection 584552ca-b393-4540-bdde-5ea64327d232 stored successfully
+2025-06-09 16:04:36,802 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:04:36] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:04:43,019 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:04:43,022 - __main__ - INFO - Bluetooth detection 08a22ed0-c4a1-4d97-84be-b4c4882e5bbf stored successfully
+2025-06-09 16:04:43,023 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:04:43] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:04:49,276 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:04:49,279 - __main__ - INFO - Bluetooth detection 8813f37e-e37a-44b5-b519-fde97591a69a stored successfully
+2025-06-09 16:04:49,280 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:04:49] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:04:55,552 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:04:55,558 - __main__ - INFO - Bluetooth detection 2cfd0714-262e-4f1c-aaea-9683e9dddfd4 stored successfully
+2025-06-09 16:04:55,559 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:04:55] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:05:01,871 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:05:01,873 - __main__ - INFO - Bluetooth detection 8949d71e-b677-4348-8478-361228f0d4d2 stored successfully
+2025-06-09 16:05:01,873 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:05:01] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:05:08,235 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:05:08,238 - __main__ - INFO - Bluetooth detection b988c373-0f18-440e-889a-f28caaf4cd89 stored successfully
+2025-06-09 16:05:08,238 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:05:08] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:05:12,960 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:05:12,964 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:05:12] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:05:14,431 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:05:14,433 - __main__ - INFO - Bluetooth detection ecb3b5d9-df21-496c-b03e-29fdc12141e3 stored successfully
+2025-06-09 16:05:14,434 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:05:14] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:05:20,740 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:05:20,744 - __main__ - INFO - Bluetooth detection 3af0a5bb-d973-4c83-aeff-d51349fb4141 stored successfully
+2025-06-09 16:05:20,745 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:05:20] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:05:26,990 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:05:26,994 - __main__ - INFO - Bluetooth detection 5e111c32-cd31-46eb-bfde-fe780ec5358d stored successfully
+2025-06-09 16:05:26,994 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:05:26] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:05:39,576 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:05:39,579 - __main__ - INFO - Bluetooth detection 605d8a00-1439-4deb-8fbf-1fe6dba4f3ff stored successfully
+2025-06-09 16:05:39,579 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:05:39] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:05:45,830 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:05:45,832 - __main__ - INFO - Bluetooth detection 479255e2-6dad-406d-a603-15a9ffca4f86 stored successfully
+2025-06-09 16:05:45,832 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:05:45] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:05:52,124 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:05:52,126 - __main__ - INFO - Bluetooth detection 194dd633-4e61-469d-8ecd-4319e89c0455 stored successfully
+2025-06-09 16:05:52,126 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:05:52] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:05:58,401 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:05:58,405 - __main__ - INFO - Bluetooth detection e5040a36-9381-4dd5-bdfd-e1e8f62064f2 stored successfully
+2025-06-09 16:05:58,406 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:05:58] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:06:04,574 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:06:04,581 - __main__ - INFO - Bluetooth detection 68fce15c-874e-4970-82bc-257c2e24a5d2 stored successfully
+2025-06-09 16:06:04,581 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:06:04] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:06:10,936 - __main__ - INFO - Request from 127.0.0.1: POST /api/bluetooth_detections
+2025-06-09 16:06:10,939 - __main__ - INFO - Bluetooth detection e3bf53ac-255a-4ebe-9853-a3f8e5ab9050 stored successfully
+2025-06-09 16:06:10,940 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:06:10] "[35m[1mPOST /api/bluetooth_detections HTTP/1.1[0m" 201 -
+2025-06-09 16:06:12,940 - __main__ - INFO - Request from 127.0.0.1: GET /api/bluetooth_detections
+2025-06-09 16:06:12,942 - werkzeug - INFO - 127.0.0.1 - - [09/Jun/2025 16:06:12] "GET /api/bluetooth_detections?hours=1&limit=50 HTTP/1.1" 200 -
+2025-06-09 16:06:14,304 - __main__ - INFO - Server started on port 5053
+2025-06-09 16:06:14,422 - __main__ - INFO - Server started on port 5053

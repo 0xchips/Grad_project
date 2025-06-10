@@ -64,8 +64,8 @@ def save_to_database(reading):
         cursor.execute(
             """
             INSERT INTO gps_data (id, latitude, longitude, timestamp, 
-                                 device_id, satellites, hdop, jamming_detected)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                                 device_id, hdop, jamming_detected)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
             """,
             (
                 reading['id'],
@@ -73,7 +73,7 @@ def save_to_database(reading):
                 reading['longitude'],
                 reading['timestamp'],
                 reading['device_id'],
-                reading['satellites'],
+                # reading['satellites'],
                 reading['hdop'],
                 reading['jamming_detected']
             )

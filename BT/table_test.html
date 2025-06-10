@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Table Test</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Bluetooth Table Test</h1>
+    <table id="bt-table">
+        <thead>
+            <tr>
+                <th>Device ID</th>
+                <th>Signal</th>
+                <th>First Seen</th>
+                <th>Last Seen</th>
+                <th>Threat Level</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    
+    <button onclick="testTable()">Add Test Row</button>
+    <button onclick="fetchData()">Fetch API Data</button>
+    
+    <div id="debug"></div>
+    
+    <script>
+        function testTable() {
+            console.log('Adding test row...');
+            const tableBody = document.querySelector('#bt-table tbody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>TEST-DEVICE-${Date.now()}</td>
+                <td>-50 dBm</td>
+                <td>2025-06-09 15:53:00</td>
+                <td>2025-06-09 15:53:00</td>
+                <td>MEDIUM</td>
+                <td><button>Test</button></td>
+            `;
+            tableBody.appendChild(row);
+            document.getElementById('debug').innerHTML += '<p>Test row added</p>';
+        }
+        
+        function fetchData() {
+            console.log('Fetching API data...');
+            fetch('/api/bluetooth_detections?hours=1&limit=5')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('API response:', data);
+                    document.getElementById('debug').innerHTML += '<p>API data: ' + JSON.stringify(data, null, 2) + '</p>';
+                    
+                    if (data.success && data.detections) {
+                        const tableBody = document.querySelector('#bt-table tbody');
+                        data.detections.forEach(detection => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${detection.device_id}</td>
+                                <td>${detection.signal_strength} dBm</td>
+                                <td>${detection.timestamp}</td>
+                                <td>${detection.timestamp}</td>
+                                <td>${detection.threat_level}</td>
+                                <td><button>Action</button></td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                        document.getElementById('debug').innerHTML += '<p>Added ' + data.detections.length + ' rows</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('debug').innerHTML += '<p>Error: ' + error + '</p>';
+                });
+        }
+    </script>
+</body>
+</html>
