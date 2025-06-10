@@ -11,6 +11,7 @@ import logging
 import subprocess
 import re
 import signal
+import ipaddress
 from dotenv import load_dotenv
 import secrets
 import psutil
@@ -75,13 +76,22 @@ def rate_limit_check(ip):
     return True
 
 def get_db_connection():
-    """Get database connection with error handling"""
-    try:
-        conn = MySQLdb.connect(**db_config)
-        return conn
-    except Exception as e:
-        logger.error(f"Database connection failed: {e}")
-        return None
+    """Get database connection with error handling and retry logic"""
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            conn = MySQLdb.connect(**db_config)
+            # Test the connection
+            conn.ping()
+            return conn
+        except Exception as e:
+            if attempt < max_retries - 1:
+                logger.warning(f"Database connection attempt {attempt + 1} failed: {e}. Retrying...")
+                time.sleep(1)
+            else:
+                logger.error(f"Database connection failed after {max_retries} attempts: {e}")
+                return None
+    return None
 
 def validate_input(data, required_fields):
     """Validate input data"""
@@ -95,14 +105,43 @@ def validate_input(data, required_fields):
     return True, "Valid"
 
 # Database setup
+def wait_for_db(max_retries=30, initial_delay=1):
+    """Wait for database to be ready with exponential backoff"""
+    for attempt in range(max_retries):
+        try:
+            logger.info(f"Attempting to connect to database (attempt {attempt + 1}/{max_retries})")
+            conn = MySQLdb.connect(**db_config)
+            conn.ping()  # Test the connection
+            conn.close()
+            logger.info("Database connection successful!")
+            return True
+        except Exception as e:
+            if attempt < max_retries - 1:
+                delay = initial_delay * (2 ** min(attempt, 6))  # Exponential backoff, max 64s
+                logger.warning(f"Database not ready: {e}. Retrying in {delay} seconds...")
+                time.sleep(delay)
+            else:
+                logger.error(f"Failed to connect to database after {max_retries} attempts: {e}")
+                return False
+    return False
+
 def init_db():
+    """Initialize database with proper wait for DB to be ready"""
+    logger.info("Starting database initialization...")
+    
+    # Wait for database to be ready
+    if not wait_for_db():
+        logger.error("Database initialization aborted - could not connect to database")
+        return False
+    
     conn = get_db_connection()
     if not conn:
-        logger.error("Failed to initialize database")
-        return
+        logger.error("Failed to get database connection for initialization")
+        return False
     
     try:
         c = conn.cursor()
+        logger.info("Creating database tables...")
 
         # Alerts table with improved schema
         c.execute('''
@@ -158,11 +197,19 @@ def init_db():
         )
         ''')
         
-        # Add type column to existing table if it doesn't exist
-        c.execute('''
-        ALTER TABLE network_attacks 
-        ADD COLUMN IF NOT EXISTS type ENUM('deauth', 'evil-twin') NOT NULL DEFAULT 'deauth'
-        ''')
+        # Add type column to existing table if it doesn't exist (MySQL compatible way)
+        try:
+            c.execute('''
+            ALTER TABLE network_attacks 
+            ADD COLUMN type ENUM('deauth', 'evil-twin') NOT NULL DEFAULT 'deauth'
+            ''')
+            logger.info("Added 'type' column to network_attacks table")
+        except MySQLdb.Error as e:
+            # Column already exists or other error - this is expected on subsequent runs
+            if "Duplicate column name" in str(e):
+                logger.debug("Column 'type' already exists in network_attacks table")
+            else:
+                logger.warning(f"Error adding type column: {e}")
 
         c.execute('''
         CREATE TABLE IF NOT EXISTS bluetooth_detections (
@@ -243,13 +290,31 @@ def init_db():
 
         conn.commit()
         logger.info("Database initialized successfully")
+        return True
     except Exception as e:
         logger.error(f"Database initialization failed: {e}")
+        return False
     finally:
         conn.close()
 
-# Initialize database on startup
-init_db()
+# Initialize database on startup with proper error handling
+def startup_init():
+    """Initialize database at startup with proper error handling"""
+    max_init_attempts = 3
+    for attempt in range(max_init_attempts):
+        logger.info(f"Database initialization attempt {attempt + 1}/{max_init_attempts}")
+        if init_db():
+            logger.info("Database initialization completed successfully")
+            break
+        else:
+            if attempt < max_init_attempts - 1:
+                logger.warning(f"Database initialization failed, retrying in 5 seconds...")
+                time.sleep(5)
+            else:
+                logger.error("Database initialization failed after all attempts. Application may not function properly.")
+
+# Run database initialization
+startup_init()
 
 # Request middleware for rate limiting and logging
 @app.before_request
@@ -1085,10 +1150,7 @@ def get_nids_alerts():
             # Build query with filters
             query = """
                 SELECT id, timestamp, alert_severity, category, protocol, 
-                       source_ip, source_port, destination_ip, destination_port,
-                       alert_signature, action, classification, signature_id,
-                       flow_id, packet_size, payload, nids_engine, raw_log
-                FROM nids_alerts 
+                       source_ip FROM nids_alerts 
                 WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR)
             """
             params = [hours]
@@ -1168,8 +1230,8 @@ def get_nids_dns():
             # Build query
             query = """
                 SELECT id, timestamp, query_name, query_type, response_code,
-                       is_suspicious, threat_type, source_ip, destination_ip,
-                       confidence_score, raw_log
+                       is_suspicious, threat_type, source_ip, destination_ip
+                        
                 FROM dns_logs 
                 WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR)
             """
