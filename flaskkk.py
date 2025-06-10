@@ -1977,8 +1977,201 @@ def get_network_devices_count():
             'error': f'Error getting device count: {str(e)}'
         }), 500
 
+# Bluetooth/Spectrum Monitoring API Endpoints
+@app.route('/api/bluetooth_detections', methods=['POST'])
+def receive_bluetooth_data():
+    """Receive 2.4GHz spectrum detection data from Arduino Nano"""
+    try:
+        data = request.json
+        if not data:
+            return jsonify({'error': 'No JSON data provided'}), 400
+        
+        # Validate required fields
+        required_fields = ['device_id', 'signal_strength', 'channel']
+        is_valid, message = validate_input(data, required_fields)
+        if not is_valid:
+            return jsonify({'error': message}), 400
+        
+        # Generate unique ID
+        detection_id = str(uuid.uuid4())
+        client_ip = request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
+        
+        # Determine threat level based on signal strength and patterns
+        signal_strength = data.get('signal_strength', 0)
+        max_signal = data.get('max_signal', signal_strength)
+        threat_level = 'low'
+        
+        if max_signal > 150:  # High activity detected
+            threat_level = 'high'
+        elif max_signal > 100:
+            threat_level = 'medium'
+        elif signal_strength > 50:
+            threat_level = 'medium'
+        
+        # Store in database
+        conn = get_db_connection()
+        if not conn:
+            return jsonify({'error': 'Database connection failed'}), 500
+        
+        try:
+            c = conn.cursor()
+            c.execute(
+                """INSERT INTO bluetooth_detections 
+                   (id, device_id, device_name, signal_strength, channel, rssi_value, 
+                    threat_level, detection_type, raw_data, max_signal, spectrum_data)
+                   VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                (
+                    detection_id,
+                    data['device_id'],
+                    data.get('device_name', 'Arduino-Nano-Scanner'),
+                    signal_strength,
+                    data['channel'],
+                    data.get('rssi_value', signal_strength),
+                    threat_level,
+                    data.get('detection_type', 'spectrum'),
+                    json.dumps(data.get('raw_data', {})),
+                    max_signal,
+                    data.get('spectrum_data', '')
+                )
+            )
+            conn.commit()
+            logger.info(f"Bluetooth detection {detection_id} stored successfully")
+            
+        except Exception as e:
+            logger.error(f"Database error storing bluetooth detection: {e}")
+            return jsonify({'error': 'Database error'}), 500
+        finally:
+            conn.close()
+        
+        return jsonify({
+            'id': detection_id, 
+            'status': 'received',
+            'threat_level': threat_level
+        }), 201
+        
+    except Exception as e:
+        logger.error(f"Error receiving bluetooth data: {str(e)}")
+        return jsonify({'error': 'Internal server error'}), 500
+
+@app.route('/api/bluetooth_detections', methods=['GET'])
+def get_bluetooth_detections():
+    """Get Bluetooth/spectrum detection data"""
+    try:
+        # Get query parameters
+        device_id = request.args.get('device_id')
+        threat_level = request.args.get('threat_level')
+        hours = request.args.get('hours', 24, type=int)
+        limit = request.args.get('limit', 100, type=int)
+        
+        # Build query
+        query = "SELECT * FROM bluetooth_detections WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR)"
+        params = [hours]
+        
+        if device_id:
+            query += " AND device_id = %s"
+            params.append(device_id)
+        
+        if threat_level:
+            query += " AND threat_level = %s"
+            params.append(threat_level)
+        
+        query += " ORDER BY timestamp DESC LIMIT %s"
+        params.append(limit)
+        
+        # Execute query
+        conn = MySQLdb.connect(**db_config)
+        c = conn.cursor(MySQLdb.cursors.DictCursor)
+        c.execute(query, params)
+        
+        detections = c.fetchall()
+        conn.close()
+        
+        return jsonify({
+            'success': True,
+            'detections': detections,
+            'count': len(detections)
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting bluetooth detections: {str(e)}")
+        return jsonify({'error': 'Failed to get detections'}), 500
+
+@app.route('/api/bluetooth_detections/stats', methods=['GET'])
+def get_bluetooth_stats():
+    """Get Bluetooth detection statistics"""
+    try:
+        hours = request.args.get('hours', 24, type=int)
+        
+        conn = MySQLdb.connect(**db_config)
+        c = conn.cursor(MySQLdb.cursors.DictCursor)
+        
+        # Get threat level distribution
+        c.execute("""
+            SELECT threat_level, COUNT(*) as count 
+            FROM bluetooth_detections 
+            WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR)
+            GROUP BY threat_level
+        """, [hours])
+        threat_stats = {row['threat_level']: row['count'] for row in c.fetchall()}
+        
+        # Get total detections
+        c.execute("""
+            SELECT COUNT(*) as total_detections,
+                   AVG(signal_strength) as avg_signal,
+                   MAX(max_signal) as peak_signal
+            FROM bluetooth_detections 
+            WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR)
+        """, [hours])
+        general_stats = c.fetchone()
+        
+        # Get active devices
+        c.execute("""
+            SELECT COUNT(DISTINCT device_id) as active_devices
+            FROM bluetooth_detections 
+            WHERE timestamp >= DATE_SUB(NOW(), INTERVAL %s HOUR)
+        """, [hours])
+        device_stats = c.fetchone()
+        
+        conn.close()
+        
+        return jsonify({
+            'success': True,
+            'stats': {
+                'threat_levels': threat_stats,
+                'total_detections': general_stats['total_detections'] or 0,
+                'avg_signal': round(general_stats['avg_signal'] or 0, 2),
+                'peak_signal': general_stats['peak_signal'] or 0,
+                'active_devices': device_stats['active_devices'] or 0
+            }
+        })
+        
+    except Exception as e:
+        logger.error(f"Error getting bluetooth stats: {str(e)}")
+        return jsonify({'error': 'Failed to get statistics'}), 500
+
+@app.route('/api/bluetooth_detections/clear', methods=['DELETE'])
+def clear_bluetooth_detections():
+    """Clear all Bluetooth detection data"""
+    try:
+        conn = MySQLdb.connect(**db_config)
+        c = conn.cursor()
+        c.execute("DELETE FROM bluetooth_detections")
+        deleted_count = c.rowcount
+        conn.commit()
+        conn.close()
+        
+        return jsonify({
+            'success': True, 
+            'message': f'Cleared {deleted_count} Bluetooth detections'
+        }), 200
+        
+    except Exception as e:
+        logger.error(f"Error clearing bluetooth detections: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+
 # Start the Flask application when this file is run directly
 if __name__ == '__main__':
-    port = int(os.getenv('PORT', 5053))  # Changed to 5053
+    port = int(os.getenv('PORT', 5054))  # Changed to 5053
     app.run(host='0.0.0.0', port=port, debug=True)
     logger.info(f"Server started on port {port}")
