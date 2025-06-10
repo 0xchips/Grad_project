@@ -1,0 +1,52 @@
+2025-06-10 12:24:03,446 - SuricataParser - INFO - Starting Suricata log parser...
+2025-06-10 12:24:03,455 - SuricataParser - INFO - Starting from end of log file
+2025-06-10 12:24:03,456 - SuricataParser - INFO - Log parser started, monitoring for new events...
+2025-06-10 12:24:07,055 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:24:10,170 - SuricataParser - INFO - Processed 2 new log entries
+2025-06-10 12:24:13,380 - SuricataParser - INFO - Received shutdown signal, stopping...
+2025-06-10 12:24:13,461 - SuricataParser - INFO - Suricata log parser stopped
+2025-06-10 12:25:24,328 - SuricataParser - INFO - Starting Suricata log parser...
+2025-06-10 12:25:24,338 - SuricataParser - INFO - Starting from end of log file
+2025-06-10 12:25:24,339 - SuricataParser - INFO - Log parser started, monitoring for new events...
+2025-06-10 12:25:27,065 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:25:30,832 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:25:35,065 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:25:42,781 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:25:43,065 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:25:46,766 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:25:49,754 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:25:51,068 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:25:51,748 - SuricataParser - INFO - Processed 2 new log entries
+2025-06-10 12:25:52,742 - SuricataParser - INFO - Processed 2 new log entries
+2025-06-10 12:25:59,067 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:26:07,069 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:26:11,664 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:26:15,069 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:26:15,648 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:26:23,071 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:26:31,072 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:26:36,561 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:26:39,072 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:26:41,540 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:26:47,073 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:26:55,074 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:02,456 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:03,075 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:06,445 - SuricataParser - INFO - Processed 2 new log entries
+2025-06-10 12:27:09,430 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:10,426 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:11,077 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:14,412 - SuricataParser - INFO - Processed 2 new log entries
+2025-06-10 12:27:19,077 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:27,078 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:30,340 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:31,336 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:35,079 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:36,315 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:41,292 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:43,080 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:47,266 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:49,257 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:51,082 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:51,248 - SuricataParser - INFO - Processed 1 new log entries
+2025-06-10 12:27:52,243 - SuricataParser - INFO - Processed 2 new log entries

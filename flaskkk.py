@@ -1275,8 +1275,24 @@ def get_nids_status():
         # Check if Suricata is running
         suricata_running = False
         try:
-            result = subprocess.run(['pgrep', 'suricata'], capture_output=True, text=True)
-            suricata_running = result.returncode == 0
+            # Try multiple methods to check if Suricata is running
+            # Method 1: Check systemctl status
+            result = subprocess.run(['systemctl', 'is-active', 'suricata'], 
+                                  capture_output=True, text=True)
+            if result.returncode == 0 and result.stdout.strip() == 'active':
+                suricata_running = True
+            else:
+                # Method 2: Check PID file
+                try:
+                    with open('/run/suricata.pid', 'r') as f:
+                        pid = f.read().strip()
+                    # Check if the process is still running
+                    result = subprocess.run(['ps', '-p', pid], capture_output=True, text=True)
+                    suricata_running = result.returncode == 0
+                except:
+                    # Method 3: Check for Suricata process with ps
+                    result = subprocess.run(['ps', 'aux'], capture_output=True, text=True)
+                    suricata_running = '/usr/bin/suricata' in result.stdout
         except:
             pass
         

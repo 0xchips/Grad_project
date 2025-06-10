@@ -268,7 +268,7 @@ function updateBluetoothTable() {
             <td style="padding: 10px; color: white;">${lastSeen.toLocaleDateString()} ${lastSeen.toLocaleTimeString()}</td>
             <td style="padding: 10px;"><span class="threat-level ${device.threatLevel}" style="color: ${getThreatColor(device.threatLevel)}; font-weight: bold;">${device.threatLevel.toUpperCase()}</span></td>
             <td style="padding: 10px;">
-                <button class="btn-icon" onclick="analyzeDevice('${device.id}')" style="background: #0066cc; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">
+                <button class="btn-icon" onclick="analyzeDevice('${device.id}')" style="background: #0066cc; color: white; border: none; padding: 20px 30px; border-radius: 3px; cursor: pointer;">
                     Analyze
                 </button>
             </td>
@@ -290,9 +290,9 @@ function updateBluetoothTable() {
 
 function getThreatColor(threatLevel) {
     switch(threatLevel) {
-        case 'high': return '#e74c3c';
-        case 'medium': return '#f39c12'; 
-        case 'low': return '#2ecc71';
+        case 'high': return '#ffffff';
+        case 'medium': return '#ffffff'; 
+        case 'low': return '#ffffff';
         default: return '#888';
     }
 }
