@@ -1,0 +1,87 @@
+============================================================
+STARTING COMPREHENSIVE IDS ATTACK TESTING
+============================================================
+
+--- DNS Attacks ---
+[2025-06-10 13:21:26] DNS_TUNNELING: Starting DNS tunneling simulation
+[2025-06-10 13:21:27] DNS_TUNNELING: Queried suspicious domain: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.malicious-tunnel.com
+[2025-06-10 13:21:27] DNS_TUNNELING: Queried suspicious domain: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.data-exfil.net
+[2025-06-10 13:21:29] DNS_TUNNELING: Queried suspicious domain: tunnel-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.evil.org
+[2025-06-10 13:21:30] DNS_TUNNELING: Queried suspicious domain: base64encodeddata123456789.tunnel.bad
+[2025-06-10 13:21:31] DNS_TUNNELING: Queried suspicious domain: very-long-subdomain-that-looks-like-data-exfiltration.suspicious.domain
+✅ DNS Attacks completed
+
+--- DGA Simulation ---
+[2025-06-10 13:21:33] DGA_SIMULATION: Starting DGA domain simulation
+[2025-06-10 13:21:34] DGA_SIMULATION: Queried DGA-like domain: zyopabgaz9ae.org
+[2025-06-10 13:21:34] DGA_SIMULATION: Queried DGA-like domain: 7nxb8qsracoa.biz
+[2025-06-10 13:21:35] DGA_SIMULATION: Queried DGA-like domain: dsv58jnz3khi.info
+[2025-06-10 13:21:36] DGA_SIMULATION: Queried DGA-like domain: rpifh42h3vrf.biz
+[2025-06-10 13:21:36] DGA_SIMULATION: Queried DGA-like domain: y74ym2tbluem.org
+[2025-06-10 13:21:37] DGA_SIMULATION: Queried DGA-like domain: 00dbkcajtxw6.info
+[2025-06-10 13:21:38] DGA_SIMULATION: Queried DGA-like domain: jxdwe4c7njgm.com
+[2025-06-10 13:21:38] DGA_SIMULATION: Queried DGA-like domain: 62ahggk6q8fp.info
+[2025-06-10 13:21:39] DGA_SIMULATION: Queried DGA-like domain: fvov0d4nd6tj.info
+[2025-06-10 13:21:39] DGA_SIMULATION: Queried DGA-like domain: px9kfeal2r1b.net
+✅ DGA Simulation completed
+
+--- Crypto Mining ---
+[2025-06-10 13:21:42] CRYPTO_MINING: Testing crypto-mining domain detection
+[2025-06-10 13:21:42] CRYPTO_MINING: Queried crypto domain: coinhive.com
+[2025-06-10 13:21:43] CRYPTO_MINING: Queried crypto domain: crypto-loot.com
+[2025-06-10 13:21:45] CRYPTO_MINING: Queried crypto domain: coin-have.com
+[2025-06-10 13:21:46] CRYPTO_MINING: Queried crypto domain: minero.cc
+[2025-06-10 13:21:47] CRYPTO_MINING: Queried crypto domain: webminepool.com
+[2025-06-10 13:21:49] CRYPTO_MINING: Queried crypto domain: miner.pr0gramm.com
+✅ Crypto Mining completed
+
+--- HTTP Attacks ---
+[2025-06-10 13:21:51] HTTP_ATTACKS: Starting HTTP attack simulation
+[2025-06-10 13:21:51] SQL_INJECTION: Attempted SQL injection: ' OR '1'='1
+[2025-06-10 13:21:52] SQL_INJECTION: Attempted SQL injection: '; DROP TABLE users; --
+[2025-06-10 13:21:52] SQL_INJECTION: Attempted SQL injection: 1' UNION SELECT * FROM users--
+[2025-06-10 13:21:53] SQL_INJECTION: Attempted SQL injection: admin'/*
+[2025-06-10 13:21:53] SQL_INJECTION: Attempted SQL injection: ' OR 1=1#
+[2025-06-10 13:21:54] XSS_ATTEMPT: Attempted XSS: <script>alert('XSS')</script>...
+[2025-06-10 13:21:54] XSS_ATTEMPT: Attempted XSS: javascript:alert('XSS')...
+[2025-06-10 13:21:55] XSS_ATTEMPT: Attempted XSS: <img src=x onerror=alert('XSS'...
+[2025-06-10 13:21:55] XSS_ATTEMPT: Attempted XSS: '><script>alert(String.fromCha...
+✅ HTTP Attacks completed
+
+--- Suspicious User-Agents ---
+[2025-06-10 13:21:58] SUSPICIOUS_UA: Testing suspicious User-Agent detection
+[2025-06-10 13:21:58] SUSPICIOUS_UA: Used suspicious User-Agent: Nikto
+[2025-06-10 13:21:58] SUSPICIOUS_UA: Used suspicious User-Agent: sqlmap
+[2025-06-10 13:21:59] SUSPICIOUS_UA: Used suspicious User-Agent: Nessus
+[2025-06-10 13:21:59] SUSPICIOUS_UA: Used suspicious User-Agent: OpenVAS
+[2025-06-10 13:22:00] SUSPICIOUS_UA: Used suspicious User-Agent: w3af
+[2025-06-10 13:22:00] SUSPICIOUS_UA: Used suspicious User-Agent: Burp Suite
+[2025-06-10 13:22:01] SUSPICIOUS_UA: Used suspicious User-Agent: OWASP ZAP
+✅ Suspicious User-Agents completed
+
+--- Port Scanning ---
+[2025-06-10 13:22:03] PORT_SCAN: Starting aggressive port scan
+[2025-06-10 13:22:03] PORT_SCAN: TCP SYN scan completed
+[2025-06-10 13:22:04] PORT_SCAN: UDP scan completed
+✅ Port Scanning completed
+
+--- Network Reconnaissance ---
+[2025-06-10 13:22:06] NETWORK_RECON: Starting network reconnaissance
+[2025-06-10 13:22:07] OS_FINGERPRINT: OS fingerprinting scan completed
+[2025-06-10 13:22:14] SERVICE_DETECT: Service version detection completed
+[2025-06-10 13:22:22] AGGRESSIVE_SCAN: Aggressive scan with scripts completed
+✅ Network Reconnaissance completed
+
+--- Malicious Downloads ---
+[2025-06-10 13:22:24] MALICIOUS_DOWNLOAD: Simulating malicious downloads
+[2025-06-10 13:22:24] MALICIOUS_DOWNLOAD: Attempted download: http://example.com/malware.exe
+[2025-06-10 13:22:36] MALICIOUS_DOWNLOAD: Attempted download: http://malicious.site/payload.dll
+✅ Malicious Downloads completed
+
+============================================================
+IDS ATTACK TESTING COMPLETED
+============================================================
+
+Wait 30 seconds for Suricata to process all events...
+
+Testing completed! Check the dashboard for new alerts.

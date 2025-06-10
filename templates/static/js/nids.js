@@ -210,7 +210,7 @@ class NIDSDashboard {
     
     async loadNIDSStats() {
         try {
-            const timeRange = document.getElementById('timeRangeFilter')?.value || 24;
+            const timeRange = document.getElementById('timeRangeFilter')?.value || 168;
             const response = await fetch(`/api/nids-stats?hours=${timeRange}`);
             if (!response.ok) throw new Error('Failed to fetch NIDS stats');
             
@@ -408,7 +408,7 @@ class NIDSDashboard {
     
     async loadDNSLogs() {
         try {
-            const hours = document.getElementById('timeRangeFilter')?.value || 24;
+            const hours = document.getElementById('timeRangeFilter')?.value || 168;
             const response = await fetch(`/api/nids-dns?hours=${hours}&suspicious_only=true&limit=50`);
             if (!response.ok) throw new Error('Failed to fetch DNS logs');
             

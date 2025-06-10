@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NIDS API Test</title>
+</head>
+<body>
+    <h1>NIDS API Test</h1>
+    <div id="results"></div>
+    
+    <script>
+        async function testAPIs() {
+            const results = document.getElementById('results');
+            
+            try {
+                console.log('Testing NIDS Status API...');
+                const statusResponse = await fetch('/api/nids-status');
+                const statusData = await statusResponse.json();
+                console.log('Status API Response:', statusData);
+                
+                console.log('Testing NIDS Stats API...');
+                const statsResponse = await fetch('/api/nids-stats?hours=24');
+                const statsData = await statsResponse.json();
+                console.log('Stats API Response:', statsData);
+                
+                console.log('Testing NIDS Alerts API...');
+                const alertsResponse = await fetch('/api/nids-alerts?hours=24&limit=5');
+                const alertsData = await alertsResponse.json();
+                console.log('Alerts API Response:', alertsData);
+                
+                results.innerHTML = `
+                    <h2>API Test Results</h2>
+                    <h3>Status API:</h3>
+                    <pre>${JSON.stringify(statusData, null, 2)}</pre>
+                    <h3>Stats API:</h3>
+                    <pre>${JSON.stringify(statsData, null, 2)}</pre>
+                    <h3>Alerts API:</h3>
+                    <pre>${JSON.stringify(alertsData, null, 2)}</pre>
+                `;
+                
+            } catch (error) {
+                console.error('API Test Error:', error);
+                results.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Run test when page loads
+        window.addEventListener('load', testAPIs);
+    </script>
+</body>
+</html>

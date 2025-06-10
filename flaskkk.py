@@ -2212,3 +2212,7 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT', 5053))  # Changed to 5053
     app.run(host='0.0.0.0', port=port, debug=True)
     logger.info(f"Server started on port {port}")
+@app.route('/api_test.html')
+def api_test():
+    return render_template('api_test.html')
+
