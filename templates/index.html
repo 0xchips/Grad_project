@@ -1588,6 +1588,9 @@
                 .then(response => response.json()).then(data => {
                     if (data.success) {
                         addKismetLogEntry(data.message, 1000);
+                        if (data.note) {
+                            addKismetLogEntry(`Note: ${data.note}`, 1500);
+                        }
                         setKismetStatusDisplay('running');
                         document.getElementById('kismet-start-btn').style.display = 'none';
                         document.getElementById('kismet-stop-btn').style.display = 'inline-block';
@@ -1597,11 +1600,18 @@
                         startKismetUpdates();
                     } else {
                         addKismetLogEntry(`Error: ${data.message || data.error}`, 500);
+                        if (data.suggestion) {
+                            addKismetLogEntry(`Suggestion: ${data.suggestion}`, 1000);
+                        }
+                        if (data.command_used) {
+                            addKismetLogEntry(`Command tried: ${data.command_used}`, 500);
+                        }
                     }
                 })
                 .catch(error => {
                     console.error('Error starting Kismet:', error);
-                    addKismetLogEntry('Failed to start Kismet monitoring', 500);
+                    addKismetLogEntry('Failed to start Kismet monitoring - Check server connection', 500);
+                    addKismetLogEntry('Make sure the Flask server is running and accessible', 1000);
                 });
         }
 
