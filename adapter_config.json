@@ -1,0 +1,5 @@
+{
+  "realtime_monitoring": "montering",
+  "network_devices": "mainwifi",
+  "kismet_monitoring": "deauth"
+}
