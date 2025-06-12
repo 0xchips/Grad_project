@@ -1,0 +1,47 @@
+[Unit]
+Description=WiGuard Real-time WiFi Monitor
+Documentation=https://github.com/your-repo/wiguard-dashboard
+After=network.target wiguard-dashboard.service
+Requires=wiguard-dashboard.service
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/opt/wiguard-dashboard
+Environment=PATH=/opt/wiguard-dashboard/venv/bin
+EnvironmentFile=-/opt/wiguard-dashboard/.env
+
+# Main monitoring command
+ExecStart=/opt/wiguard-dashboard/venv/bin/python3 real_time_monitor.py
+
+# Pre-start interface setup
+ExecStartPre=/bin/bash -c 'cd /opt/wiguard-dashboard && python3 interface_manager.py --discover --json > /tmp/wiguard-interfaces.json'
+ExecStartPre=/bin/bash -c 'interface=$(python3 -c "import json; data=json.load(open(\'/tmp/wiguard-interfaces.json\')); print(next((name for name, info in data[\'interfaces\'].items() if info[\'monitor_capable\']), \'wlan0\'))"); echo "Using interface: $interface" > /tmp/wiguard-interface.txt'
+
+# Post-stop cleanup
+ExecStopPost=/bin/bash -c 'airmon-ng stop wlan0mon 2>/dev/null || true'
+ExecStopPost=/bin/rm -f /tmp/wiguard-interface.txt /tmp/wiguard-interfaces.json
+
+# Restart policy
+Restart=always
+RestartSec=15
+StartLimitInterval=120
+StartLimitBurst=5
+
+# Security settings - needs root for packet capture
+# NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=2048
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=wiguard-monitor
+
+[Install]
+WantedBy=multi-user.target

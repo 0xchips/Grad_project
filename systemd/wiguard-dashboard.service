@@ -1,0 +1,53 @@
+[Unit]
+Description=WiGuard Dashboard - Wireless Security Monitoring Platform
+Documentation=https://github.com/your-repo/wiguard-dashboard
+After=network.target mysql.service
+Wants=mysql.service
+
+[Service]
+Type=exec
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/wiguard-dashboard
+Environment=PATH=/opt/wiguard-dashboard/venv/bin
+Environment=FLASK_ENV=production
+EnvironmentFile=-/opt/wiguard-dashboard/.env
+
+# Main service command
+ExecStart=/opt/wiguard-dashboard/venv/bin/gunicorn --config gunicorn.conf.py flaskkk:app
+
+# Pre-start checks and setup
+ExecStartPre=/bin/bash -c 'cd /opt/wiguard-dashboard && python3 system_validator.py --quick'
+ExecStartPre=/bin/mkdir -p /opt/wiguard-dashboard/logs
+ExecStartPre=/bin/chown -R www-data:www-data /opt/wiguard-dashboard/logs
+
+# Graceful shutdown
+ExecStop=/bin/kill -TERM $MAINPID
+TimeoutStopSec=30
+KillMode=mixed
+
+# Restart policy
+Restart=always
+RestartSec=10
+StartLimitInterval=60
+StartLimitBurst=3
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/wiguard-dashboard/logs /opt/wiguard-dashboard/data
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=wiguard-dashboard
+
+[Install]
+WantedBy=multi-user.target

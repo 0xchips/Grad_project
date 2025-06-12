@@ -1,0 +1,101 @@
+# Multi-platform WiGuard Dashboard Dockerfile
+# Supports linux/amd64, linux/arm64, linux/arm/v7
+
+FROM --platform=$BUILDPLATFORM python:3.11-slim as builder
+
+# Build arguments for multi-platform support
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+ARG TARGETOS
+ARG TARGETARCH
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# Install system dependencies based on platform
+RUN apt-get update && apt-get install -y \
+    pkg-config \
+    build-essential \
+    curl \
+    git \
+    && if [ "$TARGETARCH" = "arm64" ] || [ "$TARGETARCH" = "arm" ]; then \
+        apt-get install -y gcc-aarch64-linux-gnu || apt-get install -y gcc-arm-linux-gnueabihf; \
+    fi \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create app directory
+WORKDIR /app
+
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Production stage
+FROM python:3.11-slim as production
+
+# Platform-specific labels
+LABEL org.opencontainers.image.source="https://github.com/your-repo/wiguard-dashboard"
+LABEL org.opencontainers.image.description="WiGuard Dashboard - Cross-platform wireless security monitoring"
+LABEL org.opencontainers.image.licenses="MIT"
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    FLASK_ENV=production \
+    PORT=5000
+
+# Create app user for security
+RUN groupadd -r appuser && useradd -r -g appuser appuser
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    iproute2 \
+    net-tools \
+    && if command -v apt-get >/dev/null 2>&1; then \
+        apt-get install -y wireless-tools iw || echo "Wireless tools not available"; \
+    fi \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy Python dependencies from builder
+COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+
+# Set work directory
+WORKDIR /app
+
+# Copy application code
+COPY --chown=appuser:appuser . .
+
+# Create necessary directories and set permissions
+RUN mkdir -p /app/logs /app/data && \
+    chown -R appuser:appuser /app
+
+# Create platform-specific configuration
+RUN echo "# Platform: $TARGETPLATFORM" > /app/.platform && \
+    echo "TARGETARCH=$TARGETARCH" >> /app/.platform && \
+    echo "TARGETOS=$TARGETOS" >> /app/.platform
+
+# Switch to non-root user
+USER appuser
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:${PORT}/api/ping || exit 1
+
+# Expose port
+EXPOSE ${PORT}
+
+# Create startup script that adapts to platform
+RUN echo '#!/bin/bash\n\
+echo "Starting WiGuard Dashboard on $(cat /app/.platform)"\n\
+python3 system_config.py\n\
+exec gunicorn --config gunicorn.conf.py flaskkk:app' > /app/start.sh && \
+    chmod +x /app/start.sh
+
+# Use startup script
+CMD ["/app/start.sh"]

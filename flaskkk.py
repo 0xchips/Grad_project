@@ -16,7 +16,32 @@ from dotenv import load_dotenv
 import secrets
 import psutil
 
-# Load environment variables
+# Import system configuration
+try:
+    from system_config import get_config
+    system_config = get_config()
+    # Setup environment
+    system_config.setup_environment()
+except ImportError:
+    # Fallback if system_config is not available
+    class FallbackConfig:
+        def __init__(self):
+            self.config = {
+                'flask_host': '127.0.0.1',
+                'flask_port': 5053,
+                'db_host': 'localhost',
+                'db_user': 'dashboard',
+                'db_password': 'securepass',
+                'db_name': 'security_dashboard',
+            }
+            self.capabilities = {}
+        def get_network_interfaces(self):
+            return []
+        def get_best_interface(self, itype):
+            return None
+    system_config = FallbackConfig()
+
+# Load environment variables (fallback for systems without system_config)
 load_dotenv()
 
 # Configure logging
@@ -37,43 +62,103 @@ app = Flask(__name__,
 
 # Security configuration
 app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY', secrets.token_hex(32))
-CORS(app, origins=os.getenv('CORS_ORIGINS', 'localhost:80,localhost:5050').split(','))
+cors_origins = os.getenv('CORS_ORIGINS', 'localhost:80,localhost:5050').split(',')
+CORS(app, origins=cors_origins)
 
-# MySQL Database configuration from environment
+# MySQL Database configuration from environment/system config
 db_config = {
-    'host': os.getenv('DB_HOST', 'localhost'),
-    'user': os.getenv('DB_USER', 'dashboard'),
-    'passwd': os.getenv('DB_PASSWORD', 'securepass'),
-    'db': os.getenv('DB_NAME', 'security_dashboard'),
+    'host': system_config.config.get('db_host', os.getenv('DB_HOST', 'localhost')),
+    'user': system_config.config.get('db_user', os.getenv('DB_USER', 'dashboard')),
+    'passwd': system_config.config.get('db_password', os.getenv('DB_PASSWORD', 'securepass')),
+    'db': system_config.config.get('db_name', os.getenv('DB_NAME', 'security_dashboard')),
 }
 
+# Database connection with fallback
+def get_db_connection():
+    """Get database connection with better error handling"""
+    try:
+        # Try mysqlclient first
+        import MySQLdb
+        return MySQLdb.connect(**db_config)
+    except ImportError:
+        try:
+            # Fallback to pymysql
+            import pymysql
+            pymysql.install_as_MySQLdb()
+            import MySQLdb
+            return MySQLdb.connect(**db_config)
+        except ImportError:
+            logger.error("No MySQL connector available. Install mysqlclient or pymysql.")
+            return None
+    except Exception as e:
+        logger.error(f"Database connection failed: {e}")
+        logger.warning("Database features will be disabled")
+        return None
+
+# Check database connectivity at startup
+try:
+    test_conn = get_db_connection()
+    if test_conn:
+        test_conn.close()
+        DATABASE_AVAILABLE = True
+        logger.info("Database connection successful")
+    else:
+        DATABASE_AVAILABLE = False
+        logger.warning("Database not available - running in limited mode")
+except Exception as e:
+    DATABASE_AVAILABLE = False
+    logger.warning(f"Database check failed: {e} - running in limited mode")
 # Rate limiting storage
 request_counts = {}
-REQUEST_LIMIT = 100  # requests per minute
-BLOCKED_IPS = set()
 
-def rate_limit_check(ip):
-    return True
-    """Check if IP is rate limited"""
-    if ip in BLOCKED_IPS:
-        return False
+# Enhanced rate limiting with database fallback
+def rate_limit_check(client_ip, max_requests=60, window=60):
+    """Enhanced rate limiting that works with or without database"""
+    if not DATABASE_AVAILABLE:
+        # Simple in-memory rate limiting when database is not available
+        current_time = time.time()
+        if client_ip not in request_counts:
+            request_counts[client_ip] = []
+        
+        # Clean old requests
+        request_counts[client_ip] = [
+            req_time for req_time in request_counts[client_ip] 
+            if current_time - req_time < window
+        ]
+        
+        # Check if under limit
+        if len(request_counts[client_ip]) >= max_requests:
+            return False
+        
+        # Add current request
+        request_counts[client_ip].append(current_time)
+        return True
     
+    # Database-based rate limiting for production
     current_time = time.time()
-    if ip not in request_counts:
-        request_counts[ip] = []
+    if client_ip not in request_counts:
+        request_counts[client_ip] = []
     
-    # Remove old requests (older than 1 minute)
-    request_counts[ip] = [req_time for req_time in request_counts[ip] 
-                         if current_time - req_time < 60]
+    # Clean old requests
+    request_counts[client_ip] = [
+        req_time for req_time in request_counts[client_ip] 
+        if current_time - req_time < window
+    ]
     
-    # Check if limit exceeded
-    if len(request_counts[ip]) >= REQUEST_LIMIT:
-        BLOCKED_IPS.add(ip)
-        logger.warning(f"Rate limit exceeded for IP: {ip}")
+    # Check if under limit
+    if len(request_counts[client_ip]) >= max_requests:
         return False
     
-    request_counts[ip].append(current_time)
+    # Add current request
+    request_counts[client_ip].append(current_time)
     return True
+
+# Database connection function with error handling
+def get_db_connection_safe():
+    """Get database connection with proper error handling"""
+    if not DATABASE_AVAILABLE:
+        return None
+    return get_db_connection()
 
 def get_db_connection():
     """Get database connection with error handling and retry logic"""
@@ -873,72 +958,84 @@ def get_wireless_adapters():
         if not rate_limit_check(client_ip):
             return jsonify({'error': 'Rate limit exceeded'}), 429
 
-        adapters = []
-        
-        # Method 1: Parse iwconfig output
+        # Use system config to get network interfaces
         try:
-            result = subprocess.run(['iwconfig'], capture_output=True, text=True, timeout=10)
-            if result.returncode == 0:
-                current_adapter = None
-                for line in result.stdout.split('\n'):
-                    line = line.strip()
-                    if line and not line.startswith(' '):
-                        # New adapter line
-                        parts = line.split()
-                        if len(parts) >= 2 and 'IEEE 802.11' in line:
-                            adapter_name = parts[0]
-                            adapters.append({
-                                'name': adapter_name,
-                                'type': 'wireless',
-                                'available': True,
-                                'description': 'Wireless network adapter'
-                            })
+            adapters = system_config.get_network_interfaces()
+            if not adapters:
+                # Fallback to default interfaces if detection fails
+                adapters = [
+                    {'name': 'wlan0', 'type': 'wireless', 'available': True, 'description': 'Primary wireless adapter'},
+                    {'name': 'wlan1', 'type': 'wireless', 'available': True, 'description': 'Secondary wireless adapter'},
+                    {'name': 'wlan0mon', 'type': 'monitor', 'available': False, 'description': 'Monitor mode adapter'}
+                ]
         except Exception as e:
-            logger.warning(f"iwconfig scan failed: {e}")
-        
-        # Method 2: Check /sys/class/net for wireless interfaces
-        try:
-            net_path = '/sys/class/net'
-            if os.path.exists(net_path):
-                for interface in os.listdir(net_path):
-                    wireless_path = os.path.join(net_path, interface, 'wireless')
-                    if os.path.exists(wireless_path):
-                        # Check if already in list
-                        if not any(adapter['name'] == interface for adapter in adapters):
-                            adapters.append({
-                                'name': interface,
-                                'type': 'wireless',
-                                'available': True,
-                                'description': 'Wireless network adapter'
-                            })
-        except Exception as e:
-            logger.warning(f"sysfs scan failed: {e}")
-        
-        # Method 3: Parse iw dev output
-        try:
-            result = subprocess.run(['iw', 'dev'], capture_output=True, text=True, timeout=10)
-            if result.returncode == 0:
-                for line in result.stdout.split('\n'):
-                    line = line.strip()
-                    if line.startswith('Interface '):
-                        interface_name = line.split()[1]
-                        if not any(adapter['name'] == interface_name for adapter in adapters):
-                            adapters.append({
-                                'name': interface_name,
-                                'type': 'wireless',
-                                'available': True,
-                                'description': 'Wireless network adapter'
-                            })
-        except Exception as e:
-            logger.warning(f"iw dev scan failed: {e}")
-        
-        # Add some mock adapters if none found (for demo purposes)
-        if not adapters:
-            adapters = [
-                {'name': 'wlan0', 'type': 'wireless', 'available': True, 'description': 'Primary wireless adapter'},
-                {'name': 'wlan1', 'type': 'wireless', 'available': True, 'description': 'Secondary wireless adapter'},
-                {'name': 'wlan0mon', 'type': 'monitor', 'available': False, 'description': 'Monitor mode adapter'}
-            ]
+            logger.warning(f"System config interface detection failed: {e}")
+            # Manual detection fallback
+            adapters = []
+            
+            # Method 1: Parse iwconfig output (Linux only)
+            try:
+                result = subprocess.run(['iwconfig'], capture_output=True, text=True, timeout=10)
+                if result.returncode == 0:
+                    for line in result.stdout.split('\n'):
+                        line = line.strip()
+                        if line and not line.startswith(' '):
+                            # New adapter line
+                            parts = line.split()
+                            if len(parts) >= 2 and 'IEEE 802.11' in line:
+                                adapter_name = parts[0]
+                                adapters.append({
+                                    'name': adapter_name,
+                                    'type': 'wireless',
+                                    'available': True,
+                                    'description': 'Wireless network adapter'
+                                })
+            except Exception as e:
+                logger.warning(f"iwconfig scan failed: {e}")
+            
+            # Method 2: Check /sys/class/net for wireless interfaces (Linux only)
+            try:
+                net_path = '/sys/class/net'
+                if os.path.exists(net_path):
+                    for interface in os.listdir(net_path):
+                        wireless_path = os.path.join(net_path, interface, 'wireless')
+                        if os.path.exists(wireless_path):
+                            # Check if already in list
+                            if not any(adapter['name'] == interface for adapter in adapters):
+                                adapters.append({
+                                    'name': interface,
+                                    'type': 'wireless',
+                                    'available': True,
+                                    'description': 'Wireless network adapter'
+                                })
+            except Exception as e:
+                logger.warning(f"sysfs scan failed: {e}")
+            
+            # Method 3: Parse iw dev output (Linux only)
+            try:
+                result = subprocess.run(['iw', 'dev'], capture_output=True, text=True, timeout=10)
+                if result.returncode == 0:
+                    for line in result.stdout.split('\n'):
+                        line = line.strip()
+                        if line.startswith('Interface '):
+                            interface_name = line.split()[1]
+                            if not any(adapter['name'] == interface_name for adapter in adapters):
+                                adapters.append({
+                                    'name': interface_name,
+                                    'type': 'wireless',
+                                    'available': True,
+                                    'description': 'Wireless network adapter'
+                                })
+            except Exception as e:
+                logger.warning(f"iw dev scan failed: {e}")
+            
+            # Add fallback adapters if none found
+            if not adapters:
+                adapters = [
+                    {'name': 'wlan0', 'type': 'wireless', 'available': True, 'description': 'Primary wireless adapter'},
+                    {'name': 'wlan1', 'type': 'wireless', 'available': True, 'description': 'Secondary wireless adapter'},
+                    {'name': 'wlan0mon', 'type': 'monitor', 'available': False, 'description': 'Monitor mode adapter'}
+                ]
         
         return jsonify({
             'success': True,
@@ -959,13 +1056,20 @@ def get_configurations():
         if not rate_limit_check(client_ip):
             return jsonify({'error': 'Rate limit exceeded'}), 429
 
-        # For now, return default configuration
-        # In a real implementation, you'd read from a config file or database
+        # Try to load configuration from system config
         config = {
-            'realtime_monitoring': 'wlan0',
-            'network_devices': 'wlan0',
-            'kismet_monitoring': 'wlan1'
+            'realtime_monitoring': system_config.get_best_interface('wireless') or 'wlan0',
+            'network_devices': system_config.get_best_interface('wireless') or 'wlan0',
+            'kismet_monitoring': system_config.get_best_interface('wireless') or 'wlan1'
         }
+        
+        # Override with environment variables if set
+        if hasattr(system_config, 'config'):
+            config.update({
+                'realtime_monitoring': system_config.config.get('primary_interface') or config['realtime_monitoring'],
+                'network_devices': system_config.config.get('primary_interface') or config['network_devices'],
+                'kismet_monitoring': system_config.config.get('monitor_interface') or config['kismet_monitoring']
+            })
         
         return jsonify({
             'success': True,

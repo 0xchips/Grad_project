@@ -1,0 +1,144 @@
+version: '3.8'
+
+services:
+  app:
+    build: 
+      context: ..
+      dockerfile: docker/Dockerfile.multiplatform
+      platforms:
+        - linux/amd64
+        - linux/arm64
+        - linux/arm/v7
+    container_name: wiguard_dashboard
+    ports:
+      - "${FLASK_PORT:-5053}:${PORT:-5000}"
+    environment:
+      - FLASK_ENV=${FLASK_ENV:-production}
+      - DB_HOST=${DB_HOST:-db}
+      - DB_USER=${DB_USER:-dashboard}
+      - DB_PASSWORD=${DB_PASSWORD:-securepass}
+      - DB_NAME=${DB_NAME:-security_dashboard}
+      - FLASK_SECRET_KEY=${FLASK_SECRET_KEY:-your-production-secret-key-here}
+      - CORS_ORIGINS=${CORS_ORIGINS:-localhost:80,localhost:5050}
+      - PORT=${PORT:-5000}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - ENABLE_GPS=${ENABLE_GPS:-false}
+      - ENABLE_BLUETOOTH=${ENABLE_BLUETOOTH:-false}
+      - ENABLE_NIDS=${ENABLE_NIDS:-true}
+      - ENABLE_REAL_TIME_MONITORING=${ENABLE_REAL_TIME_MONITORING:-true}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+      - type: bind
+        source: ./.env
+        target: /app/.env
+        read_only: true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${PORT:-5000}/api/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - wiguard-network
+    # Platform-specific configurations
+    cap_add:
+      - NET_ADMIN  # Required for wireless monitoring
+    devices:
+      - /dev/net/tun  # For network interfaces
+    privileged: false  # More secure than full privileged mode
+
+  db:
+    image: mysql:8.0
+    platform: linux/amd64  # MySQL works best on amd64
+    container_name: wiguard_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-rootpassword}
+      - MYSQL_DATABASE=${DB_NAME:-security_dashboard}
+      - MYSQL_USER=${DB_USER:-dashboard}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-securepass}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ../init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./mysql/conf.d:/etc/mysql/conf.d:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-rootpassword}"]
+      timeout: 20s
+      retries: 10
+      start_period: 30s
+    networks:
+      - wiguard-network
+
+  # Optional: Redis for caching and session management
+  redis:
+    image: redis:7-alpine
+    container_name: wiguard_redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - wiguard-network
+    profiles:
+      - full  # Only start with 'docker-compose --profile full up'
+
+  # Optional: Nginx reverse proxy for production
+  nginx:
+    image: nginx:alpine
+    container_name: wiguard_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - app
+    restart: unless-stopped
+    networks:
+      - wiguard-network
+    profiles:
+      - production  # Only start with 'docker-compose --profile production up'
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  wiguard-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# Platform-specific overrides
+x-arm64: &arm64-config
+  deploy:
+    resources:
+      limits:
+        memory: 1G
+      reservations:
+        memory: 512M
+
+x-arm-config: &arm-config
+  deploy:
+    resources:
+      limits:
+        memory: 512M
+      reservations:
+        memory: 256M

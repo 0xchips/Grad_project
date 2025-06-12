@@ -13,12 +13,48 @@ import requests
 import threading
 from datetime import datetime
 import logging
-from scapy.all import *
-from scapy.layers.dot11 import Dot11, Dot11Beacon, Dot11Deauth, Dot11Elt
+from pathlib import Path
 from termcolor import colored
 
+# Import system configuration
+try:
+    from system_config import get_config
+    system_config = get_config()
+except ImportError:
+    # Fallback configuration if system_config is not available
+    class FallbackConfig:
+        def __init__(self):
+            self.config = {
+                'dashboard_url': os.getenv('DASHBOARD_URL', 'http://127.0.0.1:5053'),
+                'primary_interface': os.getenv('PRIMARY_INTERFACE', ''),
+                'monitor_interface': os.getenv('MONITOR_INTERFACE', ''),
+            }
+            self.capabilities = {'scapy': True}  # Assume scapy is available
+            
+        def get_log_file_path(self):
+            base_dir = Path(__file__).parent
+            log_dir = base_dir / 'logs'
+            log_dir.mkdir(exist_ok=True)
+            return str(log_dir / 'monitoring.log')
+            
+        def get_best_interface(self, interface_type):
+            if interface_type == 'monitor':
+                return self.config['monitor_interface'] or 'wlan0mon'
+            return self.config['primary_interface'] or 'wlan0'
+    
+    system_config = FallbackConfig()
+
+# Import scapy only if available
+try:
+    from scapy.all import *
+    from scapy.layers.dot11 import Dot11, Dot11Beacon, Dot11Deauth, Dot11Elt
+    SCAPY_AVAILABLE = True
+except ImportError:
+    print(colored("[ERROR] Scapy not available. Install with: pip install scapy", "red"))
+    SCAPY_AVAILABLE = False
+
 # Set up logging
-log_file = '/home/kali/latest/dashboard/logs/monitoring.log'
+log_file = system_config.get_log_file_path()
 os.makedirs(os.path.dirname(log_file), exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
@@ -30,7 +66,7 @@ logging.basicConfig(
 )
 
 # Configuration
-DASHBOARD_URL = "http://127.0.0.1:5053"
+DASHBOARD_URL = system_config.config.get('dashboard_url', "http://127.0.0.1:5053")
 DEAUTH_API_ENDPOINT = f"{DASHBOARD_URL}/api/deauth_logs"
 EVIL_TWIN_API_ENDPOINT = f"{DASHBOARD_URL}/api/evil_twin_logs"
 
@@ -254,7 +290,7 @@ def handle_beacon_packet(pkt):
 
 def packet_handler(pkt):
     """Main packet handler for all WiFi packets"""
-    if not monitoring_active:
+    if not monitoring_active or not SCAPY_AVAILABLE:
         return
         
     try:
@@ -285,16 +321,45 @@ def status_reporter():
 def main():
     global monitoring_active
     
+    # Check if scapy is available
+    if not SCAPY_AVAILABLE:
+        print(colored("[ERROR] Scapy is required for packet monitoring", "red"))
+        print(colored("[INFO] Install with: pip install scapy", "yellow"))
+        sys.exit(1)
+    
     logging.info("Starting Real-time WiFi Monitor...")
     
     # Set up signal handlers
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
     
-    # Check command line arguments
-    interface = "wlan0mon"
+    # Determine interface to use
+    interface = None
     if len(sys.argv) > 1:
         interface = sys.argv[1]
+    else:
+        # Try to get monitor interface first
+        interface = system_config.get_best_interface('monitor')
+        if not interface:
+            # Fall back to regular wireless interface
+            interface = system_config.get_best_interface('wireless')
+            if interface:
+                print(colored(f"[WARNING] Using wireless interface {interface}. For full functionality, enable monitor mode:", "yellow"))
+                if hasattr(system_config, 'capabilities') and system_config.capabilities.get('airmon'):
+                    print(colored(f"[INFO] Try: sudo airmon-ng start {interface}", "yellow"))
+                else:
+                    print(colored(f"[INFO] Monitor mode tools not available on this system", "yellow"))
+        
+    if not interface:
+        print(colored("[ERROR] No suitable wireless interface found", "red"))
+        print(colored("[INFO] Available interfaces:", "yellow"))
+        try:
+            interfaces = system_config.get_network_interfaces()
+            for iface in interfaces:
+                print(colored(f"  - {iface['name']} ({iface['type']})", "yellow"))
+        except:
+            print(colored("  Unable to detect interfaces", "yellow"))
+        sys.exit(1)
     
     logging.info(f"Using interface: {interface}")
     print(colored("[*] Starting Real-time WiFi Monitor...", "cyan"))
@@ -317,16 +382,19 @@ def main():
         sniff(prn=packet_handler, iface=interface, store=0)
         
     except PermissionError:
-        error_msg = "Permission denied. Run as root: sudo python3 real_time_monitor.py"
+        error_msg = "Permission denied. Run as root or with sudo"
         logging.error(error_msg)
         print(colored(f"[ERROR] {error_msg}", "red"))
+        print(colored(f"[INFO] Try: sudo python3 {sys.argv[0]} {interface}", "yellow"))
         sys.exit(1)
     except OSError as e:
         error_msg = f"Interface error: {e}"
         logging.error(error_msg)
         print(colored(f"[ERROR] Interface error: {e}", "red"))
-        print(colored(f"[*] Make sure {interface} interface exists and is in monitor mode", "yellow"))
-        print(colored(f"[*] Try: sudo airmon-ng start wlan0", "yellow"))
+        print(colored(f"[*] Make sure {interface} interface exists and is accessible", "yellow"))
+        if hasattr(system_config, 'capabilities') and system_config.capabilities.get('airmon'):
+            base_interface = interface.replace('mon', '') if 'mon' in interface else interface
+            print(colored(f"[*] Try: sudo airmon-ng start {base_interface}", "yellow"))
         sys.exit(1)
     except Exception as e:
         error_msg = f"Monitoring failed: {e}"
