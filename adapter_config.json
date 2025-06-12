@@ -1,5 +1,6 @@
 {
-  "realtime_monitoring": "montering",
-  "network_devices": "mainwifi",
-  "kismet_monitoring": "deauth"
+  "realtime_monitoring": "mainwifi",
+  "network_devices": "montering",
+  "kismet_monitoring": "deauth",
+  "protected_devices": "whitelist"
 }

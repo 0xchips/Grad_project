@@ -1,0 +1,59 @@
+nohup: ignoring input
+INFO:system_config:Loaded configuration from .env file
+INFO:system_config:WiGuard Dashboard initialized on Linux 6.14.0-1005-raspi
+INFO:system_config:Base directory: /home/ubuntu/latest/Grad_project
+INFO:system_config:Capabilities: {'wireless_monitoring': False, 'packet_capture': False, 'bluetooth': False, 'gps': False, 'mysql': True, 'airmon': True, 'scapy': False}
+INFO:__main__:Database connection successful
+INFO:__main__:Database initialization attempt 1/3
+INFO:__main__:Starting database initialization...
+INFO:__main__:Attempting to connect to database (attempt 1/30)
+INFO:__main__:Database connection successful!
+INFO:__main__:Creating database tables...
+INFO:__main__:Database initialized successfully
+INFO:__main__:Database initialization completed successfully
+ * Serving Flask app 'flaskkk'
+ * Debug mode: on
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5053
+ * Running on http://192.168.1.47:5053
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with watchdog (inotify)
+INFO:system_config:Loaded configuration from .env file
+INFO:system_config:WiGuard Dashboard initialized on Linux 6.14.0-1005-raspi
+INFO:system_config:Base directory: /home/ubuntu/latest/Grad_project
+INFO:system_config:Capabilities: {'wireless_monitoring': False, 'packet_capture': False, 'bluetooth': False, 'gps': False, 'mysql': True, 'airmon': True, 'scapy': False}
+INFO:__main__:Database connection successful
+INFO:__main__:Database initialization attempt 1/3
+INFO:__main__:Starting database initialization...
+INFO:__main__:Attempting to connect to database (attempt 1/30)
+INFO:__main__:Database connection successful!
+INFO:__main__:Creating database tables...
+INFO:__main__:Database initialized successfully
+INFO:__main__:Database initialization completed successfully
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 102-410-115
+INFO:__main__:Request from 127.0.0.1: GET /api/nids-alerts
+INFO:werkzeug:127.0.0.1 - - [12/Jun/2025 22:33:30] "GET /api/nids-alerts?hours=24&limit=1 HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.128: GET /api/nids-status
+INFO:__main__:Request from 192.168.1.128: GET /api/nids-stats
+INFO:werkzeug:192.168.1.128 - - [12/Jun/2025 22:33:44] "GET /api/nids-stats?hours=168 HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.128 - - [12/Jun/2025 22:33:44] "GET /api/nids-status HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.128: GET /api/nids-geoip/192.168.1.47
+INFO:__main__:Request from 192.168.1.128: GET /api/nids-geoip/1.1.1.1
+ERROR:__main__:Database error in NIDS GeoIP: (1054, "Unknown column 'country_code' in 'field list'")
+INFO:werkzeug:192.168.1.128 - - [12/Jun/2025 22:33:44] "[35m[1mGET /api/nids-geoip/192.168.1.47 HTTP/1.1[0m" 500 -
+ERROR:__main__:Database error in NIDS GeoIP: (1054, "Unknown column 'country_code' in 'field list'")
+INFO:werkzeug:192.168.1.128 - - [12/Jun/2025 22:33:44] "[35m[1mGET /api/nids-geoip/1.1.1.1 HTTP/1.1[0m" 500 -
+INFO:__main__:Request from 127.0.0.1: GET /api/nids-alerts
+INFO:werkzeug:127.0.0.1 - - [12/Jun/2025 22:34:30] "GET /api/nids-alerts?hours=1&limit=1 HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.128: GET /api/nids-status
+INFO:__main__:Request from 192.168.1.128: GET /api/nids-stats
+INFO:werkzeug:192.168.1.128 - - [12/Jun/2025 22:34:45] "GET /api/nids-stats?hours=168 HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.128 - - [12/Jun/2025 22:34:45] "GET /api/nids-status HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.128: GET /api/nids-geoip/192.168.1.47
+INFO:__main__:Request from 192.168.1.128: GET /api/nids-geoip/1.1.1.1
+ERROR:__main__:Database error in NIDS GeoIP: (1054, "Unknown column 'country_code' in 'field list'")
+ERROR:__main__:Database error in NIDS GeoIP: (1054, "Unknown column 'country_code' in 'field list'")
+INFO:werkzeug:192.168.1.128 - - [12/Jun/2025 22:34:45] "[35m[1mGET /api/nids-geoip/1.1.1.1 HTTP/1.1[0m" 500 -
+INFO:werkzeug:192.168.1.128 - - [12/Jun/2025 22:34:45] "[35m[1mGET /api/nids-geoip/192.168.1.47 HTTP/1.1[0m" 500 -
