@@ -494,17 +494,20 @@ def receive_gps():
     gps_id = str(uuid.uuid4())
     timestamp = datetime.datetime.now().isoformat()
     
-    # Store in database
+    # Store in database - match the full schema
     conn = MySQLdb.connect(**db_config)
     c = conn.cursor()
     c.execute(
-        "INSERT INTO gps_data VALUES (%s, %s, %s, %s, %s)",
+        "INSERT INTO gps_data (id, latitude, longitude, timestamp, device_id, satellites, hdop, jamming_detected) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
         (
             gps_id,
             data['latitude'],
             data['longitude'],
             timestamp,
-            data.get('device_id', '')
+            data.get('device_id', ''),
+            data.get('satellites', 0),
+            data.get('hdop', 99.99),
+            data.get('jamming_detected', False)
         )
     )
     conn.commit()

@@ -1,0 +1,423 @@
+INFO:system_config:Loaded configuration from .env file
+INFO:system_config:WiGuard Dashboard initialized on Linux 6.14.0-1005-raspi
+INFO:system_config:Base directory: /home/ubuntu/latest/Grad_project
+INFO:system_config:Capabilities: {'wireless_monitoring': False, 'packet_capture': False, 'bluetooth': False, 'gps': False, 'mysql': True, 'airmon': True, 'scapy': False}
+INFO:__main__:Database connection successful
+INFO:__main__:Database initialization attempt 1/3
+INFO:__main__:Starting database initialization...
+INFO:__main__:Attempting to connect to database (attempt 1/30)
+INFO:__main__:Database connection successful!
+INFO:__main__:Creating database tables...
+INFO:__main__:Database initialized successfully
+INFO:__main__:Database initialization completed successfully
+ * Serving Flask app 'flaskkk'
+ * Debug mode: on
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5053
+ * Running on http://192.168.1.185:5053
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with watchdog (inotify)
+INFO:system_config:Loaded configuration from .env file
+INFO:system_config:WiGuard Dashboard initialized on Linux 6.14.0-1005-raspi
+INFO:system_config:Base directory: /home/ubuntu/latest/Grad_project
+INFO:system_config:Capabilities: {'wireless_monitoring': False, 'packet_capture': False, 'bluetooth': False, 'gps': False, 'mysql': True, 'airmon': True, 'scapy': False}
+INFO:__main__:Database connection successful
+INFO:__main__:Database initialization attempt 1/3
+INFO:__main__:Starting database initialization...
+INFO:__main__:Attempting to connect to database (attempt 1/30)
+INFO:__main__:Database connection successful!
+INFO:__main__:Creating database tables...
+INFO:__main__:Database initialized successfully
+INFO:__main__:Database initialization completed successfully
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 498-268-929
+INFO:__main__:Request from 127.0.0.1: GET /debug_config_test.html
+INFO:werkzeug:127.0.0.1 - - [13/Jun/2025 17:10:42] "GET /debug_config_test.html?id=80a58b1f-2e01-4a68-a190-9bdcdf696611&vscodeBrowserReqId=1749834641488 HTTP/1.1" 200 -
+INFO:__main__:Request from 127.0.0.1: GET /configurations.html
+INFO:werkzeug:127.0.0.1 - - [13/Jun/2025 17:10:49] "GET /configurations.html?id=80a58b1f-2e01-4a68-a190-9bdcdf696611&vscodeBrowserReqId=1749834648817 HTTP/1.1" 200 -
+INFO:__main__:Request from 127.0.0.1: GET /static/css/styles.css
+INFO:__main__:Request from 127.0.0.1: GET /static/js/main.js
+INFO:werkzeug:127.0.0.1 - - [13/Jun/2025 17:10:50] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+INFO:__main__:Request from 127.0.0.1: GET /static/js/configurations.js
+INFO:werkzeug:127.0.0.1 - - [13/Jun/2025 17:10:50] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [13/Jun/2025 17:10:50] "[36mGET /static/js/configurations.js HTTP/1.1[0m" 304 -
+INFO:__main__:Request from 127.0.0.1: GET /api/configurations
+INFO:__main__:Loaded configuration from adapter_config.json: {'realtime_monitoring': 'deauth', 'network_devices': 'montering', 'kismet_monitoring': 'mainwifi'}
+INFO:werkzeug:127.0.0.1 - - [13/Jun/2025 17:10:50] "GET /api/configurations HTTP/1.1" 200 -
+INFO:__main__:Request from 127.0.0.1: GET /api/wireless-adapters
+INFO:__main__:Found 4 wireless adapters using 'iw dev': ['wlx1cbfcece3103', 'deauth', 'montering', 'mainwifi']
+INFO:werkzeug:127.0.0.1 - - [13/Jun/2025 17:10:50] "GET /api/wireless-adapters HTTP/1.1" 200 -
+INFO:__main__:Request from 127.0.0.1: GET /api/wireless-adapters
+INFO:__main__:Found 4 wireless adapters using 'iw dev': ['wlx1cbfcece3103', 'deauth', 'montering', 'mainwifi']
+INFO:werkzeug:127.0.0.1 - - [13/Jun/2025 17:11:24] "GET /api/wireless-adapters HTTP/1.1" 200 -
+INFO:__main__:Request from 127.0.0.1: GET /api/configurations
+INFO:__main__:Loaded configuration from adapter_config.json: {'realtime_monitoring': 'deauth', 'network_devices': 'montering', 'kismet_monitoring': 'mainwifi'}
+INFO:werkzeug:127.0.0.1 - - [13/Jun/2025 17:11:39] "GET /api/configurations HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:12:30] "GET / HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /static/css/styles.css
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:12:30] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+INFO:__main__:Request from 192.168.1.178: GET /static/js/sidebar.js
+INFO:__main__:Request from 192.168.1.178: GET /static/js/main.js
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:12:30] "[36mGET /static/js/sidebar.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:12:30] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:__main__:Request from 192.168.1.178: GET /api/network-devices-count
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:12:31] "GET /api/network-devices-count HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:12:31] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/kismet/status
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:12:31] "GET /api/kismet/status HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:12:33] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:__main__:Request from 192.168.1.178: GET /configurations.html
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:12:34] "GET /configurations.html HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /static/css/styles.css
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:12:35] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+INFO:__main__:Request from 192.168.1.178: GET /static/js/configurations.js
+INFO:__main__:Request from 192.168.1.178: GET /static/js/main.js
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:12:35] "GET /static/js/configurations.js HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:12:35] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+INFO:__main__:Request from 192.168.1.178: GET /api/configurations
+INFO:__main__:Request from 192.168.1.178: GET /api/wireless-adapters
+INFO:__main__:Loaded configuration from adapter_config.json: {'realtime_monitoring': 'deauth', 'network_devices': 'montering', 'kismet_monitoring': 'mainwifi'}
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:12:35] "GET /api/configurations HTTP/1.1" 200 -
+INFO:__main__:Found 4 wireless adapters using 'iw dev': ['wlx1cbfcece3103', 'deauth', 'montering', 'mainwifi']
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:12:35] "GET /api/wireless-adapters HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:12:35] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /index.html
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:00] "GET /index.html HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /static/css/styles.css
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:00] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+INFO:__main__:Request from 192.168.1.178: GET /static/js/sidebar.js
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:00] "[36mGET /static/js/sidebar.js HTTP/1.1[0m" 304 -
+INFO:__main__:Request from 192.168.1.178: GET /static/js/main.js
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:00] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:__main__:Request from 192.168.1.178: GET /api/network-devices-count
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:00] "GET /api/network-devices-count HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:01] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/kismet/status
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:01] "GET /api/kismet/status HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:03] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:05] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:07] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:09] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:11] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:13] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:15] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:17] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:19] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:21] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:23] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:25] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:27] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:29] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:__main__:Request from 192.168.1.178: GET /api/network-devices-count
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:30] "GET /api/network-devices-count HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:31] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:33] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:35] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:37] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:39] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:41] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:__main__:Request from 192.168.1.178: GET /nids.html
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:43] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:43] "GET /nids.html HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /static/css/styles.css
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:43] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+INFO:__main__:Request from 192.168.1.178: GET /static/js/sidebar.js
+INFO:__main__:Request from 192.168.1.178: GET /static/js/nids.js
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:43] "[36mGET /static/js/sidebar.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:43] "[36mGET /static/js/nids.js HTTP/1.1[0m" 304 -
+INFO:__main__:Request from 192.168.1.178: GET /api/nids-status
+INFO:__main__:Request from 192.168.1.178: GET /api/nids-stats
+INFO:__main__:Request from 192.168.1.178: GET /api/nids-alerts
+INFO:__main__:Request from 192.168.1.178: GET /api/nids-dns
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:43] "GET /api/nids-alerts?hours=168&limit=100 HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:43] "GET /api/nids-stats?hours=168 HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:43] "GET /api/nids-status HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/nids-geoip/192.168.1.47
+INFO:__main__:Request from 192.168.1.178: GET /api/nids-geoip/1.1.1.1
+INFO:__main__:Request from 192.168.1.178: GET /api/nids-geoip/192.168.1.128
+ERROR:__main__:Database error in NIDS GeoIP: (1054, "Unknown column 'country_code' in 'field list'")
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:43] "[35m[1mGET /api/nids-geoip/192.168.1.47 HTTP/1.1[0m" 500 -
+ERROR:__main__:Database error in NIDS GeoIP: (1054, "Unknown column 'country_code' in 'field list'")
+ERROR:__main__:Database error in NIDS GeoIP: (1054, "Unknown column 'country_code' in 'field list'")
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:43] "[35m[1mGET /api/nids-geoip/1.1.1.1 HTTP/1.1[0m" 500 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:43] "[35m[1mGET /api/nids-geoip/192.168.1.128 HTTP/1.1[0m" 500 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:13:44] "GET /api/nids-dns?hours=168&suspicious_only=true&limit=50 HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/nids-status
+INFO:__main__:Request from 192.168.1.178: GET /api/nids-stats
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:13] "GET /api/nids-stats?hours=168 HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:13] "GET /api/nids-status HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/nids-geoip/192.168.1.47
+INFO:__main__:Request from 192.168.1.178: GET /api/nids-geoip/1.1.1.1
+ERROR:__main__:Database error in NIDS GeoIP: (1054, "Unknown column 'country_code' in 'field list'")
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:13] "[35m[1mGET /api/nids-geoip/192.168.1.47 HTTP/1.1[0m" 500 -
+ERROR:__main__:Database error in NIDS GeoIP: (1054, "Unknown column 'country_code' in 'field list'")
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:13] "[35m[1mGET /api/nids-geoip/1.1.1.1 HTTP/1.1[0m" 500 -
+INFO:__main__:Request from 192.168.1.178: GET /api/nids-geoip/192.168.1.128
+ERROR:__main__:Database error in NIDS GeoIP: (1054, "Unknown column 'country_code' in 'field list'")
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:14] "[35m[1mGET /api/nids-geoip/192.168.1.128 HTTP/1.1[0m" 500 -
+INFO:__main__:Request from 192.168.1.178: GET /index.html
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:21] "GET /index.html HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /static/css/styles.css
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:21] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+INFO:__main__:Request from 192.168.1.178: GET /static/js/sidebar.js
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:21] "[36mGET /static/js/sidebar.js HTTP/1.1[0m" 304 -
+INFO:__main__:Request from 192.168.1.178: GET /static/js/main.js
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:21] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:__main__:Request from 192.168.1.178: GET /api/network-devices-count
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:22] "GET /api/network-devices-count HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:22] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/kismet/status
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:22] "GET /api/kismet/status HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:24] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug: * Detected change in '/home/ubuntu/latest/Grad_project/flaskkk.py', reloading
+INFO:werkzeug: * Detected change in '/home/ubuntu/latest/Grad_project/flaskkk.py', reloading
+INFO:werkzeug: * Detected change in '/home/ubuntu/latest/Grad_project/flaskkk.py', reloading
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:27] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:werkzeug: * Restarting with watchdog (inotify)
+INFO:system_config:Loaded configuration from .env file
+INFO:system_config:WiGuard Dashboard initialized on Linux 6.14.0-1005-raspi
+INFO:system_config:Base directory: /home/ubuntu/latest/Grad_project
+INFO:system_config:Capabilities: {'wireless_monitoring': False, 'packet_capture': False, 'bluetooth': False, 'gps': False, 'mysql': True, 'airmon': True, 'scapy': False}
+INFO:__main__:Database connection successful
+INFO:__main__:Database initialization attempt 1/3
+INFO:__main__:Starting database initialization...
+INFO:__main__:Attempting to connect to database (attempt 1/30)
+INFO:__main__:Database connection successful!
+INFO:__main__:Creating database tables...
+INFO:__main__:Database initialized successfully
+INFO:__main__:Database initialization completed successfully
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 498-268-929
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:30] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:31] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:33] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:35] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:37] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:39] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:41] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:43] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:45] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:47] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:49] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:51] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:__main__:Request from 192.168.1.178: GET /api/network-devices-count
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:52] "GET /api/network-devices-count HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:53] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:55] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:57] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:14:59] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:15:01] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:15:03] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:15:05] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:15:07] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:15:09] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:15:11] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:15:13] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:15:15] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:15:17] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:15:19] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:15:21] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:__main__:Request from 192.168.1.178: GET /api/network-devices-count
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:15:22] "GET /api/network-devices-count HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:15:23] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:15:25] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/network-devices-count
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:15:52] "GET /api/network-devices-count HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:20] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:__main__:Request from 192.168.1.178: GET /api/network-devices-count
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:22] "GET /api/network-devices-count HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:22] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:24] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:27] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:29] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:31] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:33] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:35] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:37] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:39] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:41] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:43] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:45] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:47] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:49] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:51] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:__main__:Request from 192.168.1.178: GET /api/network-devices-count
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:52] "GET /api/network-devices-count HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:53] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:55] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:57] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:16:59] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:01] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:03] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:05] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:07] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:09] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:11] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:13] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:15] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:17] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:19] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:21] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:__main__:Request from 192.168.1.178: GET /api/network-devices-count
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:22] "GET /api/network-devices-count HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:23] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:25] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:33] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:34] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:36] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:39] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:41] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:43] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:46] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:47] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:49] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:51] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:__main__:Request from 192.168.1.178: GET /api/network-devices-count
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:52] "GET /api/network-devices-count HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:53] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:55] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:57] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:17:59] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:01] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:03] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:05] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:07] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:09] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:11] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:13] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:15] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:17] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:19] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:21] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:__main__:Request from 192.168.1.178: GET /api/network-devices-count
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:22] "GET /api/network-devices-count HTTP/1.1" 200 -
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:23] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:25] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:27] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:29] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:31] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources
+INFO:werkzeug:192.168.1.178 - - [13/Jun/2025 17:18:33] "GET /api/system-resources HTTP/1.1" 200 -
+INFO:__main__:Request from 192.168.1.178: GET /api/system-resources

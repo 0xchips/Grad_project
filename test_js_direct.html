@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Configurations JS</title>
+</head>
+<body>
+    <h1>Testing Configurations.js Loading</h1>
+    <div id="status">Loading...</div>
+    
+    <!-- Minimal form elements that the JavaScript expects -->
+    <form id="config-form">
+        <select id="realtime-monitoring">
+            <option value="">Select adapter...</option>
+        </select>
+        <select id="network-devices">
+            <option value="">Select adapter...</option>
+        </select>
+        <select id="kismet-monitoring">
+            <option value="">Select adapter...</option>
+        </select>
+    </form>
+    
+    <div id="scan-status"></div>
+    <div id="error-message"></div>
+    <div id="adapter-info"></div>
+    
+    <script>
+        console.log('Basic HTML loaded');
+        document.getElementById('status').textContent = 'Basic HTML loaded, loading configurations.js...';
+        
+        // Test script loading
+        window.addEventListener('load', () => {
+            document.getElementById('status').innerHTML += '<br>Window loaded event fired';
+            
+            // Check if our class is available
+            if (typeof ConfigurationsManager !== 'undefined') {
+                document.getElementById('status').innerHTML += '<br>✅ ConfigurationsManager class is available';
+            } else {
+                document.getElementById('status').innerHTML += '<br>❌ ConfigurationsManager class not found';
+            }
+            
+            // Check if the global instance was created
+            if (window.configurationsManager) {
+                document.getElementById('status').innerHTML += '<br>✅ Global configurationsManager instance exists';
+            } else {
+                document.getElementById('status').innerHTML += '<br>❌ Global configurationsManager instance not found';
+            }
+        });
+    </script>
+    
+    <script src="/static/js/configurations.js"></script>
+</body>
+</html>

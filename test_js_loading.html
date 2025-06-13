@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test JavaScript Loading</title>
+</head>
+<body>
+    <h1>Testing JavaScript Loading</h1>
+    <div id="status">Loading...</div>
+    
+    <script>
+        console.log('Basic HTML loaded');
+        document.getElementById('status').textContent = 'Basic HTML loaded, testing fetch...';
+        
+        // Test the API endpoints
+        fetch('/api/wireless-adapters')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Wireless adapters:', data);
+                document.getElementById('status').innerHTML += '<br>Wireless adapters loaded: ' + data.count + ' found';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('status').innerHTML += '<br>Error: ' + error.message;
+            });
+            
+        fetch('/api/configurations')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Configuration:', data);
+                document.getElementById('status').innerHTML += '<br>Configuration loaded successfully';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('status').innerHTML += '<br>Configuration error: ' + error.message;
+            });
+    </script>
+</body>
+</html>
