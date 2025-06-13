@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Configuration Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin: 20px 0; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        select { width: 300px; padding: 8px; font-size: 14px; }
+        button { padding: 10px 20px; margin: 10px 5px; font-size: 14px; }
+        .debug { background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>Configuration Test</h1>
+    <div id="debug-output" class="debug">Initializing...</div>
+    
+    <form id="config-form">
+        <div class="form-group">
+            <label for="realtime-monitoring">Real-time Monitoring:</label>
+            <select id="realtime-monitoring" name="realtime_monitoring">
+                <option value="">Select an adapter...</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="network-devices">Network Device Detection:</label>
+            <select id="network-devices" name="network_devices">
+                <option value="">Select an adapter...</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="kismet-monitoring">Kismet Monitoring:</label>
+            <select id="kismet-monitoring" name="kismet_monitoring">
+                <option value="">Select an adapter...</option>
+            </select>
+        </div>
+        
+        <button type="button" onclick="saveConfig()">Save Configuration</button>
+        <button type="button" onclick="loadConfig()">Reload Configuration</button>
+        <button type="button" onclick="scanAdapters()">Rescan Adapters</button>
+    </form>
+
+    <script>
+        let adapters = [];
+        let currentConfig = {};
+
+        function log(message, type = 'info') {
+            const output = document.getElementById('debug-output');
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'error' ? '❌' : type === 'success' ? '✅' : '🔍';
+            output.innerHTML += `<br/>[${timestamp}] ${prefix} ${message}`;
+            output.className = `debug ${type}`;
+            console.log(`[${timestamp}] ${message}`);
+        }
+
+        async function scanAdapters() {
+            log('Scanning for wireless adapters...');
+            try {
+                const response = await fetch('/api/wireless-adapters');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    adapters = data.adapters || [];
+                    log(`Found ${adapters.length} wireless adapters`, 'success');
+                    populateSelects();
+                    
+                    // After populating selects, load configuration
+                    setTimeout(loadConfig, 200);
+                } else {
+                    throw new Error(data.error || 'Failed to scan adapters');
+                }
+            } catch (error) {
+                log(`Error scanning adapters: ${error.message}`, 'error');
+            }
+        }
+
+        function populateSelects() {
+            log('Populating select elements...');
+            const selects = ['realtime-monitoring', 'network-devices', 'kismet-monitoring'];
+            
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                
+                // Clear existing options except the first one
+                while (select.children.length > 1) {
+                    select.removeChild(select.lastChild);
+                }
+                
+                // Add adapter options
+                adapters.forEach(adapter => {
+                    const option = document.createElement('option');
+                    option.value = adapter.name;
+                    option.textContent = `${adapter.name} - ${adapter.description}`;
+                    select.appendChild(option);
+                });
+                
+                log(`Populated ${selectId} with ${adapters.length} options`);
+            });
+        }
+
+        async function loadConfig() {
+            log('Loading configuration from server...');
+            try {
+                const response = await fetch('/api/configurations');
+                const data = await response.json();
+                
+                if (response.ok && data.configuration) {
+                    currentConfig = data.configuration;
+                    log(`Loaded config: ${JSON.stringify(currentConfig)}`, 'success');
+                    applyConfig();
+                } else {
+                    log('No configuration found', 'error');
+                }
+            } catch (error) {
+                log(`Error loading configuration: ${error.message}`, 'error');
+            }
+        }
+
+        function applyConfig() {
+            log('Applying configuration to form...');
+            
+            const mapping = {
+                'realtime_monitoring': 'realtime-monitoring',
+                'network_devices': 'network-devices', 
+                'kismet_monitoring': 'kismet-monitoring'
+            };
+
+            Object.keys(mapping).forEach(configKey => {
+                const elementId = mapping[configKey];
+                const value = currentConfig[configKey];
+                
+                if (value) {
+                    const element = document.getElementById(elementId);
+                    if (element) {
+                        log(`Setting ${elementId} = "${value}"`);
+                        element.value = value;
+                        
+                        if (element.value === value) {
+                            log(`✓ ${elementId} set successfully`, 'success');
+                        } else {
+                            log(`✗ Failed to set ${elementId} (got "${element.value}")`, 'error');
+                            const options = Array.from(element.options).map(opt => opt.value);
+                            log(`Available options: ${options.join(', ')}`);
+                        }
+                    } else {
+                        log(`Element ${elementId} not found`, 'error');
+                    }
+                }
+            });
+        }
+
+        async function saveConfig() {
+            const config = {
+                realtime_monitoring: document.getElementById('realtime-monitoring').value,
+                network_devices: document.getElementById('network-devices').value,
+                kismet_monitoring: document.getElementById('kismet-monitoring').value
+            };
+
+            log(`Saving configuration: ${JSON.stringify(config)}`);
+
+            try {
+                const response = await fetch('/api/configurations', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(config)
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    log('Configuration saved successfully!', 'success');
+                    currentConfig = config;
+                } else {
+                    throw new Error(data.error || 'Failed to save');
+                }
+            } catch (error) {
+                log(`Error saving configuration: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            log('Page loaded, initializing...');
+            scanAdapters();
+        });
+    </script>
+</body>
+</html>
