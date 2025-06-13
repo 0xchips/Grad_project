@@ -958,84 +958,79 @@ def get_wireless_adapters():
         if not rate_limit_check(client_ip):
             return jsonify({'error': 'Rate limit exceeded'}), 429
 
-        # Use system config to get network interfaces
+        # Use 'iw dev' command to detect ONLY wireless adapters
+        adapters = []
+        
+        # Primary Method: Parse 'iw dev' output for wireless interfaces only
         try:
-            adapters = system_config.get_network_interfaces()
-            if not adapters:
-                # Fallback to default interfaces if detection fails
-                adapters = [
-                    {'name': 'wlan0', 'type': 'wireless', 'available': True, 'description': 'Primary wireless adapter'},
-                    {'name': 'wlan1', 'type': 'wireless', 'available': True, 'description': 'Secondary wireless adapter'},
-                    {'name': 'wlan0mon', 'type': 'monitor', 'available': False, 'description': 'Monitor mode adapter'}
-                ]
+            result = subprocess.run(['iw', 'dev'], capture_output=True, text=True, timeout=10)
+            if result.returncode == 0:
+                current_interface = None
+                interface_type = None
+                
+                for line in result.stdout.split('\n'):
+                    line = line.strip()
+                    
+                    # Look for interface declarations
+                    if line.startswith('Interface '):
+                        current_interface = line.split()[1]
+                        interface_type = None  # Reset type for new interface
+                    
+                    # Look for interface type
+                    elif line.startswith('type ') and current_interface:
+                        interface_type = line.split()[1]
+                        
+                        # Determine if this is a wireless or monitor interface
+                        adapter_type = 'monitor' if interface_type == 'monitor' else 'wireless'
+                        available = interface_type in ['managed', 'monitor', 'AP']
+                        
+                        # Add the interface to our list
+                        adapters.append({
+                            'name': current_interface,
+                            'type': adapter_type,
+                            'available': available,
+                            'description': f'Wireless adapter ({interface_type} mode)',
+                            'mode': interface_type
+                        })
+                        
+                        # Reset for next interface
+                        current_interface = None
+                        interface_type = None
+                        
+                logger.info(f"Found {len(adapters)} wireless adapters using 'iw dev': {[a['name'] for a in adapters]}")
+            else:
+                logger.warning("'iw dev' command failed, falling back to alternative methods")
+                
         except Exception as e:
-            logger.warning(f"System config interface detection failed: {e}")
-            # Manual detection fallback
-            adapters = []
-            
-            # Method 1: Parse iwconfig output (Linux only)
-            try:
-                result = subprocess.run(['iwconfig'], capture_output=True, text=True, timeout=10)
-                if result.returncode == 0:
-                    for line in result.stdout.split('\n'):
-                        line = line.strip()
-                        if line and not line.startswith(' '):
-                            # New adapter line
-                            parts = line.split()
-                            if len(parts) >= 2 and 'IEEE 802.11' in line:
-                                adapter_name = parts[0]
-                                adapters.append({
-                                    'name': adapter_name,
-                                    'type': 'wireless',
-                                    'available': True,
-                                    'description': 'Wireless network adapter'
-                                })
-            except Exception as e:
-                logger.warning(f"iwconfig scan failed: {e}")
-            
-            # Method 2: Check /sys/class/net for wireless interfaces (Linux only)
+            logger.warning(f"iw dev command failed: {e}")
+        
+        # Fallback Method: Check /sys/class/net for wireless interfaces if iw dev fails
+        if not adapters:
             try:
                 net_path = '/sys/class/net'
                 if os.path.exists(net_path):
                     for interface in os.listdir(net_path):
                         wireless_path = os.path.join(net_path, interface, 'wireless')
                         if os.path.exists(wireless_path):
-                            # Check if already in list
-                            if not any(adapter['name'] == interface for adapter in adapters):
-                                adapters.append({
-                                    'name': interface,
-                                    'type': 'wireless',
-                                    'available': True,
-                                    'description': 'Wireless network adapter'
-                                })
+                            adapters.append({
+                                'name': interface,
+                                'type': 'wireless',
+                                'available': True,
+                                'description': 'Wireless network adapter (sysfs detection)',
+                                'mode': 'managed'
+                            })
+                    logger.info(f"Found {len(adapters)} wireless adapters using sysfs: {[a['name'] for a in adapters]}")
             except Exception as e:
                 logger.warning(f"sysfs scan failed: {e}")
-            
-            # Method 3: Parse iw dev output (Linux only)
-            try:
-                result = subprocess.run(['iw', 'dev'], capture_output=True, text=True, timeout=10)
-                if result.returncode == 0:
-                    for line in result.stdout.split('\n'):
-                        line = line.strip()
-                        if line.startswith('Interface '):
-                            interface_name = line.split()[1]
-                            if not any(adapter['name'] == interface_name for adapter in adapters):
-                                adapters.append({
-                                    'name': interface_name,
-                                    'type': 'wireless',
-                                    'available': True,
-                                    'description': 'Wireless network adapter'
-                                })
-            except Exception as e:
-                logger.warning(f"iw dev scan failed: {e}")
-            
-            # Add fallback adapters if none found
-            if not adapters:
-                adapters = [
-                    {'name': 'wlan0', 'type': 'wireless', 'available': True, 'description': 'Primary wireless adapter'},
-                    {'name': 'wlan1', 'type': 'wireless', 'available': True, 'description': 'Secondary wireless adapter'},
-                    {'name': 'wlan0mon', 'type': 'monitor', 'available': False, 'description': 'Monitor mode adapter'}
-                ]
+        
+        # Final fallback: Add default wireless adapters if none detected
+        if not adapters:
+            logger.warning("No wireless adapters detected, using default fallback adapters")
+            adapters = [
+                {'name': 'wlan0', 'type': 'wireless', 'available': True, 'description': 'Primary wireless adapter (default)', 'mode': 'managed'},
+                {'name': 'wlan1', 'type': 'wireless', 'available': True, 'description': 'Secondary wireless adapter (default)', 'mode': 'managed'},
+                {'name': 'wlan0mon', 'type': 'monitor', 'available': False, 'description': 'Monitor mode adapter (default)', 'mode': 'monitor'}
+            ]
         
         return jsonify({
             'success': True,
@@ -1056,20 +1051,24 @@ def get_configurations():
         if not rate_limit_check(client_ip):
             return jsonify({'error': 'Rate limit exceeded'}), 429
 
-        # Try to load configuration from system config
+        # Load configuration from JSON file
+        config_file = 'adapter_config.json'
         config = {
-            'realtime_monitoring': system_config.get_best_interface('wireless') or 'wlan0',
-            'network_devices': system_config.get_best_interface('wireless') or 'wlan0',
-            'kismet_monitoring': system_config.get_best_interface('wireless') or 'wlan1'
+            'realtime_monitoring': '',
+            'network_devices': '',
+            'kismet_monitoring': ''
         }
         
-        # Override with environment variables if set
-        if hasattr(system_config, 'config'):
-            config.update({
-                'realtime_monitoring': system_config.config.get('primary_interface') or config['realtime_monitoring'],
-                'network_devices': system_config.config.get('primary_interface') or config['network_devices'],
-                'kismet_monitoring': system_config.config.get('monitor_interface') or config['kismet_monitoring']
-            })
+        try:
+            if os.path.exists(config_file):
+                with open(config_file, 'r') as f:
+                    saved_config = json.load(f)
+                    config.update(saved_config)
+                    logger.info(f"Loaded configuration from {config_file}: {config}")
+            else:
+                logger.info(f"Configuration file {config_file} not found, using default config")
+        except Exception as e:
+            logger.warning(f"Failed to load configuration from {config_file}: {e}")
         
         return jsonify({
             'success': True,
@@ -1093,15 +1092,21 @@ def save_configurations():
         if not data:
             return jsonify({'error': 'No configuration data provided'}), 400
         
-        # Validate required fields
+        # Validate that the fields exist (but don't require them to be non-empty)
         required_fields = ['realtime_monitoring', 'network_devices', 'kismet_monitoring']
         for field in required_fields:
             if field not in data:
                 return jsonify({'error': f'Missing required field: {field}'}), 400
         
-        # In a real implementation, you'd save to a config file or database
-        # For now, just log the configuration
-        logger.info(f"Saving adapter configuration: {data}")
+        # Save configuration to JSON file
+        config_file = 'adapter_config.json'
+        try:
+            with open(config_file, 'w') as f:
+                json.dump(data, f, indent=2)
+            logger.info(f"Saved adapter configuration to {config_file}: {data}")
+        except Exception as e:
+            logger.error(f"Failed to save configuration to {config_file}: {e}")
+            return jsonify({'error': 'Failed to save configuration'}), 500
         
         return jsonify({
             'success': True,
