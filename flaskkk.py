@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory, send_from_directory
 from flask_cors import CORS
 import MySQLdb
 import datetime
@@ -946,6 +946,12 @@ def nids_dashboard():
 def configurations_dashboard():
     """Render the Configurations dashboard page"""
     return render_template('configurations.html')
+
+# Test configuration page
+@app.route('/test_configuration_ui.html')
+def test_configuration_ui():
+    """Serve the configuration test page"""
+    return send_from_directory('.', 'test_configuration_ui.html')
 
 # ============== CONFIGURATIONS API ENDPOINTS ==============
 
@@ -2117,7 +2123,7 @@ def get_network_devices_count():
             text=True,
             timeout=30,  # Shorter timeout for real-time updates
             cwd=os.path.dirname(__file__)
-        )
+               )
         
         if result.returncode == 0:
             output = result.stdout.strip()

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Configuration Test</title>
+</head>
+<body>
+    <h1>Configuration Test</h1>
+    <div id="test-results"></div>
+
+    <script>
+        async function testConfiguration() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<p>Testing configuration endpoints...</p>';
+
+            try {
+                // Test wireless adapters endpoint
+                const adaptersResponse = await fetch('/api/wireless-adapters');
+                const adaptersData = await adaptersResponse.json();
+                results.innerHTML += `<h3>Wireless Adapters (${adaptersData.count} found):</h3>`;
+                adaptersData.adapters.forEach(adapter => {
+                    results.innerHTML += `<p>- ${adapter.name}: ${adapter.description} (${adapter.mode})</p>`;
+                });
+
+                // Test configuration loading
+                const configResponse = await fetch('/api/configurations');
+                const configData = await configResponse.json();
+                results.innerHTML += '<h3>Current Configuration:</h3>';
+                results.innerHTML += `<pre>${JSON.stringify(configData.configuration, null, 2)}</pre>`;
+
+                // Test configuration saving
+                const testConfig = {
+                    realtime_monitoring: 'deauth',
+                    network_devices: 'montering', 
+                    kismet_monitoring: 'mainwifi'
+                };
+
+                const saveResponse = await fetch('/api/configurations', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testConfig)
+                });
+                const saveData = await saveResponse.json();
+                results.innerHTML += '<h3>Save Test Result:</h3>';
+                results.innerHTML += `<p>Success: ${saveData.success}</p>`;
+                results.innerHTML += `<p>Message: ${saveData.message}</p>`;
+
+            } catch (error) {
+                results.innerHTML += `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+
+        // Run test when page loads
+        document.addEventListener('DOMContentLoaded', testConfiguration);
+    </script>
+</body>
+</html>

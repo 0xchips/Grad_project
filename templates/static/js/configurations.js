@@ -8,8 +8,8 @@ class ConfigurationsManager {
 
     init() {
         this.setupEventListeners();
+        // Just scan adapters - configuration will be loaded automatically afterward
         this.scanAdapters();
-        this.loadCurrentConfig();
     }
 
     setupEventListeners() {
@@ -40,6 +40,9 @@ class ConfigurationsManager {
                 this.populateAdapterSelects();
                 this.showScanStatus('success', `Found ${this.adapters.length} wireless adapter(s)`);
                 this.updateAdapterInfo();
+                
+                // After adapters are loaded, load and apply saved configuration
+                await this.loadAndApplyConfig();
             } else {
                 throw new Error(data.error || 'Failed to scan adapters');
             }
@@ -50,12 +53,65 @@ class ConfigurationsManager {
         }
     }
 
+    async loadAndApplyConfig() {
+        try {
+            const response = await fetch('/api/configurations');
+            const data = await response.json();
+            
+            if (response.ok && data.configuration) {
+                this.currentConfig = data.configuration;
+                console.log('Loaded configuration:', this.currentConfig);
+                
+                // Apply configuration to form with delay to ensure DOM is ready
+                setTimeout(() => {
+                    this.applyConfigurationToForm(this.currentConfig);
+                }, 100);
+            }
+        } catch (error) {
+            console.error('Error loading configuration:', error);
+        }
+    }
+
+    applyConfigurationToForm(config) {
+        console.log('Applying configuration to form:', config);
+        
+        // Set values for each select element
+        Object.keys(config).forEach(key => {
+            const value = config[key];
+            if (value) {
+                let elementId;
+                switch(key) {
+                    case 'realtime_monitoring':
+                        elementId = 'realtime-monitoring';
+                        break;
+                    case 'network_devices':
+                        elementId = 'network-devices';
+                        break;
+                    case 'kismet_monitoring':
+                        elementId = 'kismet-monitoring';
+                        break;
+                }
+                
+                if (elementId) {
+                    const element = document.getElementById(elementId);
+                    if (element) {
+                        element.value = value;
+                        console.log(`Set ${elementId} to ${value}`);
+                    } else {
+                        console.warn(`Element ${elementId} not found`);
+                    }
+                }
+            }
+        });
+        
+        this.validateSelection();
+    }
+
     populateAdapterSelects() {
         const selects = ['realtime-monitoring', 'network-devices', 'kismet-monitoring'];
         
         selects.forEach(selectId => {
             const select = document.getElementById(selectId);
-            const currentValue = select.value;
             
             // Clear existing options except the first one
             while (select.children.length > 1) {
@@ -75,44 +131,12 @@ class ConfigurationsManager {
                 
                 select.appendChild(option);
             });
-            
-            // Restore previous selection if valid
-            if (currentValue && this.adapters.some(a => a.name === currentValue)) {
-                select.value = currentValue;
-            }
         });
     }
 
     async loadCurrentConfig() {
-        try {
-            const response = await fetch('/api/configurations');
-            const data = await response.json();
-            
-            if (response.ok) {
-                this.currentConfig = data;
-                this.populateForm(data);
-            } else {
-                console.warn('No existing configuration found');
-                this.currentConfig = {};
-            }
-        } catch (error) {
-            console.error('Error loading configuration:', error);
-            this.currentConfig = {};
-        }
-    }
-
-    populateForm(config) {
-        if (config.realtime_monitoring) {
-            document.getElementById('realtime-monitoring').value = config.realtime_monitoring;
-        }
-        if (config.network_devices) {
-            document.getElementById('network-devices').value = config.network_devices;
-        }
-        if (config.kismet_monitoring) {
-            document.getElementById('kismet-monitoring').value = config.kismet_monitoring;
-        }
-        
-        this.validateSelection();
+        // This method is now handled by loadAndApplyConfig
+        await this.loadAndApplyConfig();
     }
 
     async saveConfiguration() {
@@ -125,8 +149,8 @@ class ConfigurationsManager {
             kismet_monitoring: formData.get('kismet_monitoring') || ''
         };
 
-        // Allow empty configurations - validation is optional
-        
+        console.log('Saving configuration:', config);
+
         try {
             const response = await fetch('/api/configurations', {
                 method: 'POST',
@@ -141,6 +165,7 @@ class ConfigurationsManager {
             if (response.ok) {
                 this.currentConfig = config;
                 this.showSuccess('Configuration saved successfully!');
+                console.log('Configuration saved successfully:', config);
                 
                 // Refresh adapter list to update availability
                 setTimeout(() => {
