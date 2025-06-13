@@ -953,6 +953,12 @@ def test_configuration_ui():
     """Serve the configuration test page"""
     return send_from_directory('.', 'test_configuration_ui.html')
 
+# Debug configuration test page
+@app.route('/debug_config_test.html')
+def debug_config_test():
+    """Debug configuration test page"""
+    return send_from_directory('.', 'debug_config_test.html')
+
 # Simple configuration test page
 @app.route('/simple_config_test.html')
 def simple_config_test():
