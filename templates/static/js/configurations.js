@@ -54,26 +54,31 @@ class ConfigurationsManager {
     }
 
     async loadAndApplyConfig() {
+        console.log('🔄 Loading configuration from server...');
         try {
             const response = await fetch('/api/configurations');
             const data = await response.json();
             
+            console.log('📡 Server response:', data);
+            
             if (response.ok && data.configuration) {
                 this.currentConfig = data.configuration;
-                console.log('Loaded configuration:', this.currentConfig);
+                console.log('✅ Loaded configuration:', this.currentConfig);
                 
                 // Apply configuration to form with delay to ensure DOM is ready
                 setTimeout(() => {
                     this.applyConfigurationToForm(this.currentConfig);
                 }, 100);
+            } else {
+                console.warn('⚠️ No configuration found in response');
             }
         } catch (error) {
-            console.error('Error loading configuration:', error);
+            console.error('❌ Error loading configuration:', error);
         }
     }
 
     applyConfigurationToForm(config) {
-        console.log('Applying configuration to form:', config);
+        console.log('🎯 Applying configuration to form:', config);
         
         // Set values for each select element
         Object.keys(config).forEach(key => {
@@ -95,16 +100,25 @@ class ConfigurationsManager {
                 if (elementId) {
                     const element = document.getElementById(elementId);
                     if (element) {
+                        console.log(`🔧 Setting ${elementId} to "${value}"`);
                         element.value = value;
-                        console.log(`Set ${elementId} to ${value}`);
+                        
+                        // Verify the value was set
+                        if (element.value === value) {
+                            console.log(`✅ Successfully set ${elementId} = "${value}"`);
+                        } else {
+                            console.warn(`⚠️ Failed to set ${elementId}, value is "${element.value}" instead of "${value}"`);
+                            console.log(`Available options:`, Array.from(element.options).map(opt => opt.value));
+                        }
                     } else {
-                        console.warn(`Element ${elementId} not found`);
+                        console.error(`❌ Element ${elementId} not found in DOM`);
                     }
                 }
             }
         });
         
         this.validateSelection();
+        console.log('🏁 Configuration application completed');
     }
 
     populateAdapterSelects() {

@@ -953,6 +953,12 @@ def test_configuration_ui():
     """Serve the configuration test page"""
     return send_from_directory('.', 'test_configuration_ui.html')
 
+# Simple configuration test page
+@app.route('/simple_config_test.html')
+def simple_config_test():
+    """Serve the simple configuration test page"""
+    return send_from_directory('.', 'simple_config_test.html')
+
 # ============== CONFIGURATIONS API ENDPOINTS ==============
 
 @app.route('/api/wireless-adapters', methods=['GET'])
