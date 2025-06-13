@@ -120,17 +120,13 @@ class ConfigurationsManager {
         const formData = new FormData(form);
         
         const config = {
-            realtime_monitoring: formData.get('realtime_monitoring'),
-            network_devices: formData.get('network_devices'),
-            kismet_monitoring: formData.get('kismet_monitoring')
+            realtime_monitoring: formData.get('realtime_monitoring') || '',
+            network_devices: formData.get('network_devices') || '',
+            kismet_monitoring: formData.get('kismet_monitoring') || ''
         };
 
-        // Validate that all fields are filled
-        if (!config.realtime_monitoring || !config.network_devices || !config.kismet_monitoring) {
-            this.showError('Please select an adapter for each function.');
-            return;
-        }
-
+        // Allow empty configurations - validation is optional
+        
         try {
             const response = await fetch('/api/configurations', {
                 method: 'POST',
